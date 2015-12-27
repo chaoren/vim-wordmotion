@@ -43,7 +43,7 @@ MAPPINGS					*wordmotion-mappings*
 
 						*wordmotion-word*
 A word is any of the following separated with white spaces
-(spaces, tabs <EOL>):
+(spaces, tabs, <EOL>):
 
 - Anything patterns defined in |g:wordmotion_extra|
 - An uppercase letter followed by one or more lowercase letters
