@@ -21,9 +21,7 @@ endfor " }}}
 let s:flags= { 'aw' : 'e', 'iw' : '' }
 
 for s:mode in [ 'x', 'o' ] " {{{
-	" TODO: fix for aw
-	" for s:motion in [ 'aw', 'iw' ]
-	for s:motion in [ 'iw' ]
+	for s:motion in [ 'aw', 'iw' ]
 		let s:map = s:mode . 'noremap'
 		let s:lhs = '<silent>' . s:prefix . s:motion
 		let s:m = "'" . s:mode . "'"
@@ -80,13 +78,6 @@ function! <SID>WordMotion(count, mode, flags) abort " {{{
 endfunction " }}}
 
 function! <SID>AOrInnerWordMotion(count, mode, flags) abort " {{{
-	" TODO: implement aw
-	"       foo bar baz   -> vaw  -> foo [bar ]baz
-	"            ^                           ^
-	"       foo bar baz$  -> vaw  -> foo bar[ baz]$
-	"                ^                          ^
-	"       FooBarBaz     -> vaw  -> Foo[Bar]Baz
-	"           ^                          ^
 	" TODO: fix for existing selection
 	"       foo b[ar b]az -> iw  -> foo [bar b]az
 	"             ^                      ^
@@ -114,11 +105,29 @@ function! <SID>AOrInnerWordMotion(count, mode, flags) abort " {{{
 
 	call <SID>WordMotion(1, 'n', 'bc')
 
+	" save start position in case we need to go back
+	let l:start = getpos('.')
+
 	normal! v
 
 	call <SID>WordMotion(1, 'n', 'ec')
 	if a:count > 1
 		call <SID>WordMotion(a:count - 1, 'n', 'e')
+	endif
+
+	if a:flags == 'e'
+		if line('.') != l:start[1] || col('.') == col('$') - 1
+			" multi line selection or at end of line
+			" go back, and consume white spaces
+			normal! v
+			normal! v
+			call cursor(l:start[1], l:start[2])
+			call search('\s\+\%#', 'bW')
+		else
+			" single line selection and not at end of line,
+			" consume remaining white spaces
+			call search('\%#.\s\+', 'eW')
+		endif
 	endif
 
 	" restore

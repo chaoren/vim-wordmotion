@@ -48,8 +48,6 @@ The existing word categories are:
 TODO
 ====
 
-* Implement `aw` motion. Basically, `iw` plus any trailing spaces, or leading
-  spaces if at end of line.
 * Detect if there are existing selections, and the direction of the existing
   selection. If the selection is backwards, `iw` needs to go backwards as well.
   If the current selection is contained within a word, expand to that word,
