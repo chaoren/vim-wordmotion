@@ -1,0 +1,35 @@
+*vim-wordmotion*
+
+INTRODUCTION					*vim-wordmotion*
+
+Customizable word motions for Vim.
+
+This is one word under Vim's definition:
+>
+	CamelCaseACRONYMWords_underscore1234
+	^
+<
+With this plugin, this becomes 9 words:
+>
+	CamelCaseACRONYMWords_under_score1234
+	^    ^   ^      ^    ^^    ^^    ^
+<
+CUSTOMIZATION					*vim-wordmotion-customization*
+=============
+
+						*g:wordmotion_prefix*
+Set `g:wordmotion_prefix` if you don't like having the default word motions
+(`w`, `b`, `e`, `ge`, `aw`, `iw`) hijacked.
+E.g.,
+>
+	let g:wordmotion_prefix = "\<Leader>"
+<
+						*g:wordmotion_extra*
+Define additional word categories with `g:wordmotion_extra`.
+E.g., to treat `<WordsInAngleBrackets>` and `|WordsInPipes|` as single words:
+>
+	let g:wordmotion_extra = [ "<\a\+>", "|\a\+|" ]
+<
+NOTE: this takes precedence over any existing word categories.
+
+ vim:tw=78:ts=8:ft=help:norl:
