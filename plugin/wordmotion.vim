@@ -18,15 +18,15 @@ for s:mode in [ 'n', 'x', 'o' ] " {{{
 	endfor
 endfor " }}}
 
-let s:flags= { 'aw' : 'e', 'iw' : '' }
+let s:inner = { 'aw' : 0, 'iw' : 1 }
 
 for s:mode in [ 'x', 'o' ] " {{{
 	for s:motion in [ 'aw', 'iw' ]
 		let s:map = s:mode . 'noremap'
 		let s:lhs = '<silent>' . s:prefix . s:motion
 		let s:m = "'" . s:mode . "'"
-		let s:f = "'" . s:flags[s:motion] . "'"
-		let s:args = join([ 'v:count1', s:m, s:f ], ', ')
+		let s:i = s:inner[s:motion]
+		let s:args = join([ 'v:count1', s:m, s:i ], ', ')
 		let s:rhs = ":\<C-U>call \<SID>AOrInnerWordMotion(" . s:args . ")\<CR>"
 		execute s:map s:lhs s:rhs
 	endfor
@@ -77,7 +77,7 @@ function! <SID>WordMotion(count, mode, flags) abort " {{{
 	endif
 endfunction " }}}
 
-function! <SID>AOrInnerWordMotion(count, mode, flags) abort " {{{
+function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 	" TODO: fix for existing selection
 	"       foo b[ar b]az -> iw  -> foo [bar b]az
 	"             ^                      ^
@@ -98,7 +98,7 @@ function! <SID>AOrInnerWordMotion(count, mode, flags) abort " {{{
 	else
 		let g:wordmotion_extra = [ ]
 	endif
-	if a:flags == ''
+	if a:inner
 		" for inner word, temporarily count white spaces too
 		let g:wordmotion_extra = [ '\s\+' ] + g:wordmotion_extra
 	endif
@@ -115,7 +115,7 @@ function! <SID>AOrInnerWordMotion(count, mode, flags) abort " {{{
 		call <SID>WordMotion(a:count - 1, 'n', 'e')
 	endif
 
-	if a:flags == 'e'
+	if !a:inner
 		if line('.') != l:start[1] || col('.') == col('$') - 1
 			" multi line selection or at end of line
 			" go back, and consume white spaces
