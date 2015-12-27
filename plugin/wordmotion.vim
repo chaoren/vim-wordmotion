@@ -38,6 +38,7 @@ function! <SID>WordMotion(count, mode, flags) abort " {{{
 	if a:mode == 'x'
 		normal! gv
 	endif
+
 	let l:matches = get(g:, 'wordmotion_extra', [ ])
 	call add(l:matches, '\u\l\+')                      " CamelCase
 	call add(l:matches, '\u\+\ze\u\l')                 " ACRONYMS
@@ -50,16 +51,21 @@ function! <SID>WordMotion(count, mode, flags) abort " {{{
 	if a:flags != 'e' " e does not stop in an empty line
 		call add(l:matches, '^$')                      " empty line
 	endif
+
 	let l:pattern = '\m\%(' . join(l:matches, '\|') . '\)'
+
 	if a:mode == 'o' && a:flags =~# 'e'
 		" need to make this inclusive for operator pending mode
 		normal! v
 	endif
+
 	" save postion to see if it moved
 	let l:pos = getpos('.')
+
 	for @_ in range(a:count)
 		call search(l:pattern, a:flags . 'W')
 	endfor
+
 	if l:pos == getpos('.') && a:flags !~# 'c'
 		" cursor didn't move, and it's not because we're selecting the same
 		" word under the cursor
