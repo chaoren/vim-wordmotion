@@ -1,8 +1,6 @@
-*vim-wordmotion*
+*wordmotion.txt* Customizable word motions for Vim
 
-INTRODUCTION					*vim-wordmotion*
-
-Customizable word motions for Vim.
+INTRODUCTION					*wordmotion*
 
 This is one word under Vim's definition:
 >
@@ -14,8 +12,51 @@ With this plugin, this becomes 9 words:
 	CamelCaseACRONYMWords_under_score1234
 	^    ^   ^      ^    ^^    ^^    ^
 <
-CUSTOMIZATION					*vim-wordmotion-customization*
-=============
+MAPPINGS					*wordmotion-mappings*
+
+						*wordmotion-w*
+<Prefix>w		[count] words forward. |exclusive| motion.
+
+						*wordmotion-e*
+<Prefix>e		Forward to the end of word [count] |inclusive|.
+			Does not stop in an empty line.
+
+						*wordmotion-b*
+<Prefix>b		[count] words backward. |exclusive| motion.
+
+						*wordmotion-ge*
+<Prefix>ge		Backward to the end of word [count] |inclusive|.
+
+						*wordmotion-aw*
+<Prefix>aw		"a word", select [count] words (see |wordmotion-word|).
+			Leading or trailing white space is included, but not
+			counted.
+			When used in Visual linewise mode "aw" switches to
+			Visual characterwise mode.
+
+						*wordmotion-iw*
+<Prefix>iw		"inner word", select [count] words
+			(see |wordmotion-word|).
+			White space between words is counted too.
+			When used in Visual linewise mode "iw" switches to
+			Visual characterwise mode.
+
+						*wordmotion-word*
+A word is any of the following separated with white spaces
+(spaces, tabs <EOL>):
+
+- An uppercase letter followed by one or more lowercase letters
+- One or more uppercase letters that does not immediately precede
+  a lowercase letter
+- Any other sequence of letters
+- A valid hexadecimal literal
+- A valid binary literal
+- One or more numeric digits
+- One or more non-letter and non-digit keywords (see 'iskeyword')
+- One or more of other non-blank characters
+- An empty line
+
+CUSTOMIZATION					*wordmotion-customization*
 
 						*g:wordmotion_prefix*
 Set `g:wordmotion_prefix` if you don't like having the default word motions
