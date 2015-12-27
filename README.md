@@ -19,13 +19,13 @@ Customization
 =============
 
 Set `g:wordmotion_prefix` if you don't like having the default word motions
-(`w`, `b`, `e`, `ge`, `aw`, `iw`) hijacked.
+(`w`, `b`, `e`, `ge`, `aw`, `iw`) hijacked.  
 E.g.,
 ```
 let g:wordmotion_prefix = "\<Leader>"
 ```
 
-Define additional word categories with `g:wordmotion_extra`.
+Define additional word categories with `g:wordmotion_extra`.  
 E.g., to treat `<WordsInAngleBrackets>` and `|WordsInPipes|` as single words:
 ```
 let g:wordmotion_extra = [ "<\a\+>", "|\a\+|" ]
