@@ -102,12 +102,32 @@ function! <SID>AOrInnerWordMotion(count, mode, flags) abort " {{{
 	"             ^                            ^
 	"       Fo[oBa]rBaz   -> iw  -> Fo[oBar]Baz
 	"            ^                        ^
+	if exists('g:wordmotion_extra')
+		let l:extra = g:wordmotion_extra
+	else
+		let g:wordmotion_extra = [ ]
+	endif
+	if a:flags == ''
+		" for inner word, temporarily count white spaces too
+		let g:wordmotion_extra = [ '\s\+' ] + g:wordmotion_extra
+	endif
+
 	call <SID>WordMotion(1, 'n', 'bc')
+
 	normal! v
+
 	call <SID>WordMotion(1, 'n', 'ec')
 	if a:count > 1
 		call <SID>WordMotion(a:count - 1, 'n', 'e')
 	endif
+
+	" restore
+	if exists('l:extra')
+		let g:wordmotion_extra = l:extra
+	else
+		unlet g:wordmotion_extra
+	endif
+
 endfunction " }}}
 
 " vim:fdm=marker
