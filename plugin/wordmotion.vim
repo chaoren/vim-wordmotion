@@ -35,6 +35,9 @@ endfor " }}}
 function! <SID>WordMotion(count, mode, flags) abort " {{{
 	if a:mode == 'x'
 		normal! gv
+	elseif a:mode == 'o' && a:flags =~# 'e'
+		" need to make this inclusive for operator pending mode
+		normal! v
 	endif
 
 	let l:matches = get(g:, 'wordmotion_extra', [ ])
@@ -51,11 +54,6 @@ function! <SID>WordMotion(count, mode, flags) abort " {{{
 	endif
 
 	let l:pattern = '\m\%(' . join(l:matches, '\|') . '\)'
-
-	if a:mode == 'o' && a:flags =~# 'e'
-		" need to make this inclusive for operator pending mode
-		normal! v
-	endif
 
 	" save postion to see if it moved
 	let l:pos = getpos('.')
