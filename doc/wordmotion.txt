@@ -74,4 +74,26 @@ E.g., to treat `<WordsInAngleBrackets>` and `|WordsInPipes|` as single words:
 <
 NOTE: this takes precedence over any existing word categories.
 
+CAVEATS						*wordmotion-caveats*
+
+There are some special cases with how Vim's word motions work.
+E.g.,
+
+Vim:
+>
+	^foo [b]ar$ -> dw -> ^foo[ ]$
+	^ baz$               ^ baz$
+
+	^[f]oo bar$ -> cw -> ^[ ]bar$
+
+This plugin:
+>
+	^foo [b]ar$ -> dw -> ^foo [b]az$
+	^ baz$
+
+	^[f]oo bar$ -> cw -> ^[b]ar$
+<
+This plugin faithfully follows the motion of `w`, while Vim replaces these two
+special cases with the behavior of `de` and `ce`, respectively.
+
  vim:tw=78:ts=8:ft=help:norl:

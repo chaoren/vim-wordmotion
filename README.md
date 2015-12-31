@@ -45,6 +45,30 @@ The existing word categories are:
 | Other keywords (`iskeyword`)    | `foo[_]bar`         |
 | Other non-whitespace characters | `[~!@#$]`           |
 
+Caveats
+=======
+
+There are some special cases with how Vim's word motions work. Not sure if
+they should be reproduced in this plugin.  
+E.g.,
+```
+Vim:
+
+	^foo [b]ar$ -> dw -> ^foo[ ]$
+	^ baz$               ^ baz$
+
+	^[f]oo bar$ -> cw -> ^[ ]bar$
+
+This plugin:
+
+	^foo [b]ar$ -> dw -> ^foo [b]az$
+	^ baz$
+
+	^[f]oo bar$ -> cw -> ^[b]ar$
+```
+This plugin faithfully follows the motion of `w`, while Vim replaces these two
+special cases with the behavior of `de` and `ce`, respectively.
+
 TODO
 ====
 
