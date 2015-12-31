@@ -76,21 +76,6 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 endfunction " }}}
 
 function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
-	" TODO: fix for existing selection
-	"       foo b[ar b]az -> iw  -> foo [bar b]az
-	"             ^                      ^
-	"       foo b[ar b]az -> 2iw -> foo[ bar b]az
-	"             ^                     ^
-	"       foo b[ar b]az -> 3iw -> [foo bar b]az
-	"             ^                  ^
-	"       fo[o ba]r baz -> iw  -> fo[o bar] baz
-	"             ^                        ^
-	"       fo[o ba]r baz -> 2iw -> fo[o bar ]baz
-	"             ^                         ^
-	"       fo[o ba]r baz -> 3iw -> fo[o bar baz]
-	"             ^                            ^
-	"       Fo[oBa]rBaz   -> iw  -> Fo[oBar]Baz
-	"            ^                        ^
 	let l:extra = [  ]
 	if a:inner
 		" for inner word, count white spaces too
