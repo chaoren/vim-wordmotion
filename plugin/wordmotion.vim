@@ -76,10 +76,10 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 endfunction " }}}
 
 function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
+	let l:flags = 'e'
 	let l:extra = [  ]
 	let l:backwards = 0
 	let l:count = a:count
-	let l:flags = 'e'
 	let l:existing_selection = 0
 
 	if a:mode == 'x'
@@ -91,6 +91,7 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 			let l:start = getpos('.')
 			if getpos('.') == getpos("'<")
 				let l:flags = 'b'
+				let l:backwards = 1
 			endif
 		endif
 	endif
@@ -100,7 +101,9 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 		let l:extra = [ '\s\+' ]
 	else
 		if getline('.')[col('.') - 1] =~ '\s'
-			let l:backwards = 1
+			if !l:existing_selection
+				let l:backwards = 1
+			endif
 			call search('\S', 'W')
 		endif
 	endif
@@ -117,20 +120,23 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 
 	if !a:inner
 		if line('.') != l:start[1] || col('.') == col('$') - 1
+			" multi line selection or at end of line
+			" go back, and consume preceding white spaces
 			let l:backwards = 1
 		endif
 
 		if l:backwards && !l:existing_selection
-			" multi line selection or at end of line
-			" go back, and consume white spaces
+			" selection is forwards, but need to extend backwards
 			let l:end = getpos('.')
 			call cursor(l:start[1], l:start[2])
 			call search('\s\+\%#', 'bW')
 			normal! vv
 			call cursor(l:end[1], l:end[2])
+		elseif l:backwards
+			" selection is actually going backwards
+			call search('\s\+\%#', 'bW')
 		else
-			" single line selection and not at end of line,
-			" consume remaining white spaces
+			" forward selection, consume following white spaces
 			call search('\%#.\s\+', 'eW')
 		endif
 	endif
