@@ -67,10 +67,10 @@ function! <SID>WordMotion(count, mode, flags) abort " {{{
 		" word under the cursor
 		if line('.') == 1 && a:flags =~# 'b'
 			" at first line and going backwards, let's go to the front
-			execute 'normal!' '0'
+			normal! 0
 		elseif line('.') == line('$') && a:flags !~# 'b'
 			" at lastline and going forwards, let's go to the back
-			execute 'normal!' '$'
+			normal! $
 		endif
 	endif
 endfunction " }}}
