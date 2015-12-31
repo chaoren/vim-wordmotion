@@ -25,16 +25,16 @@ E.g.,
 let g:wordmotion_prefix = "\<Leader>"
 ```
 
-Define additional word categories with `g:wordmotion_extra`.  
+Define additional `word`s with `g:wordmotion_extra`.  
 E.g., to treat `<WordsInAngleBrackets>` and `|WordsInPipes|` as single words:
 ```
 let g:wordmotion_extra = [ "<\a\+>", "|\a\+|" ]
 ```
-NOTE: this takes precedence over any existing word categories.
+NOTE: this takes precedence over any existing `word` definitions.
 
-The existing word categories are:
+The existing `word` definitions are:
 
-| Category                        | Example             |
+| `word`                          | Example             |
 |:--------------------------------|:--------------------|
 | Camel case words                | `[Camel][Case]`     |
 | Acronyms                        | `[HTML]And[CSS]`    |
