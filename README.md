@@ -69,14 +69,6 @@ This plugin:
 This plugin faithfully follows the motion of `w`, while Vim replaces these two
 special cases with the behavior of `de` and `ce`, respectively.
 
-TODO
-====
-
-* Detect if there are existing selections, and the direction of the existing
-  selection. If the selection is backwards, `iw` needs to go backwards as well.
-  If the current selection is contained within a word, expand to that word,
-  otherwise, keep the other end of the selection.
-
 Related
 =======
 [camelcasemotion](http://www.vim.org/scripts/script.php?script_id=1905)

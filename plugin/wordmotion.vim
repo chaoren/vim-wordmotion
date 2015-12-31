@@ -78,6 +78,22 @@ endfunction " }}}
 function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 	let l:extra = [  ]
 	let l:backwards = 0
+	let l:count = a:count
+	let l:flags = 'e'
+	let l:existing_selection = 0
+
+	if a:mode == 'x'
+		normal! gv
+		if getpos("'<") == getpos("'>")
+			normal! v
+		else
+			let l:existing_selection = 1
+			let l:start = getpos('.')
+			if getpos('.') == getpos("'<")
+				let l:flags = 'b'
+			endif
+		endif
+	endif
 
 	if a:inner
 		" for inner word, count white spaces too
@@ -89,20 +105,22 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 		endif
 	endif
 
-	call <SID>WordMotion(1, 'n', 'bc', l:extra)
-
-	" save start position in case we need to go back
-	let l:start = getpos('.')
-
-	normal! v
-
-	call <SID>WordMotion(1, 'n', 'ec', l:extra)
-	if a:count > 1
-		call <SID>WordMotion(a:count - 1, 'n', 'e', l:extra)
+	if !l:existing_selection
+		call <SID>WordMotion(1, 'n', 'bc', l:extra)
+		let l:start = getpos('.')
+		normal! v
+		call <SID>WordMotion(1, 'n', 'ec', l:extra)
+		let l:count -= 1
 	endif
 
+	call <SID>WordMotion(l:count, 'n', l:flags, l:extra)
+
 	if !a:inner
-		if line('.') != l:start[1] || col('.') == col('$') - 1 || l:backwards
+		if line('.') != l:start[1] || col('.') == col('$') - 1
+			let l:backwards = 1
+		endif
+
+		if l:backwards && !l:existing_selection
 			" multi line selection or at end of line
 			" go back, and consume white spaces
 			let l:end = getpos('.')
