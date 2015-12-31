@@ -12,7 +12,7 @@ for s:mode in [ 'n', 'x', 'o' ] " {{{
 		let s:lhs = '<silent>' . s:prefix . s:motion
 		let s:m = "'" . s:mode . "'"
 		let s:f = "'" . s:flags[s:motion] . "'"
-		let s:args = join([ 'v:count1', s:m, s:f ], ', ')
+		let s:args = join([ 'v:count1', s:m, s:f, '[ ]' ], ', ')
 		let s:rhs = ":\<C-U>call \<SID>WordMotion(" . s:args . ")\<CR>"
 		execute s:map s:lhs s:rhs
 	endfor
@@ -32,7 +32,7 @@ for s:mode in [ 'x', 'o' ] " {{{
 	endfor
 endfor " }}}
 
-function! <SID>WordMotion(count, mode, flags) abort " {{{
+function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 	if a:mode == 'x'
 		normal! gv
 	elseif a:mode == 'o' && a:flags =~# 'e'
@@ -40,7 +40,7 @@ function! <SID>WordMotion(count, mode, flags) abort " {{{
 		normal! v
 	endif
 
-	let l:words = get(g:, 'wordmotion_extra', [ ])
+	let l:words = a:extra + get(g:, 'wordmotion_extra', [ ])
 	call add(l:words, '\u\l\+')                      " CamelCase
 	call add(l:words, '\u\+\ze\u\l')                 " ACRONYMS
 	call add(l:words, '\a\+')                        " normal words
@@ -91,26 +91,22 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 	"             ^                            ^
 	"       Fo[oBa]rBaz   -> iw  -> Fo[oBar]Baz
 	"            ^                        ^
-	if exists('g:wordmotion_extra')
-		let l:extra = g:wordmotion_extra
-	else
-		let g:wordmotion_extra = [ ]
-	endif
+	let l:extra = [  ]
 	if a:inner
-		" for inner word, temporarily count white spaces too
-		let g:wordmotion_extra = [ '\s\+' ] + g:wordmotion_extra
+		" for inner word, count white spaces too
+		let l:extra = [ '\s\+' ]
 	endif
 
-	call <SID>WordMotion(1, 'n', 'bc')
+	call <SID>WordMotion(1, 'n', 'bc', l:extra)
 
 	" save start position in case we need to go back
 	let l:start = getpos('.')
 
 	normal! v
 
-	call <SID>WordMotion(1, 'n', 'ec')
+	call <SID>WordMotion(1, 'n', 'ec', l:extra)
 	if a:count > 1
-		call <SID>WordMotion(a:count - 1, 'n', 'e')
+		call <SID>WordMotion(a:count - 1, 'n', 'e', l:extra)
 	endif
 
 	if !a:inner
@@ -126,14 +122,6 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 			call search('\%#.\s\+', 'eW')
 		endif
 	endif
-
-	" restore
-	if exists('l:extra')
-		let g:wordmotion_extra = l:extra
-	else
-		unlet g:wordmotion_extra
-	endif
-
 endfunction " }}}
 
 " vim:fdm=marker
