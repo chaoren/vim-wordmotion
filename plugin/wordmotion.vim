@@ -77,9 +77,16 @@ endfunction " }}}
 
 function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 	let l:extra = [  ]
+	let l:backwards = 0
+
 	if a:inner
 		" for inner word, count white spaces too
 		let l:extra = [ '\s\+' ]
+	else
+		if getline('.')[col('.') - 1] =~ '\s'
+			let l:backwards = 1
+			call search('\S', 'W')
+		endif
 	endif
 
 	call <SID>WordMotion(1, 'n', 'bc', l:extra)
@@ -95,12 +102,14 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 	endif
 
 	if !a:inner
-		if line('.') != l:start[1] || col('.') == col('$') - 1
+		if line('.') != l:start[1] || col('.') == col('$') - 1 || l:backwards
 			" multi line selection or at end of line
 			" go back, and consume white spaces
-			normal! vv
+			let l:end = getpos('.')
 			call cursor(l:start[1], l:start[2])
 			call search('\s\+\%#', 'bW')
+			normal! vv
+			call cursor(l:end[1], l:end[2])
 		else
 			" single line selection and not at end of line,
 			" consume remaining white spaces
