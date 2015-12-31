@@ -1,18 +1,22 @@
 Customizable word motions for Vim
 =================================
 
-This is one word under Vim's definition:
+Under Vim's definition of a `word`:
 
 ```
-CamelCaseACRONYMWords_underscore1234
-^
+CamelCaseACRONYMWords_underscore1234 hyphenated-word
+w----------------------------------->w-------->ww
+e--------------------------------->e--------->ee-->e
+b<-----------------------------------b<--------bb<-b
 ```
 
-With this plugin, this becomes 9 words:
+With this plugin:
 
 ```
-CamelCaseACRONYMWords_under_score1234
-^    ^   ^      ^    ^^    ^^    ^
+CamelCaseACRONYMWords_underscore1234 hyphenated-word
+w--->w-->w----->w--->ww-------->w--->w-------->ww
+e-->e-->e----->e--->ee-------->e-->e--------->ee-->e
+b<---b<--b<-----b<---bb<--------b<---b<--------bb<-b
 ```
 
 Customization
