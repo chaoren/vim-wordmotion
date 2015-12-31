@@ -40,20 +40,20 @@ function! <SID>WordMotion(count, mode, flags) abort " {{{
 		normal! v
 	endif
 
-	let l:matches = get(g:, 'wordmotion_extra', [ ])
-	call add(l:matches, '\u\l\+')                      " CamelCase
-	call add(l:matches, '\u\+\ze\u\l')                 " ACRONYMS
-	call add(l:matches, '\a\+')                        " normal words
-	call add(l:matches, '0[xX]\x\+')                   " 0x00 0Xff
-	call add(l:matches, '0[bB][01]\+')                 " 0b00 0B11
-	call add(l:matches, '\d\+')                        " 1234 5678
-	call add(l:matches, '\%(\%(\a\|\d\)\@!\k\)\+')     " other keywords
-	call add(l:matches, '\%(\%(\a\|\d\|\k\)\@!\S\)\+') " everything else
+	let l:words = get(g:, 'wordmotion_extra', [ ])
+	call add(l:words, '\u\l\+')                      " CamelCase
+	call add(l:words, '\u\+\ze\u\l')                 " ACRONYMS
+	call add(l:words, '\a\+')                        " normal words
+	call add(l:words, '0[xX]\x\+')                   " 0x00 0Xff
+	call add(l:words, '0[bB][01]\+')                 " 0b00 0B11
+	call add(l:words, '\d\+')                        " 1234 5678
+	call add(l:words, '\%(\%(\a\|\d\)\@!\k\)\+')     " other keywords
+	call add(l:words, '\%(\%(\a\|\d\|\k\)\@!\S\)\+') " everything else
 	if a:flags != 'e' " e does not stop in an empty line
-		call add(l:matches, '^$')                      " empty line
+		call add(l:words, '^$')                      " empty line
 	endif
 
-	let l:pattern = '\m\%(' . join(l:matches, '\|') . '\)'
+	let l:pattern = '\m\%(' . join(l:words, '\|') . '\)'
 
 	" save postion to see if it moved
 	let l:pos = getpos('.')
