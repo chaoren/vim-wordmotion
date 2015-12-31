@@ -117,8 +117,7 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 		if line('.') != l:start[1] || col('.') == col('$') - 1
 			" multi line selection or at end of line
 			" go back, and consume white spaces
-			normal! v
-			normal! v
+			normal! vv
 			call cursor(l:start[1], l:start[2])
 			call search('\s\+\%#', 'bW')
 		else
