@@ -42,8 +42,9 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 
 	let l:words = a:extra + get(g:, 'wordmotion_extra', [ ])
 	call add(l:words, '\u\l\+')                      " CamelCase
-	call add(l:words, '\u\+\ze\u\l')                 " ACRONYMS
-	call add(l:words, '\a\+')                        " normal words
+	call add(l:words, '\u\+\ze\u\l')                 " ACRONYMSBeforeCamelCase
+	call add(l:words, '\u\+')                        " UPPERCASE
+	call add(l:words, '\l\+')                        " lowercase
 	call add(l:words, '0[xX]\x\+')                   " 0x00 0Xff
 	call add(l:words, '0[bB][01]\+')                 " 0b00 0B11
 	call add(l:words, '\d\+')                        " 1234 5678

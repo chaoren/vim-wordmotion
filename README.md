@@ -38,16 +38,17 @@ NOTE: this takes precedence over any existing `word` definitions.
 
 The existing `word` definitions are:
 
-| `word`                          | Example             |
-|:--------------------------------|:--------------------|
-| Camel case words                | `[Camel][Case]`     |
-| Acronyms                        | `[HTML]And[CSS]`    |
-| Regular words                   | `[regular] [words]` |
-| Hexadecimal literals            | `[0x00ffFF] [0x0f]` |
-| Binary literals                 | `[0b01] [0b0011]`   |
-| Regular Numbers                 | `[1234] [5678]`     |
-| Other keywords (`iskeyword`)    | `foo[_]bar`         |
-| Other non-whitespace characters | `[~!@#$]`           |
+| `word`                          | Example               |
+|:--------------------------------|:----------------------|
+| Camel case words                | `[Camel][Case]`       |
+| Acronyms                        | `[HTML]And[CSS]`      |
+| Uppercase words                 | `[UPPERCASE] [WORDS]` |
+| Lowercase words                 | `[lowercase] [words]` |
+| Hexadecimal literals            | `[0x00ffFF] [0x0f]`   |
+| Binary literals                 | `[0b01] [0b0011]`     |
+| Regular Numbers                 | `[1234] [5678]`       |
+| Other keywords (`iskeyword`)    | `foo[_]bar`           |
+| Other non-whitespace characters | `[~!@#$]`             |
 
 Caveats
 =======
