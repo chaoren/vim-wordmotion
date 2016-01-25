@@ -51,7 +51,7 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 	call add(l:words, '\%(\%(\a\|\d\)\@!\k\)\+')     " other keywords
 	call add(l:words, '\%(\%(\a\|\d\|\k\)\@!\S\)\+') " everything else
 	if a:flags != 'e' " e does not stop in an empty line
-		call add(l:words, '^$')                      " empty line
+		call add(l:words, '^$')
 	endif
 
 	let l:pattern = '\m\%(' . join(l:words, '\|') . '\)'
