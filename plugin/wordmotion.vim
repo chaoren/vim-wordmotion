@@ -105,7 +105,7 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 			if !l:existing_selection
 				let l:backwards = 1
 			endif
-			call search('\S', 'W')
+			call search('\m\S', 'W')
 		endif
 	endif
 
@@ -130,15 +130,15 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 			" selection is forwards, but need to extend backwards
 			let l:end = getpos('.')
 			call cursor(l:start[1], l:start[2])
-			call search('\s\+\%#', 'bW')
+			call search('\m\s\+\%#', 'bW')
 			normal! vv
 			call cursor(l:end[1], l:end[2])
 		elseif l:backwards
 			" selection is actually going backwards
-			call search('\s\+\%#', 'bW')
+			call search('\m\s\+\%#', 'bW')
 		else
 			" forward selection, consume following white spaces
-			call search('\%#.\s\+', 'eW')
+			call search('\m\%#.\s\+', 'eW')
 		endif
 	endif
 endfunction " }}}
