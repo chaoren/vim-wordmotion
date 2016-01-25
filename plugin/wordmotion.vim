@@ -78,7 +78,7 @@ endfunction " }}}
 
 function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 	let l:flags = 'e'
-	let l:extra = [  ]
+	let l:extra = [ ]
 	let l:backwards = 0
 	let l:count = a:count
 	let l:existing_selection = 0
@@ -99,7 +99,7 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 
 	if a:inner
 		" for inner word, count white spaces too
-		let l:extra = [ '\s\+' ]
+		call add(l:extra, '\s\+')
 	else
 		if getline('.')[col('.') - 1] =~ '\s'
 			if !l:existing_selection
