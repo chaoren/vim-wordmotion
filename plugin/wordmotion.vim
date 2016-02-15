@@ -63,7 +63,7 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 		call search(l:pattern, a:flags . 'W')
 	endfor
 
-	if l:pos == getpos('.') && a:flags !~# 'c'
+	if a:count && l:pos == getpos('.') && a:flags !~# 'c'
 		" cursor didn't move, and it's not because we're selecting the same
 		" word under the cursor
 		if line('.') == 1 && a:flags =~# 'b'
