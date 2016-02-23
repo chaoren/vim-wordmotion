@@ -40,16 +40,29 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 		normal! v
 	endif
 
+	" set complement
+	function! s:C(set, ...) abort " {{{
+		return '\%(\%(' . join(a:000, '\|') . '\)\@!' . a:set. '\)'
+	endfunction " }}}
+
+	" [:alnum:] and [:alpha:] don't include accented characters. Vim bug?
+	let l:a = '[[:digit:][:lower:][:upper:]]'
+	let l:d = '[[:digit:]]'
+	let l:g = '[[:graph:]]'
+	let l:l = '[[:lower:]]'
+	let l:u = '[[:upper:]]'
+	let l:x = '[[:xdigit:]]'
+
 	let l:words = a:extra + get(g:, 'wordmotion_extra', [ ])
-	call add(l:words, '\u\l\+')                      " CamelCase
-	call add(l:words, '\u\+\ze\u\l')                 " ACRONYMSBeforeCamelCase
-	call add(l:words, '\u\+')                        " UPPERCASE
-	call add(l:words, '\l\+')                        " lowercase
-	call add(l:words, '0[xX]\x\+')                   " 0x00 0Xff
-	call add(l:words, '0[bB][01]\+')                 " 0b00 0B11
-	call add(l:words, '\d\+')                        " 1234 5678
-	call add(l:words, '\%(\%(\a\|\d\)\@!\k\)\+')     " other keywords
-	call add(l:words, '\%(\%(\a\|\d\|\k\)\@!\S\)\+') " everything else
+	call add(l:words, l:u . l:l . '\+')           " CamelCase
+	call add(l:words, l:u . '\+\ze' . l:u . l:l)  " ACRONYMSBeforeCamelCase
+	call add(l:words, l:u . '\+')                 " UPPERCASE
+	call add(l:words, l:l . '\+')                 " lowercase
+	call add(l:words, '0[xX]' . l:x . '\+')       " 0x00 0Xff
+	call add(l:words, '0[bB][01]\+')              " 0b00 0B11
+	call add(l:words, l:d . '\+')                 " 1234 5678
+	call add(l:words, s:C('\k', l:a) . '\+')      " 'iskeyword'
+	call add(l:words, s:C(l:g, l:a, '\k') . '\+') " everything else
 	if a:flags != 'e' " e does not stop in an empty line
 		call add(l:words, '^$')
 	endif
