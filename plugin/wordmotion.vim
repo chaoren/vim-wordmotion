@@ -63,6 +63,8 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 	call add(l:words, l:d . '\+')                 " 1234 5678
 	call add(l:words, s:C('\k', l:a) . '\+')      " 'iskeyword'
 	call add(l:words, s:C(l:g, l:a, '\k') . '\+') " everything else
+	call add(l:words, '\%^') " start of file
+	call add(l:words, '\%$') " end of file
 	if a:flags != 'e' " e does not stop in an empty line
 		call add(l:words, '^$')
 	endif
