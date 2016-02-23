@@ -80,13 +80,12 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 
 	" ugly hack for 'w' going forwards at end of file
 	" and 'ge' going backwards at beginning of file
-	if a:count && l:pos == getpos('.') && a:flags !~# 'c'
-		" cursor didn't move, and it's not because we're selecting the same
-		" word under the cursor
-		if line('.') == 1 && a:flags =~# 'b'
+	if a:count && l:pos == getpos('.')
+		" cursor didn't move
+		if a:flags == 'be' && line('.') == 1
 			" at first line and going backwards, let's go to the front
 			normal! 0
-		elseif line('.') == line('$') && a:flags !~# 'b'
+		elseif a:flags == '' && line('.') == line('$')
 			" at last line and going forwards, let's go to the back
 			if a:mode == 'o'
 				" need to include last character if in operator pending mode
