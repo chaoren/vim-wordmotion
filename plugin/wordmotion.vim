@@ -69,13 +69,15 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 
 	let l:pattern = '\m\%(' . join(l:words, '\|') . '\)'
 
-	" save postion to see if it moved
+	" save position to see if it moved
 	let l:pos = getpos('.')
 
 	for @_ in range(a:count)
 		call search(l:pattern, a:flags . 'W')
 	endfor
 
+	" ugly hack for 'w' going forwards at end of file
+	" and 'ge' going backwards at beginning of file
 	if a:count && l:pos == getpos('.') && a:flags !~# 'c'
 		" cursor didn't move, and it's not because we're selecting the same
 		" word under the cursor
@@ -83,7 +85,7 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 			" at first line and going backwards, let's go to the front
 			normal! 0
 		elseif line('.') == line('$') && a:flags !~# 'b'
-			" at lastline and going forwards, let's go to the back
+			" at last line and going forwards, let's go to the back
 			normal! $
 		endif
 	endif
