@@ -4,7 +4,7 @@ endif
 let g:loaded_wordmotion = 1
 
 let s:prefix = get(g:, 'wordmotion_prefix', '')
-let s:flags= { 'w' : '', 'e' : 'e', 'b' : 'b', 'ge' : 'be' }
+let s:flags = { 'w' : '', 'e' : 'e', 'b' : 'b', 'ge' : 'be' }
 
 for s:mode in [ 'n', 'x', 'o' ] " {{{
 	for s:motion in [ 'w', 'e', 'b', 'ge' ]
