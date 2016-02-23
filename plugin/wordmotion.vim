@@ -140,9 +140,8 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 	call <SID>WordMotion(l:count, 'n', l:flags, l:extra)
 
 	if !a:inner
-		if line('.') != l:start[1] || col('.') == col('$') - 1
-			" multi line selection or at end of line
-			" go back, and consume preceding white spaces
+		if col('.') == col('$') - 1
+			" at end of line, go back, and consume preceding white spaces
 			let l:backwards = 1
 		endif
 
