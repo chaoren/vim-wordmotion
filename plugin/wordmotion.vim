@@ -88,6 +88,10 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 			normal! 0
 		elseif line('.') == line('$') && a:flags !~# 'b'
 			" at last line and going forwards, let's go to the back
+			if a:mode == 'o'
+				" need to include last character if in operator pending mode
+				normal! v
+			endif
 			normal! $
 		endif
 	endif
