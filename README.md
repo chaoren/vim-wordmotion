@@ -22,11 +22,19 @@ b<---b<--b<-----b<---bb<--------b<---b<--------bb<-b
 Customization
 =============
 
-Set `g:wordmotion_prefix` if you don't like having the default word motions
-(`w`, `b`, `e`, `ge`, `aw`, `iw`) hijacked.  
+The default word motion mappings are `w`, `b`, `e`, `ge`, `aw`, and `iw`.
+
+Use `g:wordmotion_prefix` to apply a common prefix to each of the word motion
+mappings.  
 E.g.,
 ```
 let g:wordmotion_prefix = "\<Leader>"
+```
+
+Use `g:wordmotion_mappings` to replace individual word motion mappings.  
+E.g.,
+```
+let g:wordmotion_mappings = { 'w' : 'W', 'b' : 'B' }
 ```
 
 Define additional `word`s with `g:wordmotion_extra`.  

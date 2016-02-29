@@ -4,12 +4,19 @@ endif
 let g:loaded_wordmotion = 1
 
 let s:prefix = get(g:, 'wordmotion_prefix', '')
+
+let s:default_mappings = { }
+for s:motion in [ 'w', 'e', 'b', 'ge', 'aw', 'iw' ]
+	let s:default_mappings[s:motion] = s:motion
+endfor
+let s:mappings = get(g:, 'wordmotion_mappings', s:default_mappings)
+
 let s:flags = { 'w' : '', 'e' : 'e', 'b' : 'b', 'ge' : 'be' }
 
 for s:mode in [ 'n', 'x', 'o' ] " {{{
 	for s:motion in [ 'w', 'e', 'b', 'ge' ]
 		let s:map = s:mode . 'noremap'
-		let s:lhs = '<silent>' . s:prefix . s:motion
+		let s:lhs = '<silent>' . s:prefix . s:mappings[s:motion]
 		let s:m = "'" . s:mode . "'"
 		let s:f = "'" . s:flags[s:motion] . "'"
 		let s:args = join([ 'v:count1', s:m, s:f, '[ ]' ], ', ')
@@ -23,7 +30,7 @@ let s:inner = { 'aw' : 0, 'iw' : 1 }
 for s:mode in [ 'x', 'o' ] " {{{
 	for s:motion in [ 'aw', 'iw' ]
 		let s:map = s:mode . 'noremap'
-		let s:lhs = '<silent>' . s:prefix . s:motion
+		let s:lhs = '<silent>' . s:prefix . s:mappings[s:motion]
 		let s:m = "'" . s:mode . "'"
 		let s:i = s:inner[s:motion]
 		let s:args = join([ 'v:count1', s:m, s:i ], ', ')

@@ -60,12 +60,20 @@ A word is any of the following separated with white spaces
 
 CUSTOMIZATION					*wordmotion-customization*
 
+The default word motion mappings are `w`, `b`, `e`, `ge`, `aw`, and `iw`.
+
 						*g:wordmotion_prefix*
-Set |g:wordmotion_prefix| if you don't like having the default word motions
-(w, b, e, ge, aw, iw) hijacked.
+Use |g:wordmotion_prefix| to apply a common prefix to each of the word motion
+mappings.
 E.g.,
 >
 	let g:wordmotion_prefix = "\<Leader>"
+<
+						*g:wordmotion_mappings*
+Use |g:wordmotion_mappings| to replace individual word motion mappings.
+E.g.,
+>
+	let g:wordmotion_mappings = { 'w' : 'W', 'b' : 'B' }
 <
 						*g:wordmotion_extra*
 Define additional `word`s with |g:wordmotion_extra|.
