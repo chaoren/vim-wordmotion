@@ -24,8 +24,8 @@ Customization
 
 The default word motion mappings are `w`, `b`, `e`, `ge`, `aw`, and `iw`.
 
-Use `g:wordmotion_prefix` to apply a common prefix to each of the word motion
-mappings.  
+Use `g:wordmotion_prefix` to apply a common prefix to each of the default word
+motion mappings.  
 E.g.,
 ```
 let g:wordmotion_prefix = "\<Leader>"
@@ -36,6 +36,7 @@ E.g.,
 ```
 let g:wordmotion_mappings = { 'w' : 'W', 'b' : 'B' }
 ```
+NOTE: this overrides `g:wordmotion_prefix`.
 
 Define additional `word`s with `g:wordmotion_extra`.  
 E.g., to treat `<WordsInAngleBrackets>` and `|WordsInPipes|` as single words:
