@@ -28,14 +28,14 @@ MAPPINGS					*wordmotion-mappings*
 {prefix}ge		Backward to the end of word [count] |inclusive|.
 
 						*wordmotion-aw*
-{prefix}aw		"a word", select [count] words (see |wordmotion-word|).
+a{prefix}w		"a word", select [count] words (see |wordmotion-word|).
 			Leading or trailing white space is included, but not
 			counted.
 			When used in Visual linewise mode "aw" switches to
 			Visual characterwise mode.
 
 						*wordmotion-iw*
-{prefix}iw		"inner word", select [count] words
+i{prefix}w		"inner word", select [count] words
 			(see |wordmotion-word|).
 			White space between words is counted too.
 			When used in Visual linewise mode "iw" switches to
