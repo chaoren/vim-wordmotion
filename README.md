@@ -5,7 +5,7 @@ Under Vim's definition of a `word`:
 
 ```
 CamelCaseACRONYMWords_underscore1234 hyphenated-word
-w----------------------------------->w-------->ww
+w----------------------------------->w-------->ww->w
 e--------------------------------->e--------->ee-->e
 b<-----------------------------------b<--------bb<-b
 ```
@@ -14,7 +14,7 @@ With this plugin:
 
 ```
 CamelCaseACRONYMWords_underscore1234 hyphenated-word
-w--->w-->w----->w--->ww-------->w--->w-------->ww
+w--->w-->w----->w--->ww-------->w--->w-------->ww->w
 e-->e-->e----->e--->ee-------->e-->e--------->ee-->e
 b<---b<--b<-----b<---bb<--------b<---b<--------bb<-b
 ```
@@ -62,8 +62,7 @@ The existing `word` definitions are:
 Caveats
 =======
 
-There are some special cases with how Vim's word motions work. Not sure if
-they should be reproduced in this plugin.  
+There are some special cases with how Vim's word motions work.  
 E.g.,
 ```
 Vim:
