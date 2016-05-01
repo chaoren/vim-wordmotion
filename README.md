@@ -28,7 +28,7 @@ Use `g:wordmotion_prefix` to apply a common prefix to each of the default word
 motion mappings.  
 E.g.,
 ```
-let g:wordmotion_prefix = "\<Leader>"
+let g:wordmotion_prefix = '<Leader>'
 ```
 
 Use `g:wordmotion_mappings` to replace individual word motion mappings.  
