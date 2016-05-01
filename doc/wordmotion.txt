@@ -81,7 +81,7 @@ NOTE: this overrides |g:wordmotion_prefix|.
 Define additional `word`s with |g:wordmotion_extra|.
 E.g., to treat `<WordsInAngleBrackets>` and `|WordsInPipes|` as single words:
 >
-	let g:wordmotion_extra = [ "<\a\+>", "|\a\+|" ]
+	let g:wordmotion_extra = [ '<\a\+>', '|\a\+|' ]
 <
 NOTE: this takes precedence over any existing word definitions.
 
