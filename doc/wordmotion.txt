@@ -7,10 +7,10 @@ This is one word under Vim's definition:
 	CamelCaseACRONYMWords_underscore1234
 	^
 <
-With this plugin, this becomes 9 words:
+With this plugin, this becomes six words:
 >
-	CamelCaseACRONYMWords_under_score1234
-	^    ^   ^      ^    ^^    ^^    ^
+	CamelCaseACRONYMWords_underscore1234
+	^    ^   ^      ^     ^         ^
 <
 MAPPINGS					*wordmotion-mappings*
 
@@ -42,8 +42,8 @@ i{prefix}w		"inner word", select [count] words
 			Visual characterwise mode.
 
 						*wordmotion-word*
-A word is any of the following separated with white spaces
-(spaces, tabs, <EOL>):
+A word is any of the following separated with spaces
+(<Space>, <Tab>, <EOL>, `_`, etc):
 
 - Anything patterns defined in |g:wordmotion_extra|
 - An uppercase letter followed by one or more lowercase letters
@@ -54,8 +54,7 @@ A word is any of the following separated with white spaces
 - A valid hexadecimal literal
 - A valid binary literal
 - One or more numeric digits
-- One or more non-letter and non-digit keywords (see 'iskeyword')
-- One or more of other non-blank characters
+- One or more of other characters
 - An empty line
 
 CUSTOMIZATION					*wordmotion-customization*

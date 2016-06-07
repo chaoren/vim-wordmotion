@@ -4,19 +4,19 @@ Customizable word motions for Vim
 Under Vim's definition of a `word`:
 
 ```
-CamelCaseACRONYMWords_underscore1234 hyphenated-word
-w----------------------------------->w-------->ww->w
-e--------------------------------->e--------->ee-->e
-b<-----------------------------------b<--------bb<-b
+CamelCaseACRONYMWords_underscore1234
+w-----------------------------------
+e--------------------------------->e
+b<----------------------------------
 ```
 
 With this plugin:
 
 ```
-CamelCaseACRONYMWords_underscore1234 hyphenated-word
-w--->w-->w----->w--->ww-------->w--->w-------->ww->w
-e-->e-->e----->e--->ee-------->e-->e--------->ee-->e
-b<---b<--b<-----b<---bb<--------b<---b<--------bb<-b
+CamelCaseACRONYMWords_underscore1234
+w--->w-->w----->w---->w-------->w---
+e-->e-->e----->e--->e--------->e-->e
+b<---b<--b<-----b<----b<--------b<--
 ```
 
 Customization
@@ -55,9 +55,8 @@ The existing `word` definitions are:
 | Lowercase words                 | `[lowercase] [words]` |
 | Hexadecimal literals            | `[0x00ffFF] [0x0f]`   |
 | Binary literals                 | `[0b01] [0b0011]`     |
-| Regular Numbers                 | `[1234] [5678]`       |
-| Other keywords (`iskeyword`)    | `foo[_]bar`           |
-| Other non-whitespace characters | `[~!@#$]`             |
+| Regular numbers                 | `[1234] [5678]`       |
+| Other characters                | `[~!@#$]`             |
 
 Caveats
 =======

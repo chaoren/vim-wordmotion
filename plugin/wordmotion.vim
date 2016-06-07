@@ -48,6 +48,9 @@ for s:mode in [ 'x', 'o' ] " {{{
 	endfor
 endfor " }}}
 
+let s:s = '[[:space:]_]'
+let s:S = '[^[:space:]_]'
+
 function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 	if a:mode == 'x'
 		normal! gv
@@ -70,15 +73,14 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 	let l:x = '[[:xdigit:]]'
 
 	let l:words = a:extra + get(g:, 'wordmotion_extra', [ ])
-	call add(l:words, l:u . l:l . '\+')           " CamelCase
-	call add(l:words, l:u . '\+\ze' . l:u . l:l)  " ACRONYMSBeforeCamelCase
-	call add(l:words, l:u . '\+')                 " UPPERCASE
-	call add(l:words, l:l . '\+')                 " lowercase
-	call add(l:words, '0[xX]' . l:x . '\+')       " 0x00 0Xff
-	call add(l:words, '0[bB][01]\+')              " 0b00 0B11
-	call add(l:words, l:d . '\+')                 " 1234 5678
-	call add(l:words, s:C('\k', l:a) . '\+')      " 'iskeyword'
-	call add(l:words, s:C(l:g, l:a, '\k') . '\+') " everything else
+	call add(l:words, l:u . l:l . '\+')          " CamelCase
+	call add(l:words, l:u . '\+\ze' . l:u . l:l) " ACRONYMSBeforeCamelCase
+	call add(l:words, l:u . '\+')                " UPPERCASE
+	call add(l:words, l:l . '\+')                " lowercase
+	call add(l:words, '0[xX]' . l:x . '\+')      " 0x00 0Xff
+	call add(l:words, '0[bB][01]\+')             " 0b00 0B11
+	call add(l:words, l:d . '\+')                " 1234 5678
+	call add(l:words, s:C(l:g, l:a, s:s) . '\+') " everything else
 	call add(l:words, '\%^') " start of file
 	call add(l:words, '\%$') " end of file
 	if a:flags != 'e' " e does not stop in an empty line
@@ -135,13 +137,13 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 
 	if a:inner
 		" for inner word, count white spaces too
-		call add(l:extra, '\s\+')
+		call add(l:extra, s:s . '\+')
 	else
-		if getline('.')[col('.') - 1] =~ '\s'
+		if getline('.')[col('.') - 1] =~ s:s
 			if !l:existing_selection
 				let l:backwards = 1
 			endif
-			call search('\m\S', 'W')
+			call search('\m' . s:S, 'W')
 		endif
 	endif
 
@@ -165,15 +167,15 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 			" selection is forwards, but need to extend backwards
 			let l:end = getpos('.')
 			call cursor(l:start[1], l:start[2])
-			call search('\m\s\+\%#', 'bW')
+			call search('\m' . s:s . '\+\%#', 'bW')
 			normal! vv
 			call cursor(l:end[1], l:end[2])
 		elseif l:backwards
 			" selection is actually going backwards
-			call search('\m\s\+\%#', 'bW')
+			call search('\m' . s:s . '\+\%#', 'bW')
 		else
 			" forward selection, consume following white spaces
-			call search('\m\%#.\s\+', 'eW')
+			call search('\m\%#.' . s:s . '\+', 'eW')
 		endif
 	endif
 endfunction " }}}
