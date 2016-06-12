@@ -1,6 +1,8 @@
 More useful word motions for Vim
 =================================
 
+[![Build Status](https://travis-ci.org/chaoren/vim-wordmotion.svg?branch=master)](https://travis-ci.org/chaoren/vim-wordmotion)
+
 Under Vim's definition of a `word`:
 
 ```
