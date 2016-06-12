@@ -25,7 +25,7 @@ Execute (Move by e and then ge):
     normal ge
   endfor
 
-Given (Text with the extra word motions):
+Given (CamelCaseACRONYMWords_underscore1234):
   CamelCaseACRONYMWords_underscore1234
 
 Do (daw at [C]ase):
@@ -39,14 +39,14 @@ Do (daw at Word[s]):
   3wfs
   daw
 
-Expect (Case deleted):
+Expect (Words_ deleted):
   CamelCaseACRONYMunderscore1234
 
 Do (diw at Word[s]):
   3wfs
   diw
 
-Expect (Case deleted):
+Expect (Words deleted):
   CamelCaseACRONYM_underscore1234
 
 Do (yaw at ACRO[N]YM):
