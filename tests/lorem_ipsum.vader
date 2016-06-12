@@ -9,9 +9,9 @@ Given (Lorem ipsum):
 Execute (Move by b and then w):
   let expected = []
   let pos = []
-  while getcurpos() != pos
+  while getpos('.') != pos
     call add(expected, getline('.')[col('.')-1])
-    let pos = getcurpos()
+    let pos = getpos('.')
     normal! w
   endwhile
   for current in reverse(copy(expected))
@@ -26,9 +26,9 @@ Execute (Move by b and then w):
 Execute (Move by ge and then e):
   let expected = []
   let pos = []
-  while getcurpos() != pos
+  while getpos('.') != pos
     call add(expected, getline('.')[col('.')-1])
-    let pos = getcurpos()
+    let pos = getpos('.')
     normal! e
   endwhile
   for current in reverse(copy(expected))
