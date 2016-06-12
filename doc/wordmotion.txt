@@ -1,4 +1,4 @@
-*wordmotion.txt* Customizable word motions for Vim
+*wordmotion.txt* More useful word motions for Vim
 
 INTRODUCTION					*wordmotion*
 
@@ -12,6 +12,21 @@ With this plugin, this becomes six words:
 	CamelCaseACRONYMWords_underscore1234
 	^    ^   ^      ^     ^         ^
 <
+						*wordmotion-word*
+A word is any of the following separated with spaces
+(<Space>, <Tab>, <EOL>, `_`, etc):
+
+- An uppercase letter followed by one or more lowercase letters
+- One or more uppercase letters that does not immediately precede
+  a lowercase letter
+- One or more uppercase letters
+- One or more lowercase letters
+- A valid hexadecimal literal
+- A valid binary literal
+- One or more numeric digits
+- One or more of other characters
+- An empty line
+
 MAPPINGS					*wordmotion-mappings*
 
 						*wordmotion-w*
@@ -41,22 +56,6 @@ i{prefix}w		"inner word", select [count] words
 			When used in Visual linewise mode "iw" switches to
 			Visual characterwise mode.
 
-						*wordmotion-word*
-A word is any of the following separated with spaces
-(<Space>, <Tab>, <EOL>, `_`, etc):
-
-- Anything patterns defined in |g:wordmotion_extra|
-- An uppercase letter followed by one or more lowercase letters
-- One or more uppercase letters that does not immediately precede
-  a lowercase letter
-- One or more uppercase letters
-- One or more lowercase letters
-- A valid hexadecimal literal
-- A valid binary literal
-- One or more numeric digits
-- One or more of other characters
-- An empty line
-
 CUSTOMIZATION					*wordmotion-customization*
 
 The default word motion mappings are `w`, `b`, `e`, `ge`, `aw`, and `iw`.
@@ -75,14 +74,6 @@ E.g.,
 	let g:wordmotion_mappings = { 'w' : 'W', 'b' : 'B' }
 <
 NOTE: this overrides |g:wordmotion_prefix|.
-
-						*g:wordmotion_extra*
-Define additional `word`s with |g:wordmotion_extra|.
-E.g., to treat `<WordsInAngleBrackets>` and `|WordsInPipes|` as single words:
->
-	let g:wordmotion_extra = [ '<\a\+>', '|\a\+|' ]
-<
-NOTE: this takes precedence over any existing word definitions.
 
 CAVEATS						*wordmotion-caveats*
 

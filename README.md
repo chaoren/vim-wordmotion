@@ -1,4 +1,4 @@
-Customizable word motions for Vim
+More useful word motions for Vim
 =================================
 
 Under Vim's definition of a `word`:
@@ -19,6 +19,20 @@ e-->e-->e----->e--->e--------->e-->e
 b<---b<--b<-----b<----b<--------b<--
 ```
 
+`word` definitions
+==================
+
+| `word`                          | Example               |
+|:--------------------------------|:----------------------|
+| Camel case words                | `[Camel][Case]`       |
+| Acronyms                        | `[HTML]And[CSS]`      |
+| Uppercase words                 | `[UPPERCASE] [WORDS]` |
+| Lowercase words                 | `[lowercase] [words]` |
+| Hexadecimal literals            | `[0x00ffFF] [0x0f]`   |
+| Binary literals                 | `[0b01] [0b0011]`     |
+| Regular numbers                 | `[1234] [5678]`       |
+| Other characters                | `[~!@#$]`             |
+
 Customization
 =============
 
@@ -37,26 +51,6 @@ E.g.,
 let g:wordmotion_mappings = { 'w' : 'W', 'b' : 'B' }
 ```
 NOTE: this overrides `g:wordmotion_prefix`.
-
-Define additional `word`s with `g:wordmotion_extra`.  
-E.g., to treat `<WordsInAngleBrackets>` and `|WordsInPipes|` as single words:
-```
-let g:wordmotion_extra = [ '<\a\+>', '|\a\+|' ]
-```
-NOTE: this takes precedence over any existing `word` definitions.
-
-The existing `word` definitions are:
-
-| `word`                          | Example               |
-|:--------------------------------|:----------------------|
-| Camel case words                | `[Camel][Case]`       |
-| Acronyms                        | `[HTML]And[CSS]`      |
-| Uppercase words                 | `[UPPERCASE] [WORDS]` |
-| Lowercase words                 | `[lowercase] [words]` |
-| Hexadecimal literals            | `[0x00ffFF] [0x0f]`   |
-| Binary literals                 | `[0b01] [0b0011]`     |
-| Regular numbers                 | `[1234] [5678]`       |
-| Other characters                | `[~!@#$]`             |
 
 Caveats
 =======
