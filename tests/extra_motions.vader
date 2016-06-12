@@ -35,6 +35,20 @@ Do (daw at [C]ase):
 Expect (Case deleted):
   CamelACRONYMWords_underscore1234
 
+Do (daw at Word[s]):
+  3wfs
+  daw
+
+Expect (Case deleted):
+  CamelCaseACRONYMunderscore1234
+
+Do (diw at Word[s]):
+  3wfs
+  diw
+
+Expect (Case deleted):
+  CamelCaseACRONYM_underscore1234
+
 Do (yaw at ACRO[N]YM):
   2wfN
   yaw
