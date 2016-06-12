@@ -1,0 +1,7 @@
+language: vim
+
+before_script: |
+    git clone git://github.com/junegunn/vader.vim.git
+
+script: |
+    vim -Nu <(echo set rtp=vader.vim,.) '+Vader! tests/*.vader' > /dev/null

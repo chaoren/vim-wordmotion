@@ -1,0 +1,41 @@
+Given (Lorem ipsum):
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  consequat.  Duis aute irure dolor in reprehenderit in voluptate velit esse
+  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+Execute (Move by b and then w):
+  let expected = []
+  let pos = []
+  while getcurpos() != pos
+    call add(expected, getline('.')[col('.')-1])
+    let pos = getcurpos()
+    normal! w
+  endwhile
+  for current in reverse(copy(expected))
+    AssertEqual current, getline('.')[col('.')-1]
+    normal b
+  endfor
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal w
+  endfor
+
+Execute (Move by ge and then e):
+  let expected = []
+  let pos = []
+  while getcurpos() != pos
+    call add(expected, getline('.')[col('.')-1])
+    let pos = getcurpos()
+    normal! e
+  endwhile
+  for current in reverse(copy(expected))
+    AssertEqual current, getline('.')[col('.')-1]
+    normal ge
+  endfor
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal e
+  endfor

@@ -1,0 +1,26 @@
+Given (Text with the extra word motions):
+  CamelCaseACRONYMWords_underscore1234
+  LoremIpsum DOLORSitAmet, consectetur 0xffaa00 adipiscing elit, sed_do_eiusmod
+  tempor 0b010101 incididunt ut labore et _ dolore magna aliqua.
+
+Execute (Move by w and then b):
+  let expected = split('CCAWu1LIDSA,c0ae,sdet0iuledma.', '\zs')
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal w
+  endfor
+  for current in reverse(copy(expected))
+    AssertEqual current, getline('.')[col('.')-1]
+    normal b
+  endfor
+
+Execute (Move by e and then ge):
+  let expected = split('CleMse4mmRtt,r0gt,dodr1tteteaa.', '\zs')
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal e
+  endfor
+  for current in reverse(copy(expected))
+    AssertEqual current, getline('.')[col('.')-1]
+    normal ge
+  endfor
