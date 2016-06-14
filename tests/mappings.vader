@@ -1,0 +1,126 @@
+After (Clear settings):
+  unlet! g:loaded_wordmotion
+  unlet! g:wordmotion_prefix
+  unlet! g:wordmotion_mappings
+
+Execute (Check default mappings):
+  let maps = [ 'iw', 'aw' ]
+  for map in maps
+    Assert hasmapto('AOrInnerWordMotion', 'x')
+    execute 'xunmap' map
+    Assert hasmapto('AOrInnerWordMotion', 'o')
+    execute 'ounmap' map
+  endfor
+  Assert !hasmapto('AOrInnerWordMotion')
+  let maps = [ 'w', 'e', 'b', 'ge' ]
+  for map in maps
+    Assert hasmapto('WordMotion', 'n')
+    execute 'nunmap' map
+    Assert hasmapto('WordMotion', 'x')
+    execute 'xunmap' map
+    Assert hasmapto('WordMotion', 'o')
+    execute 'ounmap' map
+  endfor
+  Assert !hasmapto('WordMotion')
+
+Execute (Check mappings with prefix):
+  let g:wordmotion_prefix = '<Leader>'
+  runtime plugin/wordmotion.vim
+  let maps = [ 'i<Leader>w', 'a<Leader>w' ]
+  for map in maps
+    Assert hasmapto('AOrInnerWordMotion', 'x')
+    execute 'xunmap' map
+    Assert hasmapto('AOrInnerWordMotion', 'o')
+    execute 'ounmap' map
+  endfor
+  Assert !hasmapto('AOrInnerWordMotion')
+  let maps = [ '<Leader>w', '<Leader>e', '<Leader>b', '<Leader>ge' ]
+  for map in maps
+    Assert hasmapto('WordMotion', 'n')
+    execute 'nunmap' map
+    Assert hasmapto('WordMotion', 'x')
+    execute 'xunmap' map
+    Assert hasmapto('WordMotion', 'o')
+    execute 'ounmap' map
+  endfor
+
+Execute (Check custom mappings):
+  let g:wordmotion_mappings = {
+  \ 'w' : '<M-w>',
+  \ 'e' : '<M-e>',
+  \ 'b' : '<M-b>',
+  \ 'ge' : 'g<M-e>',
+  \ 'iw' : 'i<M-w>',
+  \ 'aw' : 'a<M-w>'
+  \ }
+  runtime plugin/wordmotion.vim
+  let maps = [ 'i<M-w>', 'a<M-w>' ]
+  for map in maps
+    Assert hasmapto('AOrInnerWordMotion', 'x')
+    execute 'xunmap' map
+    Assert hasmapto('AOrInnerWordMotion', 'o')
+    execute 'ounmap' map
+  endfor
+  Assert !hasmapto('AOrInnerWordMotion')
+  let maps = [ '<M-w>', '<M-e>', '<M-b>', 'g<M-e>' ]
+  for map in maps
+    Assert hasmapto('WordMotion', 'n')
+    execute 'nunmap' map
+    Assert hasmapto('WordMotion', 'x')
+    execute 'xunmap' map
+    Assert hasmapto('WordMotion', 'o')
+    execute 'ounmap' map
+  endfor
+  Assert !hasmapto('WordMotion')
+
+Execute (Check mixed custom mappings with prefix):
+  let g:wordmotion_prefix = ','
+  let g:wordmotion_mappings = {
+  \ 'e' : '<Plug>WordmotionE',
+  \ 'b' : '<Plug>WordmotionB',
+  \ 'iw' : '<Plug>WordmotionIW',
+  \ }
+  runtime plugin/wordmotion.vim
+  let maps = [ '<Plug>WordmotionIW', 'a,w' ]
+  for map in maps
+    Assert hasmapto('AOrInnerWordMotion', 'x')
+    execute 'xunmap' map
+    Assert hasmapto('AOrInnerWordMotion', 'o')
+    execute 'ounmap' map
+  endfor
+  Assert !hasmapto('AOrInnerWordMotion')
+  let maps = [ ',w', '<Plug>WordmotionE', '<Plug>WordmotionB', ',ge' ]
+  for map in maps
+    Assert hasmapto('WordMotion', 'n')
+    execute 'nunmap' map
+    Assert hasmapto('WordMotion', 'x')
+    execute 'xunmap' map
+    Assert hasmapto('WordMotion', 'o')
+    execute 'ounmap' map
+  endfor
+  Assert !hasmapto('WordMotion')
+
+Execute (Check no mappings):
+  let g:wordmotion_mappings = {
+  \ 'w' : '',
+  \ 'e' : '',
+  \ 'b' : '',
+  \ 'ge' : '',
+  \ 'iw' : '',
+  \ 'aw' : '',
+  \ }
+  runtime plugin/wordmotion.vim
+  Assert !hasmapto('WordMotion')
+
+Execute (Check no mappings even with prefix):
+  let g:wordmotion_prefix = '<Leader>'
+  let g:wordmotion_mappings = {
+  \ 'w' : '',
+  \ 'e' : '',
+  \ 'b' : '',
+  \ 'ge' : '',
+  \ 'iw' : '',
+  \ 'aw' : '',
+  \ }
+  runtime plugin/wordmotion.vim
+  Assert !hasmapto('WordMotion')
