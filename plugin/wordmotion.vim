@@ -22,8 +22,11 @@ endfor
 
 let s:flags = { 'w' : '', 'e' : 'e', 'b' : 'b', 'ge' : 'be' }
 
-for s:mode in [ 'n', 'x', 'o' ] " {{{
-	for s:motion in [ 'w', 'e', 'b', 'ge' ]
+for s:motion in [ 'w', 'e', 'b', 'ge' ] " {{{
+	if empty(s:mappings[s:motion])
+		continue
+	endif
+	for s:mode in [ 'n', 'x', 'o' ]
 		let s:map = s:mode . 'noremap'
 		let s:lhs = '<silent>' . s:mappings[s:motion]
 		let s:m = "'" . s:mode . "'"
@@ -36,8 +39,11 @@ endfor " }}}
 
 let s:inner = { 'aw' : 0, 'iw' : 1 }
 
-for s:mode in [ 'x', 'o' ] " {{{
-	for s:motion in [ 'aw', 'iw' ]
+for s:motion in [ 'aw', 'iw' ] " {{{
+	if empty(s:mappings[s:motion])
+		continue
+	endif
+	for s:mode in [ 'x', 'o' ]
 		let s:map = s:mode . 'noremap'
 		let s:lhs = '<silent>' . s:mappings[s:motion]
 		let s:m = "'" . s:mode . "'"
