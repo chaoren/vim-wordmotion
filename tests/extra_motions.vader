@@ -28,12 +28,40 @@ Execute (Move by e and then ge):
 Given (CamelCaseACRONYMWords_underscore1234):
   CamelCaseACRONYMWords_underscore1234
 
+Do (d2w at [C]ase):
+  w
+  d2w
+
+Expect (CaseACRONYM deleted):
+  CamelWords_underscore1234
+
+Do (3dw at Ca[s]e):
+  wfs
+  3dw
+
+Expect (seACRONYMWords_ deleted):
+  CamelCaunderscore1234
+
 Do (daw at [C]ase):
   w
   daw
 
 Expect (Case deleted):
   CamelACRONYMWords_underscore1234
+
+Do (d2aw at C[a]se):
+  wfa
+  d2aw
+
+Expect (CaseACRONYM deleted):
+  CamelWords_underscore1234
+
+Do (3daw at Cas[e]):
+  wfe
+  3daw
+
+Expect (CaseACRONYMWords_ deleted):
+  Camelunderscore1234
 
 Do (daw at Word[s]):
   3wfs
