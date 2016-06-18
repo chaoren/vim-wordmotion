@@ -1,0 +1,5 @@
+Before (disable magic):
+  set nomagic
+
+Include: lorem_ipsum.vader
+Include: extra_motions.vader
