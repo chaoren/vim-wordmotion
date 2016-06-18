@@ -1,5 +1,7 @@
-After (Clear settings):
+Before (Unload plugin):
   unlet! g:loaded_wordmotion
+
+After (Clear settings):
   unlet! g:wordmotion_prefix
   unlet! g:wordmotion_mappings
 
@@ -124,3 +126,6 @@ Execute (Check no mappings even with prefix):
   \ }
   runtime plugin/wordmotion.vim
   Assert !hasmapto('WordMotion')
+
+Execute (Load plugin for further tests):
+  runtime plugin/wordmotion.vim
