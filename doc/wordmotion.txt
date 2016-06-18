@@ -12,7 +12,8 @@ With this plugin, this becomes six words:
 	CamelCaseACRONYMWords_underscore1234
 	^    ^   ^      ^     ^         ^
 <
-						*wordmotion-word*
+WORDS						*wordmotion-words*
+
 A word is any of the following separated with spaces
 (<Space>, <Tab>, <EOL>, `_`, etc):
 
