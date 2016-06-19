@@ -6,24 +6,12 @@ let g:loaded_wordmotion = 1
 let s:prefix = get(g:, 'wordmotion_prefix', '')
 let s:mappings = get(g:, 'wordmotion_mappings', { })
 
-for s:motion in [ 'w', 'e', 'b', 'ge' ]
-	if !has_key(s:mappings, s:motion)
-		let s:mappings[s:motion] = s:prefix . s:motion
-	endif
-endfor
-
-let s:motion = 'w'
-for s:qualifier in [ 'a', 'i' ]
-	let s:qualified_motion = s:qualifier . s:motion
-	if !has_key(s:mappings, s:qualified_motion)
-		let s:mappings[s:qualified_motion] = s:qualifier . s:prefix . s:motion
-	endif
-endfor
-
 let s:flags = { 'w' : '', 'e' : 'e', 'b' : 'b', 'ge' : 'be' }
 
 for s:motion in [ 'w', 'e', 'b', 'ge' ] " {{{
-	if empty(s:mappings[s:motion])
+	if !has_key(s:mappings, s:motion)
+		let s:mappings[s:motion] = s:prefix . s:motion
+	elseif empty(s:mappings[s:motion])
 		continue
 	endif
 	for s:mode in [ 'n', 'x', 'o' ]
@@ -39,15 +27,19 @@ endfor " }}}
 
 let s:inner = { 'aw' : 0, 'iw' : 1 }
 
-for s:motion in [ 'aw', 'iw' ] " {{{
-	if empty(s:mappings[s:motion])
+let s:motion = 'w'
+for s:qualifier in [ 'a', 'i' ] " {{{
+	let s:qualified_motion = s:qualifier . s:motion
+	if !has_key(s:mappings, s:qualified_motion)
+		let s:mappings[s:qualified_motion] = s:qualifier . s:prefix . s:motion
+	elseif empty(s:mappings[s:qualified_motion])
 		continue
 	endif
 	for s:mode in [ 'x', 'o' ]
 		let s:map = s:mode . 'noremap'
-		let s:lhs = '<silent>' . s:mappings[s:motion]
+		let s:lhs = '<silent>' . s:mappings[s:qualified_motion]
 		let s:m = "'" . s:mode . "'"
-		let s:i = s:inner[s:motion]
+		let s:i = s:inner[s:qualified_motion]
 		let s:args = join([ 'v:count1', s:m, s:i ], ', ')
 		let s:rhs = ":\<C-U>call \<SID>AOrInnerWordMotion(" . s:args . ")\<CR>"
 		execute s:map s:lhs s:rhs
