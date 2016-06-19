@@ -20,7 +20,7 @@ for s:motion in [ 'w', 'e', 'b', 'ge' ] " {{{
 		let s:m = "'" . s:mode . "'"
 		let s:f = "'" . s:flags[s:motion] . "'"
 		let s:args = join([ 'v:count1', s:m, s:f, '[ ]' ], ', ')
-		let s:rhs = ":\<C-U>call \<SID>WordMotion(" . s:args . ")\<CR>"
+		let s:rhs = ':<C-U>call <SID>WordMotion(' . s:args . ')<CR>'
 		execute s:map s:lhs s:rhs
 	endfor
 endfor " }}}
@@ -41,7 +41,7 @@ for s:qualifier in [ 'a', 'i' ] " {{{
 		let s:m = "'" . s:mode . "'"
 		let s:i = s:inner[s:qualified_motion]
 		let s:args = join([ 'v:count1', s:m, s:i ], ', ')
-		let s:rhs = ":\<C-U>call \<SID>AOrInnerWordMotion(" . s:args . ")\<CR>"
+		let s:rhs = ':<C-U>call <SID>AOrInnerWordMotion(' . s:args . ')<CR>'
 		execute s:map s:lhs s:rhs
 	endfor
 endfor " }}}
