@@ -4,3 +4,10 @@ Given (Weird characters: https://github.com/chaoren/vim-wordmotion/issues/1):
 Execute (Move 2 words):
   normal 2w
   AssertEqual 'g', getline('.')[col('.') - 1]
+
+Given (Underscores: https://github.com/chaoren/vim-wordmotion/issues/5):
+  abc_def_ghi
+
+Execute (Move 2 words):
+  normal 2w
+  AssertEqual 'g', getline('.')[col('.') - 1]
