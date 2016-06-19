@@ -60,7 +60,7 @@ let g:wordmotion_mappings = {
 \ 'iw' : 'i<M-w>'
 \ }
 ```
-Unspecified entries will still use the default mappings.
+Unspecified entries will still use the default mappings.  
 Set the value to an empty string to disable the mapping.
 
 NOTE: this overrides `g:wordmotion_prefix`.
