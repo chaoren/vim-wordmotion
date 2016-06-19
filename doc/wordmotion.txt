@@ -69,11 +69,22 @@ E.g.,
 	let g:wordmotion_prefix = '<Leader>'
 <
 						*g:wordmotion_mappings*
-Use |g:wordmotion_mappings| to replace individual word motion mappings.
+Use |g:wordmotion_mappings| to individually replace the default word motion
+mappings.
 E.g.,
 >
-	let g:wordmotion_mappings = { 'w' : 'W', 'b' : 'B' }
+	let g:wordmotion_mappings = {
+	\ 'w' : '<M-w>',
+	\ 'b' : '<M-b>',
+	\ 'e' : '<M-e>',
+	\ 'ge' : 'g<M-e>',
+	\ 'aw' : 'a<M-w>',
+	\ 'iw' : 'i<M-w>'
+	\ }
 <
+Unspecified entries will still use the default mappings.
+Set the value to an empty string to disable the mapping.
+
 NOTE: this overrides |g:wordmotion_prefix|.
 
 CAVEATS						*wordmotion-caveats*
