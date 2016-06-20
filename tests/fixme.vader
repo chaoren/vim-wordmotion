@@ -1,0 +1,18 @@
+Given (First line surrounded with space, second line beginning with space):
+  _foo_
+  _bar
+
+Do (FIXME: Delete two vaw backwards from bar):
+  G$vhawawd
+
+Expect (Leading space in first line left in tact):
+  _
+
+Given (Leading white space):
+  _foo
+
+Do (FIXME: Delete vaw at foo):
+  $vawd
+
+Expect (Leading space left in tact):
+  _
