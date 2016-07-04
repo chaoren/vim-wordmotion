@@ -122,6 +122,7 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 	if a:mode == 'x'
 		normal! gv
 		if getpos("'<") == getpos("'>")
+			" no existing selection, exit visual mode
 			execute 'normal!' visualmode()
 		else
 			let l:existing_selection = 1
