@@ -126,7 +126,7 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 		else
 			let l:existing_selection = 1
 			let l:start = getpos('.')
-			if getpos('.') == getpos("'<")
+			if l:start == getpos("'<")
 				let l:flags = 'b'
 				let l:backwards = 1
 			endif
