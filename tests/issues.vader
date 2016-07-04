@@ -11,3 +11,12 @@ Given (Underscores: https://github.com/chaoren/vim-wordmotion/issues/5):
 Execute (Move 2 words):
   normal 2w
   AssertEqual 'g', getline('.')[col('.') - 1]
+
+Given (CamelCase):
+  CamelCase
+
+Do (<C-V>iw at C: https://github.com/chaoren/vim-wordmotion/issues/7):
+  w\<C-V>iwd
+
+Expect (Case deleted):
+  Camel

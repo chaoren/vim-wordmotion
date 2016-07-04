@@ -1,0 +1,49 @@
+Given (Block of text):
+  abc def ghi
+  jkl mno pqr
+  stu vwx yz
+
+Do (Delete top left two rows by two columns with blockwise visual):
+  \<C-V>jeed
+
+Expect (Top left section deleted):
+   ghi
+   pqr
+  stu vwx yz
+
+Do (Delete top two rows with linewise visual):
+  Vjd
+
+Expect (Top two rows deleted):
+  stu vwx yz
+
+Do (Delete two words by first moving by w, then by aw with blockwise visual):
+  \<C-V>wawd
+
+Expect (First two words deleted):
+  ghi
+  jkl mno pqr
+  stu vwx yz
+
+Do (Delete two words by first moving by b, then by iw with blockwise visual):
+  $\<C-V>biwiwd
+
+Expect (First two words deleted):
+  abc 
+  jkl mno pqr
+  stu vwx yz
+
+Execute (Move around in linewise visual, then delete first two lines):
+  AssertEqual 'a', getline('.')[col('.') - 1]
+  normal Vj
+  AssertEqual 'j', getline('.')[col('.') - 1]
+  normal ww
+  AssertEqual 'p', getline('.')[col('.') - 1]
+  normal k
+  AssertEqual 'g', getline('.')[col('.') - 1]
+  normal j
+  AssertEqual 'p', getline('.')[col('.') - 1]
+  normal d
+
+Expect (First two lines deleted):
+  stu vwx yz
