@@ -1,4 +1,4 @@
-Before (disable magic):
+Before (Disable magic):
   set nomagic
 
 Include: lorem_ipsum.vader
