@@ -1,0 +1,66 @@
+Given (Some text):
+  This is some text
+
+Do (daw at Th[i]s):
+  fidaw
+
+Expect (This_ deleted):
+  is some text
+
+Do (daw at te[x]t):
+  3wfxdaw
+
+Expect (_text deleted):
+  This is some
+
+Do (2daw at s[o]me):
+  2wfo2daw
+
+Expect (_some_text deleted):
+  This is
+
+Do (d2aw at so[m]e):
+  2wfmd2aw
+
+Expect (_some_text deleted):
+  This is
+
+Given (Some text over two lines):
+  This is
+  some text
+
+Do (d2aw at i[s]):
+  wfsd2aw
+
+Expect (is\nsome_ deleted):
+  This text
+
+Given (Some text with trailing white space):
+  This is  
+  some text
+
+Do (d2aw at i[s]):
+  wfsd2aw
+
+Expect (is__\nsome deleted):
+  This text
+
+Given (Some text with leading white space):
+  This is
+    some text
+
+Do (d2aw at i[s]):
+  wfsd2aw
+
+Expect (is\n__some deleted):
+  This text
+
+Given (Some text with both trailing and leading white space):
+  This is  
+    some text
+
+Do (d2aw at i[s]):
+  wfsd2aw
+
+Expect (is__\n__some deleted):
+  This text

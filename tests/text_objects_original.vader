@@ -1,0 +1,12 @@
+Execute (Disable plugin):
+  unlet! g:loaded_wordmotion
+  nmapclear
+  xmapclear
+  omapclear
+  Assert !hasmapto('WordMotion')
+
+Include: iw.vader
+Include: aw.vader
+
+Execute (Load plugin for further tests):
+  runtime plugin/wordmotion.vim
