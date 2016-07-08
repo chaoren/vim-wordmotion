@@ -82,14 +82,14 @@ Do (diw at foo):
 Expect (Leading space left intact):
    
 
-Given (Three empty lines):
+Given (Three ^$ lines):
   foo
   
   
   
   bar
 
-Do (FIXME: diw at middle empty line):
+Do (FIXME: diw at middle ^$ line):
   2jdiw
 
 Expect (No change):
@@ -99,16 +99,50 @@ Expect (No change):
   
   bar
 
-Do (FIXME: Delete viw after selecting from first empty line downwards):
+Do (FIXME: Delete viw after selecting from first ^$ line downwards):
   jvjiwd
 
-Expect (All empty lines plus the following character deleted):
+Expect (\n\n\nb deleted):
   foo
   ar
 
-Do (Delete viw after selecting from last empty line upwards):
+Do (Delete viw after selecting from last ^$ line upwards):
   Gkvkiwd
 
-Expect (All empty lines deleted):
+Expect (\n\n\n deleted):
   foo
+  bar
+
+Given (Three ^__$ lines):
+  foo
+    
+    
+    
+  bar
+
+Do (diw at middle ^__$ line):
+  2jdiw
+
+Expect (__ deleted):
+  foo
+    
+  
+    
+  bar
+
+Do (Delete viw after selecting from first ^__$ line downwards):
+  jvjiwd
+
+Expect (__\n__ deleted):
+  foo
+  
+    
+  bar
+
+Do (Delete viw after selecting from last ^__$ line upwards):
+  Gkvkiwd
+
+Expect (__\n__\n_ deleted):
+  foo
+   
   bar

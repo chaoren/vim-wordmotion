@@ -80,30 +80,58 @@ Do (FIXME: daw at foo):
 Expect (Leading space left intact):
    
 
-Given (Three empty lines):
+Given (Three ^$ lines):
   foo
   
   
   
   bar
 
-Do (FIXME: daw at middle empty line):
+Do (FIXME: daw at middle ^$ line):
   2jdaw
 
-Expect (Two empty lines deleted):
+Expect (\n\n deleted):
   foo
   
   bar
 
-Do (Delete vaw after selecting from first empty line downwards):
+Do (Delete vaw after selecting from first ^$ line downwards):
   jvjawd
 
-Expect (Two empty lines and bar deleted):
+Expect (\n\nbar deleted):
   foo
   
 
-Do (FIXME: Delete vaw after selecting from last empty line upwards):
+Do (FIXME: Delete vaw after selecting from last ^$ line upwards):
   Gkvkawd
 
-Expect (All empty lines and foo deleted):
+Expect (foo\n\n\n deleted):
+  bar
+
+Given (Three ^__$ lines):
+  foo
+    
+    
+    
+  bar
+
+Do (FIXME: daw at middle ^__$ line):
+  2jdaw
+
+Expect (\n__\n__\nbar deleted):
+  foo
+    
+
+Do (Delete vaw after selecting from first ^__$ line downwards):
+  jvjawd
+
+Expect (__\n__\n__\nbar deleted):
+  foo
+  
+
+Do (Delete vaw after selecting from last ^__$ line upwards):
+  Gkvkawd
+
+Expect (foo\n__\n__\n_ deleted):
+   
   bar
