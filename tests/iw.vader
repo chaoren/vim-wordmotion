@@ -13,6 +13,12 @@ Do (diw at te[x]t):
 Expect (text deleted):
   This is some 
 
+Do (diw at [_]some):
+  wf diw
+
+Expect (_ deleted):
+  This issome text
+
 Do (2diw at s[o]me):
   2wfo2diw
 
@@ -66,3 +72,43 @@ Do (d2iw at i[s]):
 Expect (is__ deleted):
   This 
     some text
+
+Given (Leading white space):
+   foo
+
+Do (diw at foo):
+  $diw
+
+Expect (Leading space left intact):
+   
+
+Given (Three empty lines):
+  foo
+  
+  
+  
+  bar
+
+Do (FIXME: diw at middle empty line):
+  2jdiw
+
+Expect (No change):
+  foo
+  
+  
+  
+  bar
+
+Do (FIXME: Delete viw after selecting from first empty line downwards):
+  jvjiwd
+
+Expect (All empty lines plus the following character deleted):
+  foo
+  ar
+
+Do (Delete viw after selecting from last empty line upwards):
+  Gkvkiwd
+
+Expect (All empty lines deleted):
+  foo
+  bar

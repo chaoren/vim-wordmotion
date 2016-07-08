@@ -13,6 +13,12 @@ Do (daw at te[x]t):
 Expect (_text deleted):
   This is some
 
+Do (daw at [_]some):
+  wf daw
+
+Expect (_some deleted):
+  This is text
+
 Do (2daw at s[o]me):
   2wfo2daw
 
@@ -64,3 +70,40 @@ Do (d2aw at i[s]):
 
 Expect (is__\n__some deleted):
   This text
+
+Given (Leading white space):
+   foo
+
+Do (FIXME: daw at foo):
+  $daw
+
+Expect (Leading space left intact):
+   
+
+Given (Three empty lines):
+  foo
+  
+  
+  
+  bar
+
+Do (FIXME: daw at middle empty line):
+  2jdaw
+
+Expect (Two empty lines deleted):
+  foo
+  
+  bar
+
+Do (Delete vaw after selecting from first empty line downwards):
+  jvjawd
+
+Expect (Two empty lines and bar deleted):
+  foo
+  
+
+Do (FIXME: Delete vaw after selecting from last empty line upwards):
+  Gkvkawd
+
+Expect (All empty lines and foo deleted):
+  bar
