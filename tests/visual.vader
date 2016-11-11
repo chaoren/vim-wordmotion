@@ -47,3 +47,43 @@ Execute (Move around in linewise visual, then delete first two lines):
 
 Expect (First two lines deleted):
   stu vwx yz
+
+Given (Block of text with custom motions):
+  abc_defGhi
+  jklMNOPqr
+  stuVwxYz
+
+Do (Delete first four words in visual mode):
+  v4ed
+
+Expect (First four words deleted):
+  MNOPqr
+  stuVwxYz
+
+Do (Delete first two line with linewise visual):
+  Vjd
+
+Expect (First two lines deleted):
+  stuVwxYz
+
+Do (Delete first two words of each line with blockwise visual):
+  \<C-V>2j2wd
+
+Expect (First two words of each line deleted):
+  Ghi
+  qr
+  z
+
+Do (Delete first two words of each line with blockwise visual):
+  \<C-V>2e2jd
+
+Expect (First two words of each line deleted):
+  Ghi
+  qr
+  z
+
+Do (Delete four words after moving around):
+  5wv2eo3bd
+
+Expect (Four words in the middle deleted):
+  abc_defVwxYz
