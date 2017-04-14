@@ -65,6 +65,17 @@ Set the value to an empty string to disable the mapping.
 
 NOTE: this overrides `g:wordmotion_prefix`.
 
+Use `g:wordmotion_spaces` (default `'_'`) to designate extra space characters.  
+E.g.,
+```
+let g:wordmotion_spaces = '_-.'
+```
+will produce the following result:
+```
+foo_bar-baz.qux
+w-->w-->w-->w>w
+```
+
 Caveats
 =======
 

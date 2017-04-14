@@ -5,6 +5,7 @@ let g:loaded_wordmotion = 1
 
 let s:prefix = get(g:, 'wordmotion_prefix', '')
 let s:mappings = get(g:, 'wordmotion_mappings', { })
+let s:spaces = get(g:, 'wordmotion_spaces', '_')
 
 let s:flags = { 'w' : '', 'e' : 'e', 'b' : 'b', 'ge' : 'be' }
 
@@ -46,8 +47,10 @@ for s:qualifier in [ 'a', 'i' ] " {{{
 	endfor
 endfor " }}}
 
-let s:s = '[[:space:]_]'
-let s:S = '[^[:space:]_]'
+" '-' in the middle will turn into a range, move it to the back.
+let s:spaces = substitute(s:spaces, '-\(.*\)$', '\1-', '')
+let s:s = '[[:space:]' . s:spaces . ']'
+let s:S = '[^[:space:]' . s:spaces . ']'
 
 function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 	if a:mode == 'x'

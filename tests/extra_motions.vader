@@ -9,7 +9,7 @@ Execute (Move by w and then b):
     AssertEqual current, getline('.')[col('.')-1]
     normal w
   endfor
-  for current in reverse(copy(expected))
+  for current in reverse(expected)
     AssertEqual current, getline('.')[col('.')-1]
     normal b
   endfor
@@ -20,7 +20,7 @@ Execute (Move by e and then ge):
     AssertEqual current, getline('.')[col('.')-1]
     normal e
   endfor
-  for current in reverse(copy(expected))
+  for current in reverse(expected)
     AssertEqual current, getline('.')[col('.')-1]
     normal ge
   endfor

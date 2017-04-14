@@ -1,0 +1,68 @@
+Before (Unload plugin):
+  unlet! g:loaded_wordmotion
+
+After (Clear settings):
+  unlet! g:wordmotion_spaces
+
+Execute (Set spaces to '-'):
+  let g:wordmotion_spaces = '-'
+  runtime plugin/wordmotion.vim
+
+Given (Lorem ipsum sometimes deliminated by '-'):
+  Lorem-ipsum dolor sit amet, consectetur---adipiscing-elit, sed do-eiusmod
+  tempor incididunt ut-labore et-dolore magna aliqua.
+
+Execute (Move by w and then b):
+  let expected = split('Lidsa,cae,sdetiuledma.', '\zs')
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal w
+  endfor
+  for current in reverse(expected)
+    AssertEqual current, getline('.')[col('.')-1]
+    normal b
+  endfor
+
+Execute (Move by e and then ge):
+  let expected = split('Lmmrtt,rgt,dodrtteteaa.', '\zs')
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal e
+  endfor
+  for current in reverse(expected)
+    AssertEqual current, getline('.')[col('.')-1]
+    normal ge
+  endfor
+
+Execute (Set spaces to '_-.'):
+  let g:wordmotion_spaces = '_-.'
+  runtime plugin/wordmotion.vim
+
+Given (Lorem ipsum sometimes deliminated by '_', '-', or '.'):
+  Lorem-ipsum dolor sit_amet, consectetur_-adipiscing-_.elit, sed_do-eiusmod
+  tempor incididunt.ut_labore et-dolore magna aliqua....!
+
+Execute (Move by w and then b):
+  let expected = split('Lidsa,cae,sdetiuledma!', '\zs')
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal w
+  endfor
+  for current in reverse(copy(expected))
+    AssertEqual current, getline('.')[col('.')-1]
+    normal b
+  endfor
+
+Execute (Move by e and then ge):
+  let expected = split('Lmmrtt,rgt,dodrtteteaa!', '\zs')
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal e
+  endfor
+  for current in reverse(copy(expected))
+    AssertEqual current, getline('.')[col('.')-1]
+    normal ge
+  endfor
+
+Execute (Load plugin for further tests):
+  runtime plugin/wordmotion.vim
