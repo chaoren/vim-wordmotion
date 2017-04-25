@@ -96,8 +96,9 @@ This plugin:
 
 	^[f]oo bar$ -> cw -> ^[b]ar$
 ```
-This plugin faithfully follows the motion of `w`, while Vim replaces these two
-special cases with the behavior of `de` and `ce`, respectively.
+This plugin faithfully follows the motion of `w` when executing `dw` and `cw`,
+while Vim replaces these two special cases with the behavior of `de` and `ce`,
+respectively.
 
 Related
 =======
