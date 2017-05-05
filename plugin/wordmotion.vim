@@ -109,7 +109,6 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 	call add(l:words, '0[xX]' . l:x . '\+')      " 0x00 0Xff
 	call add(l:words, '0[bB][01]\+')             " 0b00 0B11
 	call add(l:words, l:d . '\+')                " 1234 5678
-	call add(l:words, s:C(l:g, l:a, s:s) . '\+') " everything else
 	call add(l:words, '\%^') " start of file
 	call add(l:words, '\%$') " end of file
 	if a:flags != 'e' " e does not stop in an empty line
@@ -123,6 +122,26 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 
 	for @_ in range(a:count)
 		call search(l:pattern, a:flags . 'W')
+		let l:pos_w = getpos('.')
+		call setpos('.', l:pos)
+		" handle multi-byte characters by comparing to W/E/B commands' resulting positions
+		if a:flags =~# 'b'
+			normal! B
+			let l:pos_W = getpos('.')
+			if l:pos_w[1] > l:pos_W[1] || l:pos_w[1] == l:pos_W[1] && l:pos_w[2] > l:pos_W[2]
+				call setpos('.', l:pos_w)
+			endif
+		else
+			if a:flags =~# 'e'
+				normal! E
+			else
+				normal! W
+			endif
+			let l:pos_W = getpos('.')
+			if l:pos_w[1] < l:pos_W[1] || l:pos_w[1] == l:pos_W[1] && l:pos_w[2] < l:pos_W[2]
+				call setpos('.', l:pos_w)
+			endif
+		endif
 	endfor
 
 	" ugly hack for 'w' going forwards at end of file
