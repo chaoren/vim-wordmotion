@@ -31,57 +31,108 @@ Do (s/<cword>/changed/ at some[ ]text):
 Expect (Some changed):
   This is some changed
 
+Do (Save error messages):
+  :redir @">\<CR>
+  :messages\<CR>
+  :redir END\<CR>
+
+Before (Count number of existing errors):
+  let existing = 0
+  for line in split(@", '\n')
+    if line == 'E348: No string under cursor'
+      let existing += 1
+    endif
+  endfor
+
 Given (Empty line):
   
 
-Do (echomsg '<cword>'):
-  :echomsg '\<C-R>\<C-W>'\<CR>
+Do (Set second line to <cword> then save error messages):
+  :call setline(2, '\<C-R>\<C-W>')\<CR>
   :redir @">\<CR>
-  :2messages\<CR>
+  :messages\<CR>
   :redir END\<CR>
 
-Execute (Assert that error message is present):
-  let lines = [ '', 'E348: No string under cursor', '' ]
-  AssertEqual join(lines, "\n"), @"
+Then (Assert that one more error message is present):
+  let present = 0
+  for line in split(@", '\n')
+    if line == 'E348: No string under cursor'
+      let present += 1
+    endif
+  endfor
+  AssertEqual existing + 1, present
+
+Expect (Empty second line):
+  
+  
 
 Given (Single line with whitespace):
     
 
-Do (echomsg '<cword>'):
-  :echomsg '\<C-R>\<C-W>'\<CR>
+Do (Set second line to <cword> then save error messages):
+  :call setline(2, '\<C-R>\<C-W>')\<CR>
   :redir @">\<CR>
-  :2messages\<CR>
+  :messages\<CR>
   :redir END\<CR>
 
-Execute (Assert that error message is present):
-  let lines = [ '', 'E348: No string under cursor', '' ]
-  AssertEqual join(lines, "\n"), @"
+Then (Assert that one more error message is present):
+  let present = 0
+  for line in split(@", '\n')
+    if line == 'E348: No string under cursor'
+      let present += 1
+    endif
+  endfor
+  AssertEqual existing + 1, present
+
+Expect (Empty second line):
+    
+  
 
 Given (Single line with whitespace before regular text):
     
   This is some text
 
-Do (echomsg '<cword>' on empty line):
-  :echomsg '\<C-R>\<C-W>'\<CR>
+Do (Set third line to <cword> then save error messages):
+  :call setline(3, '\<C-R>\<C-W>')\<CR>
   :redir @">\<CR>
-  :2messages\<CR>
+  :messages\<CR>
   :redir END\<CR>
 
-Execute (Assert that error message is present):
-  let lines = [ '', 'E348: No string under cursor', '' ]
-  AssertEqual join(lines, "\n"), @"
+Then (Assert that one more error message is present):
+  let present = 0
+  for line in split(@", '\n')
+    if line == 'E348: No string under cursor'
+      let present += 1
+    endif
+  endfor
+  AssertEqual existing + 1, present
+
+Expect (Empty third line):
+    
+  This is some text
+  
 
 Given (Single line with whitespace after regular text):
   This is some text
     
 
-Do (echomsg '<cword>' on empty line):
+Do (Set third line to <cword> then save error messages):
   j
-  :echomsg '\<C-R>\<C-W>'\<CR>
+  :call setline(3, '\<C-R>\<C-W>')\<CR>
   :redir @">\<CR>
-  :2messages\<CR>
+  :messages\<CR>
   :redir END\<CR>
 
-Execute (Assert that error message is present):
-  let lines = [ '', 'E348: No string under cursor', '' ]
-  AssertEqual join(lines, "\n"), @"
+Then (Assert that one more error message is present):
+  let present = 0
+  for line in split(@", '\n')
+    if line == 'E348: No string under cursor'
+      let present += 1
+    endif
+  endfor
+  AssertEqual existing + 1, present
+
+Expect (Empty third line):
+  This is some text
+    
+  
