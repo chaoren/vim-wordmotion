@@ -35,38 +35,26 @@ Given (Empty line):
   
 
 Do (echomsg '<cword>'):
-  :messages clear\<CR>
   :echomsg '\<C-R>\<C-W>'\<CR>
   :redir @">\<CR>
-  :messages\<CR>
+  :2messages\<CR>
   :redir END\<CR>
 
 Execute (Assert that error message is present):
-  let lines = [
-  \ '',
-  \ 'Messages maintainer: Bram Moolenaar <Bram@vim.org>',
-  \ 'E348: No string under cursor',
-  \ '',
-  \ ]
+  let lines = [ '', 'E348: No string under cursor', '' ]
   AssertEqual join(lines, "\n"), @"
 
 Given (Single line with whitespace):
     
 
 Do (echomsg '<cword>'):
-  :messages clear\<CR>
   :echomsg '\<C-R>\<C-W>'\<CR>
   :redir @">\<CR>
-  :messages\<CR>
+  :2messages\<CR>
   :redir END\<CR>
 
 Execute (Assert that error message is present):
-  let lines = [
-  \ '',
-  \ 'Messages maintainer: Bram Moolenaar <Bram@vim.org>',
-  \ 'E348: No string under cursor',
-  \ '',
-  \ ]
+  let lines = [ '', 'E348: No string under cursor', '' ]
   AssertEqual join(lines, "\n"), @"
 
 Given (Single line with whitespace before regular text):
@@ -74,19 +62,13 @@ Given (Single line with whitespace before regular text):
   This is some text
 
 Do (echomsg '<cword>' on empty line):
-  :messages clear\<CR>
   :echomsg '\<C-R>\<C-W>'\<CR>
   :redir @">\<CR>
-  :messages\<CR>
+  :2messages\<CR>
   :redir END\<CR>
 
 Execute (Assert that error message is present):
-  let lines = [
-  \ '',
-  \ 'Messages maintainer: Bram Moolenaar <Bram@vim.org>',
-  \ 'E348: No string under cursor',
-  \ '',
-  \ ]
+  let lines = [ '', 'E348: No string under cursor', '' ]
   AssertEqual join(lines, "\n"), @"
 
 Given (Single line with whitespace after regular text):
@@ -95,17 +77,11 @@ Given (Single line with whitespace after regular text):
 
 Do (echomsg '<cword>' on empty line):
   j
-  :messages clear\<CR>
   :echomsg '\<C-R>\<C-W>'\<CR>
   :redir @">\<CR>
-  :messages\<CR>
+  :2messages\<CR>
   :redir END\<CR>
 
 Execute (Assert that error message is present):
-  let lines = [
-  \ '',
-  \ 'Messages maintainer: Bram Moolenaar <Bram@vim.org>',
-  \ 'E348: No string under cursor',
-  \ '',
-  \ ]
+  let lines = [ '', 'E348: No string under cursor', '' ]
   AssertEqual join(lines, "\n"), @"
