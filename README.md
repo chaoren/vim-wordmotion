@@ -38,7 +38,17 @@ b<---b<--b<-----b<----b<--------b<-b
 Customization
 =============
 
-The default word motion mappings are `w`, `b`, `e`, `ge`, `aw`, and `iw`.
+The default word motion mappings are as follows:
+
+| Mode  | Mapping      |
+|:-----:|:------------:|
+| `nxo` | `w`          |
+| `nxo` | `b`          |
+| `nxo` | `e`          |
+| `nxo` | `ge`         |
+| `xo`  | `aw`         |
+| `xo`  | `iw`         |
+| `c`   | `<C-R><C-W>` |
 
 Use `g:wordmotion_prefix` to apply a common prefix to each of the default word
 motion mappings.  
@@ -58,6 +68,7 @@ let g:wordmotion_mappings = {
 \ 'ge' : 'g<M-e>',
 \ 'aw' : 'a<M-w>',
 \ 'iw' : 'i<M-w>'
+\ '<C-R><C-W>' : '<C-R><M-w>'
 \ }
 ```
 Unspecified entries will still use the default mappings.  

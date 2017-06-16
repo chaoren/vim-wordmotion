@@ -47,6 +47,17 @@ for s:qualifier in [ 'a', 'i' ] " {{{
 	endfor
 endfor " }}}
 
+let s:crcw = '<C-R><C-W>'
+if !has_key(s:mappings, s:crcw)
+	let s:mappings[s:crcw] = s:crcw
+endif
+if !empty(s:mappings[s:crcw])
+	let s:map = 'cnoremap'
+	let s:lhs = '<expr>' . s:mappings[s:crcw]
+	let s:rhs = '<SID>GetCurrentWord()'
+	execute s:map s:lhs s:rhs
+endif
+
 " '-' in the middle will turn into a range, move it to the back.
 let s:spaces = substitute(s:spaces, '-\(.*\)$', '\1-', '')
 let s:s = '[[:space:]' . s:spaces . ']'
@@ -179,6 +190,26 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 			" forward selection, consume following white spaces
 			call search('\m\%#.' . s:s . '\+', 'eW')
 		endif
+	endif
+endfunction " }}}
+
+function! <SID>GetCurrentWord() abort " {{{
+	let l:cursor = getpos('.')
+	call <SID>WordMotion(1, 'n', 'ec', [ ])
+	let l:end = getpos('.')
+	call <SID>WordMotion(1, 'n', 'bc', [ ])
+	let l:start = getpos('.')
+	call cursor(l:cursor)
+	let l:line = l:cursor[1]
+	if l:start[1] != l:line || l:end[1] != l:line ||
+				\ len(getline(l:line)) < l:end[2] ||
+				\ getline(l:line)[l:end[2]-1] =~ s:s
+		echohl ErrorMsg
+		echomsg 'E348: No string under cursor'
+		echohl None
+		return ''
+	else
+		return getline(l:line)[l:start[2]-1:l:end[2]-1]
 	endif
 endfunction " }}}
 

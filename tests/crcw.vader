@@ -1,0 +1,111 @@
+Given (Some text):
+  This is some text
+
+Do (s/<cword>/changed/ at [s]ome):
+  2w:s/\<C-R>\<C-W>/changed/\<CR>
+
+Expect (Changed text):
+  This is changed text
+
+Given (SomeText):
+  This is someText
+
+Do (s/<cword>/changed/ at [s]ome):
+  2w:s/\<C-R>\<C-W>/changed/\<CR>
+
+Expect (ChangedText):
+  This is changedText
+
+Given (Some text):
+  This is some text
+
+Do (s/<cword>/changed/ at is[ ]some):
+  2wh:s/\<C-R>\<C-W>/changed/\<CR>
+
+Expect (Changed text):
+  This is changed text
+
+Do (s/<cword>/changed/ at some[ ]text):
+  3wh:s/\<C-R>\<C-W>/changed/\<CR>
+
+Expect (Some changed):
+  This is some changed
+
+Given (Empty line):
+  
+
+Do (echomsg '<cword>'):
+  :messages clear\<CR>
+  :echomsg '\<C-R>\<C-W>'\<CR>
+  :redir @">\<CR>
+  :messages\<CR>
+  :redir END\<CR>
+
+Execute (Assert that error message is present):
+  let lines = [
+  \ '',
+  \ 'Messages maintainer: Bram Moolenaar <Bram@vim.org>',
+  \ 'E348: No string under cursor',
+  \ '',
+  \ ]
+  AssertEqual join(lines, "\n"), @"
+
+Given (Single line with whitespace):
+    
+
+Do (echomsg '<cword>'):
+  :messages clear\<CR>
+  :echomsg '\<C-R>\<C-W>'\<CR>
+  :redir @">\<CR>
+  :messages\<CR>
+  :redir END\<CR>
+
+Execute (Assert that error message is present):
+  let lines = [
+  \ '',
+  \ 'Messages maintainer: Bram Moolenaar <Bram@vim.org>',
+  \ 'E348: No string under cursor',
+  \ '',
+  \ ]
+  AssertEqual join(lines, "\n"), @"
+
+Given (Single line with whitespace before regular text):
+    
+  This is some text
+
+Do (echomsg '<cword>' on empty line):
+  :messages clear\<CR>
+  :echomsg '\<C-R>\<C-W>'\<CR>
+  :redir @">\<CR>
+  :messages\<CR>
+  :redir END\<CR>
+
+Execute (Assert that error message is present):
+  let lines = [
+  \ '',
+  \ 'Messages maintainer: Bram Moolenaar <Bram@vim.org>',
+  \ 'E348: No string under cursor',
+  \ '',
+  \ ]
+  AssertEqual join(lines, "\n"), @"
+
+Given (Single line with whitespace after regular text):
+  This is some text
+    
+
+Do (echomsg '<cword>' on empty line):
+  j
+  :messages clear\<CR>
+  :echomsg '\<C-R>\<C-W>'\<CR>
+  :redir @">\<CR>
+  :messages\<CR>
+  :redir END\<CR>
+
+Execute (Assert that error message is present):
+  let lines = [
+  \ '',
+  \ 'Messages maintainer: Bram Moolenaar <Bram@vim.org>',
+  \ 'E348: No string under cursor',
+  \ '',
+  \ ]
+  AssertEqual join(lines, "\n"), @"

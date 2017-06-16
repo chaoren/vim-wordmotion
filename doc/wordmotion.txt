@@ -57,6 +57,10 @@ i{prefix}w		"inner word", select [count] words
 			When used in Visual linewise mode "iw" switches to
 			Visual characterwise mode.
 
+						*wordmotion-<C-R>_<C-W>*
+<C-R><C-W>		Insert the word under the cursor in Cmdline mode
+			(see |wordmotion-word|).
+
 CUSTOMIZATION					*wordmotion-customization*
 
 The default word motion mappings are `w`, `b`, `e`, `ge`, `aw`, and `iw`.
@@ -80,6 +84,7 @@ E.g.,
 	\ 'ge' : 'g<M-e>',
 	\ 'aw' : 'a<M-w>',
 	\ 'iw' : 'i<M-w>'
+	\ '<C-R><C-W>' : '<C-R><M-w>'
 	\ }
 <
 Unspecified entries will still use the default mappings.

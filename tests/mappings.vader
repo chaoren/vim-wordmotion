@@ -24,6 +24,9 @@ Execute (Check default mappings):
     execute 'ounmap' map
   endfor
   Assert !hasmapto('WordMotion')
+  Assert hasmapto('GetCurrentWord', 'c')
+  execute 'cunmap' '<C-R><C-W>'
+  Assert !hasmapto('GetCurrentWord')
 
 Execute (Check mappings with prefix):
   let g:wordmotion_prefix = '<Leader>'
@@ -53,7 +56,8 @@ Execute (Check custom mappings):
   \ 'b' : '<M-b>',
   \ 'ge' : 'g<M-e>',
   \ 'iw' : 'i<M-w>',
-  \ 'aw' : 'a<M-w>'
+  \ 'aw' : 'a<M-w>',
+  \ '<C-R><C-W>' : '<C-R><M-w>',
   \ }
   runtime plugin/wordmotion.vim
   let maps = [ 'i<M-w>', 'a<M-w>' ]
@@ -74,6 +78,9 @@ Execute (Check custom mappings):
     execute 'ounmap' map
   endfor
   Assert !hasmapto('WordMotion')
+  Assert hasmapto('GetCurrentWord', 'c')
+  execute 'cunmap' '<C-R><M-w>'
+  Assert !hasmapto('GetCurrentWord')
 
 Execute (Check mixed custom mappings with prefix):
   let g:wordmotion_prefix = ','
@@ -110,9 +117,11 @@ Execute (Check no mappings):
   \ 'ge' : '',
   \ 'iw' : '',
   \ 'aw' : '',
+  \ '<C-R><C-W>' : '',
   \ }
   runtime plugin/wordmotion.vim
   Assert !hasmapto('WordMotion')
+  Assert !hasmapto('GetCurrentWord')
 
 Execute (Check no mappings even with prefix):
   let g:wordmotion_prefix = '<Leader>'
