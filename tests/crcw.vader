@@ -56,7 +56,7 @@ Expect (Empty second line):
   
   
 
-Given (Single line with whitespace):
+Given (Single line of whitespace):
     
 
 Do (Set second line to <cword> then save error messages):
@@ -73,7 +73,7 @@ Expect (Empty second line):
     
   
 
-Given (Single line with whitespace before regular text):
+Given (Line of whitespace before regular text):
     
   This is some text
 
@@ -92,7 +92,7 @@ Expect (Empty third line):
   This is some text
   
 
-Given (Single line with whitespace after regular text):
+Given (Line of whitespace after regular text):
   This is some text
     
 
