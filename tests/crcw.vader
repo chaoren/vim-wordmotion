@@ -37,12 +37,7 @@ Do (Save error messages):
   :redir END\<CR>
 
 Before (Count number of existing errors):
-  let existing = 0
-  for line in split(@", '\n')
-    if line == 'E348: No string under cursor'
-      let existing += 1
-    endif
-  endfor
+  let existing = count(split(@", '\n'), 'E348: No string under cursor')
 
 Given (Empty line):
   
@@ -54,12 +49,7 @@ Do (Set second line to <cword> then save error messages):
   :redir END\<CR>
 
 Then (Assert that one more error message is present):
-  let present = 0
-  for line in split(@", '\n')
-    if line == 'E348: No string under cursor'
-      let present += 1
-    endif
-  endfor
+  let present = count(split(@", '\n'), 'E348: No string under cursor')
   AssertEqual existing + 1, present
 
 Expect (Empty second line):
@@ -76,12 +66,7 @@ Do (Set second line to <cword> then save error messages):
   :redir END\<CR>
 
 Then (Assert that one more error message is present):
-  let present = 0
-  for line in split(@", '\n')
-    if line == 'E348: No string under cursor'
-      let present += 1
-    endif
-  endfor
+  let present = count(split(@", '\n'), 'E348: No string under cursor')
   AssertEqual existing + 1, present
 
 Expect (Empty second line):
@@ -99,12 +84,7 @@ Do (Set third line to <cword> then save error messages):
   :redir END\<CR>
 
 Then (Assert that one more error message is present):
-  let present = 0
-  for line in split(@", '\n')
-    if line == 'E348: No string under cursor'
-      let present += 1
-    endif
-  endfor
+  let present = count(split(@", '\n'), 'E348: No string under cursor')
   AssertEqual existing + 1, present
 
 Expect (Empty third line):
@@ -124,12 +104,7 @@ Do (Set third line to <cword> then save error messages):
   :redir END\<CR>
 
 Then (Assert that one more error message is present):
-  let present = 0
-  for line in split(@", '\n')
-    if line == 'E348: No string under cursor'
-      let present += 1
-    endif
-  endfor
+  let present = count(split(@", '\n'), 'E348: No string under cursor')
   AssertEqual existing + 1, present
 
 Expect (Empty third line):
