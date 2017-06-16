@@ -56,6 +56,7 @@ E.g.,
 ```
 let g:wordmotion_prefix = '<Leader>'
 ```
+NOTE: does not apply to the command line mode `<C-R><C-W>` mapping.
 
 Use `g:wordmotion_mappings` to individually replace the default word motion
 mappings.  
