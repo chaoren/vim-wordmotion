@@ -88,6 +88,20 @@ foo_bar-baz.qux
 w-->w-->w-->w>w
 ```
 
+All options can be applied dynamically by reloading the plugin.  
+E.g., to disable the `w` mapping:
+```
+let g:wordmotion_mappings['w'] = ''
+unlet g:loaded_wordmotion
+runtime plugin/wordmotion.vim
+```
+then later re-enable it
+```
+let g:wordmotion_mappings['w'] = '<M-w>'
+unlet g:loaded_wordmotion
+runtime plugin/wordmotion.vim
+```
+
 Caveats
 =======
 
