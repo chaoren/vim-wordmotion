@@ -1,0 +1,40 @@
+Execute (Check unique mappings after reload):
+  Assert hasmapto('AOrInnerWordMotion', 'x')
+  Assert hasmapto('AOrInnerWordMotion', 'o')
+  Assert hasmapto('WordMotion', 'n')
+  Assert hasmapto('WordMotion', 'x')
+  Assert hasmapto('WordMotion', 'o')
+  Assert hasmapto('GetCurrentWord', 'c')
+
+  let g:wordmotion_prefix = '<Leader>'
+  let g:wordmotion_mappings = { '<C-R><C-W>' : '<C-R><M-w>' }
+  unlet! g:loaded_wordmotion
+  runtime plugin/wordmotion.vim
+
+  let maps = [ 'i<Leader>w', 'a<Leader>w' ]
+  for map in maps
+    Assert hasmapto('AOrInnerWordMotion', 'x')
+    execute 'xunmap' map
+    Assert hasmapto('AOrInnerWordMotion', 'o')
+    execute 'ounmap' map
+  endfor
+  Assert !hasmapto('AOrInnerWordMotion')
+  let maps = [ '<Leader>w', '<Leader>e', '<Leader>b', '<Leader>ge' ]
+  for map in maps
+    Assert hasmapto('WordMotion', 'n')
+    execute 'nunmap' map
+    Assert hasmapto('WordMotion', 'x')
+    execute 'xunmap' map
+    Assert hasmapto('WordMotion', 'o')
+    execute 'ounmap' map
+  endfor
+  Assert !hasmapto('WordMotion')
+  Assert hasmapto('GetCurrentWord', 'c')
+  execute 'cunmap' '<C-R><M-w>'
+  Assert !hasmapto('GetCurrentWord')
+
+Execute (Load plugin for further tests):
+  unlet! g:wordmotion_prefix
+  unlet! g:wordmotion_mappings
+  unlet! g:loaded_wordmotion
+  runtime plugin/wordmotion.vim

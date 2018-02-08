@@ -11,9 +11,13 @@ let s:flags = { 'w' : '', 'e' : 'e', 'b' : 'b', 'ge' : 'be' }
 
 if exists('s:existing') " {{{
 	for s:mapping in s:existing
-		let s:unmap = s:mapping['mode'] . 'unmap'
+		let s:mode = s:mapping['mode']
+		let s:unmap = s:mode . 'unmap'
 		let s:lhs = s:mapping['lhs']
-		execute s:unmap s:lhs
+		let s:rhs = s:mapping['rhs']
+		if hasmapto(s:rhs, s:mode)
+			execute s:unmap s:lhs
+		endif
 	endfor
 endif " }}}
 let s:existing = []
@@ -32,7 +36,7 @@ for s:motion in [ 'w', 'e', 'b', 'ge' ] " {{{
 		let s:args = join([ 'v:count1', s:m, s:f, '[ ]' ], ', ')
 		let s:rhs = ':<C-U>call <SID>WordMotion(' . s:args . ')<CR>'
 		execute s:map '<silent>' . s:lhs s:rhs
-		call add(s:existing, { 'mode' : s:mode, 'lhs' : s:lhs })
+		call add(s:existing, { 'mode' : s:mode, 'lhs' : s:lhs, 'rhs' : s:rhs })
 	endfor
 endfor " }}}
 
@@ -54,7 +58,7 @@ for s:qualifier in [ 'a', 'i' ] " {{{
 		let s:args = join([ 'v:count1', s:m, s:i ], ', ')
 		let s:rhs = ':<C-U>call <SID>AOrInnerWordMotion(' . s:args . ')<CR>'
 		execute s:map '<silent>' . s:lhs s:rhs
-		call add(s:existing, { 'mode' : s:mode, 'lhs' : s:lhs })
+		call add(s:existing, { 'mode' : s:mode, 'lhs' : s:lhs, 'rhs' : s:rhs })
 	endfor
 endfor " }}}
 
