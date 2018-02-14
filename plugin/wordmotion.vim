@@ -67,10 +67,12 @@ if !has_key(s:mappings, s:crcw)
 	let s:mappings[s:crcw] = s:crcw
 endif
 if !empty(s:mappings[s:crcw])
-	let s:map = 'cnoremap'
+	let s:mode = 'c'
+	let s:map = s:mode . 'noremap'
 	let s:lhs = '<expr>' . s:mappings[s:crcw]
 	let s:rhs = '<SID>GetCurrentWord()'
 	execute s:map s:lhs s:rhs
+	call add(s:existing, { 'mode' : s:mode, 'lhs' : s:lhs, 'rhs' : s:rhs })
 endif
 
 " '-' in the middle will turn into a range, move it to the back.

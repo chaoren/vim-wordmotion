@@ -1,5 +1,4 @@
 Execute (Disable plugin):
-  unlet! g:loaded_wordmotion
   nmapclear
   xmapclear
   omapclear
@@ -8,5 +7,6 @@ Execute (Disable plugin):
 Include: iw.vader
 Include: aw.vader
 
-Execute (Load plugin for further tests):
+Execute (Reset plugin for further tests):
+  unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim

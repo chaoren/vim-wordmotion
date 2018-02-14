@@ -1,11 +1,6 @@
-Before (Unload plugin):
-  unlet! g:loaded_wordmotion
-
-After (Clear settings):
-  unlet! g:wordmotion_spaces
-
 Execute (Set spaces to '-'):
   let g:wordmotion_spaces = '-'
+  unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
 
 Given (Lorem ipsum sometimes deliminated by '-'):
@@ -36,6 +31,7 @@ Execute (Move by e and then ge):
 
 Execute (Set spaces to '_-.'):
   let g:wordmotion_spaces = '_-.'
+  unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
 
 Given (Lorem ipsum sometimes deliminated by '_', '-', or '.'):
@@ -64,5 +60,7 @@ Execute (Move by e and then ge):
     normal ge
   endfor
 
-Execute (Load plugin for further tests):
+Execute (Reset plugin for further tests):
+  unlet! g:wordmotion_spaces
+  unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim

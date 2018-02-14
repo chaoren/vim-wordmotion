@@ -1,10 +1,3 @@
-Before (Unload plugin):
-  unlet! g:loaded_wordmotion
-
-After (Clear settings):
-  unlet! g:wordmotion_prefix
-  unlet! g:wordmotion_mappings
-
 Execute (Check default mappings):
   let maps = [ 'iw', 'aw' ]
   for map in maps
@@ -30,6 +23,8 @@ Execute (Check default mappings):
 
 Execute (Check mappings with prefix):
   let g:wordmotion_prefix = '<Leader>'
+  unlet! g:wordmotion_mappings
+  unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
   let maps = [ 'i<Leader>w', 'a<Leader>w' ]
   for map in maps
@@ -48,8 +43,13 @@ Execute (Check mappings with prefix):
     Assert hasmapto('WordMotion', 'o')
     execute 'ounmap' map
   endfor
+  Assert !hasmapto('WordMotion')
+  Assert hasmapto('GetCurrentWord', 'c')
+  execute 'cunmap' '<C-R><C-W>'
+  Assert !hasmapto('GetCurrentWord')
 
 Execute (Check custom mappings):
+  unlet! g:wordmotion_prefix
   let g:wordmotion_mappings = {
   \ 'w' : '<M-w>',
   \ 'e' : '<M-e>',
@@ -59,6 +59,7 @@ Execute (Check custom mappings):
   \ 'aw' : 'a<M-w>',
   \ '<C-R><C-W>' : '<C-R><M-w>',
   \ }
+  unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
   let maps = [ 'i<M-w>', 'a<M-w>' ]
   for map in maps
@@ -89,6 +90,7 @@ Execute (Check mixed custom mappings with prefix):
   \ 'b' : '<Plug>WordmotionB',
   \ 'iw' : '<Plug>WordmotionIW',
   \ }
+  unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
   let maps = [ '<Plug>WordmotionIW', 'a,w' ]
   for map in maps
@@ -108,8 +110,12 @@ Execute (Check mixed custom mappings with prefix):
     execute 'ounmap' map
   endfor
   Assert !hasmapto('WordMotion')
+  Assert hasmapto('GetCurrentWord', 'c')
+  execute 'cunmap' '<C-R><C-W>'
+  Assert !hasmapto('GetCurrentWord')
 
 Execute (Check no mappings):
+  unlet! g:wordmotion_prefix
   let g:wordmotion_mappings = {
   \ 'w' : '',
   \ 'e' : '',
@@ -119,6 +125,7 @@ Execute (Check no mappings):
   \ 'aw' : '',
   \ '<C-R><C-W>' : '',
   \ }
+  unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
   Assert !hasmapto('WordMotion')
   Assert !hasmapto('GetCurrentWord')
@@ -132,9 +139,15 @@ Execute (Check no mappings even with prefix):
   \ 'ge' : '',
   \ 'iw' : '',
   \ 'aw' : '',
+  \ '<C-R><C-W>' : '',
   \ }
+  unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
   Assert !hasmapto('WordMotion')
+  Assert !hasmapto('GetCurrentWord')
 
-Execute (Load plugin for further tests):
+Execute (Reset plugin for further tests):
+  unlet! g:wordmotion_prefix
+  unlet! g:wordmotion_mappings
+  unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
