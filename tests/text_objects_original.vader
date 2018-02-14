@@ -2,7 +2,6 @@ Execute (Disable plugin):
   nmapclear
   xmapclear
   omapclear
-  Assert !hasmapto('WordMotion')
 
 Include: iw.vader
 Include: aw.vader

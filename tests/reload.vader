@@ -18,11 +18,8 @@ Execute (Check removed mappings after reload):
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
 
-  Assert !hasmapto('AOrInnerWordMotion', 'x')
-  Assert !hasmapto('AOrInnerWordMotion', 'o')
-  Assert !hasmapto('WordMotion', 'n')
-  Assert !hasmapto('WordMotion', 'x')
-  Assert !hasmapto('WordMotion', 'o')
+  Assert !hasmapto('AOrInnerWordMotion', 'xo')
+  Assert !hasmapto('WordMotion', 'nxo')
   Assert !hasmapto('GetCurrentWord', 'c')
 
   unlet! g:wordmotion_mappings

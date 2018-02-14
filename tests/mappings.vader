@@ -6,7 +6,7 @@ Execute (Check default mappings):
     Assert hasmapto('AOrInnerWordMotion', 'o')
     execute 'ounmap' map
   endfor
-  Assert !hasmapto('AOrInnerWordMotion')
+  Assert !hasmapto('AOrInnerWordMotion', 'xo')
   let maps = [ 'w', 'e', 'b', 'ge' ]
   for map in maps
     Assert hasmapto('WordMotion', 'n')
@@ -16,10 +16,10 @@ Execute (Check default mappings):
     Assert hasmapto('WordMotion', 'o')
     execute 'ounmap' map
   endfor
-  Assert !hasmapto('WordMotion')
+  Assert !hasmapto('WordMotion', 'nxo')
   Assert hasmapto('GetCurrentWord', 'c')
   execute 'cunmap' '<C-R><C-W>'
-  Assert !hasmapto('GetCurrentWord')
+  Assert !hasmapto('GetCurrentWord', 'c')
 
 Execute (Check mappings with prefix):
   let g:wordmotion_prefix = '<Leader>'
@@ -33,7 +33,7 @@ Execute (Check mappings with prefix):
     Assert hasmapto('AOrInnerWordMotion', 'o')
     execute 'ounmap' map
   endfor
-  Assert !hasmapto('AOrInnerWordMotion')
+  Assert !hasmapto('AOrInnerWordMotion', 'xo')
   let maps = [ '<Leader>w', '<Leader>e', '<Leader>b', '<Leader>ge' ]
   for map in maps
     Assert hasmapto('WordMotion', 'n')
@@ -43,10 +43,10 @@ Execute (Check mappings with prefix):
     Assert hasmapto('WordMotion', 'o')
     execute 'ounmap' map
   endfor
-  Assert !hasmapto('WordMotion')
+  Assert !hasmapto('WordMotion', 'nxo')
   Assert hasmapto('GetCurrentWord', 'c')
   execute 'cunmap' '<C-R><C-W>'
-  Assert !hasmapto('GetCurrentWord')
+  Assert !hasmapto('GetCurrentWord', 'c')
 
 Execute (Check custom mappings):
   unlet! g:wordmotion_prefix
@@ -68,7 +68,7 @@ Execute (Check custom mappings):
     Assert hasmapto('AOrInnerWordMotion', 'o')
     execute 'ounmap' map
   endfor
-  Assert !hasmapto('AOrInnerWordMotion')
+  Assert !hasmapto('AOrInnerWordMotion', 'xo')
   let maps = [ '<M-w>', '<M-e>', '<M-b>', 'g<M-e>' ]
   for map in maps
     Assert hasmapto('WordMotion', 'n')
@@ -78,10 +78,10 @@ Execute (Check custom mappings):
     Assert hasmapto('WordMotion', 'o')
     execute 'ounmap' map
   endfor
-  Assert !hasmapto('WordMotion')
+  Assert !hasmapto('WordMotion', 'nxo')
   Assert hasmapto('GetCurrentWord', 'c')
   execute 'cunmap' '<C-R><M-w>'
-  Assert !hasmapto('GetCurrentWord')
+  Assert !hasmapto('GetCurrentWord', 'c')
 
 Execute (Check mixed custom mappings with prefix):
   let g:wordmotion_prefix = ','
@@ -99,7 +99,7 @@ Execute (Check mixed custom mappings with prefix):
     Assert hasmapto('AOrInnerWordMotion', 'o')
     execute 'ounmap' map
   endfor
-  Assert !hasmapto('AOrInnerWordMotion')
+  Assert !hasmapto('AOrInnerWordMotion', 'xo')
   let maps = [ ',w', '<Plug>WordmotionE', '<Plug>WordmotionB', ',ge' ]
   for map in maps
     Assert hasmapto('WordMotion', 'n')
@@ -109,10 +109,10 @@ Execute (Check mixed custom mappings with prefix):
     Assert hasmapto('WordMotion', 'o')
     execute 'ounmap' map
   endfor
-  Assert !hasmapto('WordMotion')
+  Assert !hasmapto('WordMotion', 'nxo')
   Assert hasmapto('GetCurrentWord', 'c')
   execute 'cunmap' '<C-R><C-W>'
-  Assert !hasmapto('GetCurrentWord')
+  Assert !hasmapto('GetCurrentWord', 'c')
 
 Execute (Check no mappings):
   unlet! g:wordmotion_prefix
@@ -127,8 +127,8 @@ Execute (Check no mappings):
   \ }
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
-  Assert !hasmapto('WordMotion')
-  Assert !hasmapto('GetCurrentWord')
+  Assert !hasmapto('WordMotion', 'nxo')
+  Assert !hasmapto('GetCurrentWord', 'c')
 
 Execute (Check no mappings even with prefix):
   let g:wordmotion_prefix = '<Leader>'
@@ -143,8 +143,8 @@ Execute (Check no mappings even with prefix):
   \ }
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
-  Assert !hasmapto('WordMotion')
-  Assert !hasmapto('GetCurrentWord')
+  Assert !hasmapto('WordMotion', 'nxo')
+  Assert !hasmapto('GetCurrentWord', 'c')
 
 Execute (Reset plugin for further tests):
   unlet! g:wordmotion_prefix
