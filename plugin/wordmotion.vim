@@ -90,7 +90,7 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 
 	" set complement
 	function! s:C(set, ...) abort " {{{
-		return '\%(\%(' . join(a:000, '\|') . '\)\@!' . a:set. '\)'
+		return '\%(\%(' . join(a:000, '\|') . '\)\@!' . a:set . '\)'
 	endfunction " }}}
 
 	" [:alnum:] and [:alpha:] don't include accented characters. Vim bug?
