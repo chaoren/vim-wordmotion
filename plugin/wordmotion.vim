@@ -96,7 +96,7 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 	" [:alnum:] and [:alpha:] don't include accented characters. Vim bug?
 	let l:a = '[[:digit:][:lower:][:upper:]]'
 	let l:d = '[[:digit:]]'
-	let l:g = '[[:graph:]]'
+	let l:p = '[[:print:]]'
 	let l:l = '[[:lower:]]'
 	let l:u = '[[:upper:]]'
 	let l:x = '[[:xdigit:]]'
@@ -109,7 +109,7 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 	call add(l:words, '0[xX]' . l:x . '\+')      " 0x00 0Xff
 	call add(l:words, '0[bB][01]\+')             " 0b00 0B11
 	call add(l:words, l:d . '\+')                " 1234 5678
-	call add(l:words, s:C(l:g, l:a, s:s) . '\+') " everything else
+	call add(l:words, s:C(l:p, l:a, s:s) . '\+') " everything else
 	call add(l:words, '\%^') " start of file
 	call add(l:words, '\%$') " end of file
 	if a:flags != 'e' " e does not stop in an empty line

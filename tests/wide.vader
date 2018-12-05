@@ -1,0 +1,10 @@
+Given (Wide characters):
+  あいうえお かきくけこ さしすせそ
+
+Execute (Move by w):
+  let expected = [1, 17, 33, 45]
+  for current in expected
+    AssertEqual 1, line('.')
+    AssertEqual current, col('.')
+    normal w
+  endfor
