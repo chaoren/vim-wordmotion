@@ -80,6 +80,33 @@ let s:spaces = substitute(s:spaces, '-\(.*\)$', '\1-', '')
 let s:s = '[[:space:]' . s:spaces . ']'
 let s:S = '[^[:space:]' . s:spaces . ']'
 
+" [:alnum:] and [:alpha:] are ASCII only
+let s:a = '[[:digit:][:lower:][:upper:]]'
+let s:d = '[[:digit:]]'
+let s:p = '[[:print:]]'
+let s:l = '[[:lower:]]'
+let s:u = '[[:upper:]]'
+let s:x = '[[:xdigit:]]'
+
+" set complement
+function! s:C(set, ...) abort " {{{
+	let l:exclude = join(map(copy(a:000), 'v:val[1:-2]'), '')
+	return '\%(\%([' . l:exclude . ']\)\@!' . a:set . '\)'
+endfunction " }}}
+
+let s:words = get(g:, 'wordmotion_extra', [])
+call add(s:words, s:u . s:l . '\+')          " CamelCase
+call add(s:words, s:u . '\+\ze' . s:u . s:l) " ACRONYMSBeforeCamelCase
+call add(s:words, s:u . '\+')                " UPPERCASE
+call add(s:words, s:l . '\+')                " lowercase
+call add(s:words, '0[xX]' . s:x . '\+')      " 0x00 0Xff
+call add(s:words, '0[bB][01]\+')             " 0b00 0B11
+call add(s:words, s:d . '\+')                " 1234 5678
+call add(s:words, s:C(s:p, s:a, s:s) . '\+') " other printable characters
+call add(s:words, '\%^')                     " start of file
+call add(s:words, '\%$')                     " end of file
+let s:pattern = join(s:words, '\|')
+
 function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 	if a:mode == 'x'
 		normal! gv
@@ -88,30 +115,7 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 		normal! v
 	endif
 
-	" set complement
-	function! s:C(set, ...) abort " {{{
-		return '\%(\%(' . join(a:000, '\|') . '\)\@!' . a:set . '\)'
-	endfunction " }}}
-
-	" [:alnum:] and [:alpha:] are ASCII only
-	let l:a = '[[:digit:][:lower:][:upper:]]'
-	let l:d = '[[:digit:]]'
-	let l:p = '[[:print:]]'
-	let l:l = '[[:lower:]]'
-	let l:u = '[[:upper:]]'
-	let l:x = '[[:xdigit:]]'
-
-	let l:words = a:extra + get(g:, 'wordmotion_extra', [])
-	call add(l:words, l:u . l:l . '\+')          " CamelCase
-	call add(l:words, l:u . '\+\ze' . l:u . l:l) " ACRONYMSBeforeCamelCase
-	call add(l:words, l:u . '\+')                " UPPERCASE
-	call add(l:words, l:l . '\+')                " lowercase
-	call add(l:words, '0[xX]' . l:x . '\+')      " 0x00 0Xff
-	call add(l:words, '0[bB][01]\+')             " 0b00 0B11
-	call add(l:words, l:d . '\+')                " 1234 5678
-	call add(l:words, s:C(l:p, l:a, s:s) . '\+') " everything else
-	call add(l:words, '\%^') " start of file
-	call add(l:words, '\%$') " end of file
+	let l:words = a:extra + [s:pattern]
 	if a:flags != 'e' " e does not stop in an empty line
 		call add(l:words, '^$')
 	endif
