@@ -93,7 +93,7 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 		return '\%(\%(' . join(a:000, '\|') . '\)\@!' . a:set . '\)'
 	endfunction " }}}
 
-	" [:alnum:] and [:alpha:] don't include accented characters. Vim bug?
+	" [:alnum:] and [:alpha:] are ASCII only
 	let l:a = '[[:digit:][:lower:][:upper:]]'
 	let l:d = '[[:digit:]]'
 	let l:p = '[[:print:]]'
