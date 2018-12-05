@@ -33,7 +33,7 @@ for s:motion in [ 'w', 'e', 'b', 'ge' ] " {{{
 		let s:lhs = s:mappings[s:motion]
 		let s:m = "'" . s:mode . "'"
 		let s:f = "'" . s:flags[s:motion] . "'"
-		let s:args = join([ 'v:count1', s:m, s:f, '[ ]' ], ', ')
+		let s:args = join([ 'v:count1', s:m, s:f, '[]' ], ', ')
 		let s:rhs = ':<C-U>call <SID>WordMotion(' . s:args . ')<CR>'
 		execute s:map '<silent>' . s:lhs s:rhs
 		call add(s:existing, { 'mode' : s:mode, 'lhs' : s:lhs, 'rhs' : s:rhs })
@@ -101,7 +101,7 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 	let l:u = '[[:upper:]]'
 	let l:x = '[[:xdigit:]]'
 
-	let l:words = a:extra + get(g:, 'wordmotion_extra', [ ])
+	let l:words = a:extra + get(g:, 'wordmotion_extra', [])
 	call add(l:words, l:u . l:l . '\+')          " CamelCase
 	call add(l:words, l:u . '\+\ze' . l:u . l:l) " ACRONYMSBeforeCamelCase
 	call add(l:words, l:u . '\+')                " UPPERCASE
@@ -145,7 +145,7 @@ endfunction " }}}
 
 function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 	let l:flags = 'e'
-	let l:extra = [ ]
+	let l:extra = []
 	let l:backwards = 0
 	let l:count = a:count
 	let l:existing_selection = 0
@@ -212,9 +212,9 @@ endfunction " }}}
 
 function! <SID>GetCurrentWord() abort " {{{
 	let l:cursor = getpos('.')
-	call <SID>WordMotion(1, 'n', 'ec', [ ])
+	call <SID>WordMotion(1, 'n', 'ec', [])
 	let l:end = getpos('.')
-	call <SID>WordMotion(1, 'n', 'bc', [ ])
+	call <SID>WordMotion(1, 'n', 'bc', [])
 	let l:start = getpos('.')
 	call cursor(l:cursor)
 	let l:line = l:cursor[1]
