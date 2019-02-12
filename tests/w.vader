@@ -1,0 +1,9 @@
+Given (Leading space, word, newline, word):
+  	foo
+  bar
+
+Do (FIXME: dw on word with leading space):
+  wdw
+
+Expect (Leading space left intact):
+  	bar

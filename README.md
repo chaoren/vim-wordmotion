@@ -126,6 +126,11 @@ This plugin faithfully follows the motion of `w` when executing `dw` and `cw`,
 while Vim replaces these two special cases with the behavior of `de` and `ce`,
 respectively.
 
+If you want `W` to behave the same as `w` with this plugin, you can do this:
+```
+onoremap W :<C-U>normal! vWh<CR>
+```
+
 Related
 =======
 [camelcasemotion](http://www.vim.org/scripts/script.php?script_id=1905)
