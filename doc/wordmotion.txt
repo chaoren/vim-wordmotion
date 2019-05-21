@@ -145,8 +145,8 @@ respectively.
 If you want to restore Vim's special case behavior with `dw` and `cw`, you can
 do this:
 >
-	map dw de
-	map cw ce
+	nmap dw de
+	nmap cw ce
 <
 If you want to also remove the special case behavior from `dW` and `cW`, as this
 plugin does with `dw` and `cw`, you can do this:
