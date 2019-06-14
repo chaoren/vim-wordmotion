@@ -24,16 +24,17 @@ b<---b<--b<-----b<----b<--------b<-b
 `word` definitions
 ==================
 
-| `word`                          | Example               |
-|:--------------------------------|:----------------------|
-| Camel case words                | `[Camel][Case]`       |
-| Acronyms                        | `[HTML]And[CSS]`      |
-| Uppercase words                 | `[UPPERCASE] [WORDS]` |
-| Lowercase words                 | `[lowercase] [words]` |
-| Hexadecimal literals            | `[0x00ffFF] [0x0f]`   |
-| Binary literals                 | `[0b01] [0b0011]`     |
-| Regular numbers                 | `[1234] [5678]`       |
-| Other characters                | `[~!@#$]`             |
+| `word`               | Example               |
+|:---------------------|:----------------------|
+| Camel case words     | `[Camel][Case]`       |
+| Acronyms             | `[HTML]And[CSS]`      |
+| Uppercase words      | `[UPPERCASE] [WORDS]` |
+| Lowercase words      | `[lowercase] [words]` |
+| Hexadecimal literals | `[0x00ffFF] [0x0f]`   |
+| Octal literals       | `[0o644] [0o0755]`    |
+| Binary literals      | `[0b01] [0b0011]`     |
+| Regular numbers      | `[1234] [5678]`       |
+| Other characters     | `[~!@#$]`             |
 
 Customization
 =============
