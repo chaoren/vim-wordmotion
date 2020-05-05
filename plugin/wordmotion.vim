@@ -103,6 +103,8 @@ function! s:BuildWordPattern() abort " {{{
 	call add(l:words, '0[xX]' . l:x . '\+')      " 0x00 0Xff
 	call add(l:words, '0[oO][0-7]\+')            " 0o00 0O77
 	call add(l:words, '0[bB][01]\+')             " 0b00 0B11
+	call add(l:words, '#[0-9a-fA-F]\{6}')        " #aa00ff #AA00FF
+	call add(l:words, '#[0-9a-fA-F]\{3}')        " #a0f #A0F
 	call add(l:words, l:d . '\+')                " 1234 5678
 	call add(l:words, s:C(l:p, l:a, s:s) . '\+') " other printable characters
 	call add(l:words, '\%^')                     " start of file

@@ -25,6 +25,7 @@ A word is any of the following separated with spaces
 - A valid hexadecimal literal
 - A valid octal literal
 - A valid binary literal
+- A valid hex and shorthand hex colors
 - One or more numeric digits
 - One or more of other characters
 - An empty line

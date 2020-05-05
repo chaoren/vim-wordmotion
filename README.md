@@ -33,6 +33,8 @@ b<---b<--b<-----b<----b<--------b<-b
 | Hexadecimal literals | `[0x00ffFF] [0x0f]`   |
 | Octal literals       | `[0o644] [0o0755]`    |
 | Binary literals      | `[0b01] [0b0011]`     |
+| Hex colors           | `[#aa00ff] [#AA00FF]` |
+| Shorthand hex colors | `[#a0f] [#A0F]`       |
 | Regular numbers      | `[1234] [5678]`       |
 | Other characters     | `[~!@#$]`             |
 

@@ -1,10 +1,11 @@
 Given (Text with the extra word motions):
   CamelCaseACRONYMWords_underscore1234
   LoremIpsum DOLORSitAmet, consectetur 0xffaa00 adipiscing elit, sed_do_eiusmod
-  tempor 0b010101 incididunt ut labore et _ dolore magna aliqua 0o0644.
+  tempor 0b010101 incididunt ut labore et _ dolore magna aliqua 0o0644 #aa00ff
+  #AA00FF #123456 #FFFFFF #A0F #a0f #123 #aaa #foobar.
 
 Execute (Move by w and then b):
-  let expected = split('CCAWu1LIDSA,c0ae,sdet0iuledma0.', '\zs')
+  let expected = split('CCAWu1LIDSA,c0ae,sdet0iuledma0#########f.', '\zs')
   for current in expected
     AssertEqual current, getline('.')[col('.')-1]
     normal w
@@ -15,7 +16,7 @@ Execute (Move by w and then b):
   endfor
 
 Execute (Move by e and then ge):
-  let expected = split('CleMse4mmRtt,r0gt,dodr1tteteaa4.', '\zs')
+  let expected = split('CleMse4mmRtt,r0gt,dodr1tteteaa4fF6FFf3a#r.', '\zs')
   for current in expected
     AssertEqual current, getline('.')[col('.')-1]
     normal e
