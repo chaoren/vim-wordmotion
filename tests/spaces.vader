@@ -29,6 +29,28 @@ Execute (Move by e and then ge):
     normal ge
   endfor
 
+Execute (Move by W and then B):
+  let expected = split('Lidsacaesdetiuledma.', '\zs')
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal W
+  endfor
+  for current in reverse(expected)
+    AssertEqual current, getline('.')[col('.')-1]
+    normal B
+  endfor
+
+Execute (Move by E and then gE):
+  let expected = split('Lmmrt,rg,dodrttetea.', '\zs')
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal E
+  endfor
+  for current in reverse(expected)
+    AssertEqual current, getline('.')[col('.')-1]
+    normal gE
+  endfor
+
 Execute (Set spaces to '_-.'):
   let g:wordmotion_spaces = '_-.'
   unlet! g:loaded_wordmotion
@@ -58,6 +80,28 @@ Execute (Move by e and then ge):
   for current in reverse(copy(expected))
     AssertEqual current, getline('.')[col('.')-1]
     normal ge
+  endfor
+
+Execute (Move by W and then B):
+  let expected = split('Lidsacaesdetiuledma!', '\zs')
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal W
+  endfor
+  for current in reverse(copy(expected))
+    AssertEqual current, getline('.')[col('.')-1]
+    normal B
+  endfor
+
+Execute (Move by E and then gE):
+  let expected = split('Lmmrt,rg,dodrtteteaa!', '\zs')
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal E
+  endfor
+  for current in reverse(copy(expected))
+    AssertEqual current, getline('.')[col('.')-1]
+    normal gE
   endfor
 
 Execute (Reset plugin for further tests):

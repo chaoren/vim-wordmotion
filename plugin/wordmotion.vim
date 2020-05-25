@@ -8,6 +8,7 @@ let s:mappings = get(g:, 'wordmotion_mappings', { })
 let s:spaces = get(g:, 'wordmotion_spaces', '_')
 
 let s:flags = { 'w' : '', 'e' : 'e', 'b' : 'b', 'ge' : 'be' }
+let s:uppercases = [ 'W', 'E', 'B', 'gE', '<C-R><C-A>' ]
 
 if exists('s:existing') " {{{
 	for s:mapping in s:existing
@@ -22,7 +23,7 @@ if exists('s:existing') " {{{
 endif " }}}
 let s:existing = []
 
-for s:motion in [ 'w', 'e', 'b', 'ge' ] " {{{
+for s:motion in [ 'w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE' ] " {{{
 	if !has_key(s:mappings, s:motion)
 		let s:mappings[s:motion] = s:prefix . s:motion
 	elseif empty(s:mappings[s:motion])
@@ -32,8 +33,9 @@ for s:motion in [ 'w', 'e', 'b', 'ge' ] " {{{
 		let s:map = s:mode . 'noremap'
 		let s:lhs = s:mappings[s:motion]
 		let s:m = "'" . s:mode . "'"
-		let s:f = "'" . s:flags[s:motion] . "'"
-		let s:args = join([ 'v:count1', s:m, s:f, '[]' ], ', ')
+		let s:f = "'" . s:flags[tolower(s:motion)] . "'"
+		let s:u = index(s:uppercases, s:motion) != -1
+		let s:args = join([ 'v:count1', s:m, s:f, s:u, '[]' ], ', ')
 		let s:rhs = ':<C-U>call <SID>WordMotion(' . s:args . ')<CR>'
 		execute s:map '<silent>' . s:lhs s:rhs
 		call add(s:existing, { 'mode' : s:mode, 'lhs' : s:lhs, 'rhs' : s:rhs })
@@ -42,38 +44,42 @@ endfor " }}}
 
 let s:inner = { 'aw' : 0, 'iw' : 1 }
 
-let s:motion = 'w'
-for s:qualifier in [ 'a', 'i' ] " {{{
-	let s:qualified_motion = s:qualifier . s:motion
-	if !has_key(s:mappings, s:qualified_motion)
-		let s:mappings[s:qualified_motion] = s:qualifier . s:prefix . s:motion
-	elseif empty(s:mappings[s:qualified_motion])
-		continue
-	endif
-	for s:mode in [ 'x', 'o' ]
-		let s:map = s:mode . 'noremap'
-		let s:lhs = s:mappings[s:qualified_motion]
-		let s:m = "'" . s:mode . "'"
-		let s:i = s:inner[s:qualified_motion]
-		let s:args = join([ 'v:count1', s:m, s:i ], ', ')
-		let s:rhs = ':<C-U>call <SID>AOrInnerWordMotion(' . s:args . ')<CR>'
-		execute s:map '<silent>' . s:lhs s:rhs
-		call add(s:existing, { 'mode' : s:mode, 'lhs' : s:lhs, 'rhs' : s:rhs })
+for s:motion in [ 'w', 'W' ] " {{{
+	for s:qualifier in [ 'a', 'i' ]
+		let s:qualified_motion = s:qualifier . s:motion
+		if !has_key(s:mappings, s:qualified_motion)
+			let s:mappings[s:qualified_motion] = s:qualifier . s:prefix . s:motion
+		elseif empty(s:mappings[s:qualified_motion])
+			continue
+		endif
+		for s:mode in [ 'x', 'o' ]
+			let s:map = s:mode . 'noremap'
+			let s:lhs = s:mappings[s:qualified_motion]
+			let s:m = "'" . s:mode . "'"
+			let s:i = s:inner[tolower(s:qualified_motion)]
+			let s:u = index(s:uppercases, s:motion) != -1
+			let s:args = join([ 'v:count1', s:m, s:i, s:u ], ', ')
+			let s:rhs = ':<C-U>call <SID>AOrInnerWordMotion(' . s:args . ')<CR>'
+			execute s:map '<silent>' . s:lhs s:rhs
+			call add(s:existing, { 'mode' : s:mode, 'lhs' : s:lhs, 'rhs' : s:rhs })
+		endfor
 	endfor
 endfor " }}}
 
-let s:crcw = '<C-R><C-W>'
-if !has_key(s:mappings, s:crcw)
-	let s:mappings[s:crcw] = s:crcw
-endif
-if !empty(s:mappings[s:crcw])
-	let s:mode = 'c'
-	let s:map = s:mode . 'noremap'
-	let s:lhs = '<expr>' . s:mappings[s:crcw]
-	let s:rhs = '<SID>GetCurrentWord()'
-	execute s:map s:lhs s:rhs
-	call add(s:existing, { 'mode' : s:mode, 'lhs' : s:lhs, 'rhs' : s:rhs })
-endif
+for s:motion in [ '<C-R><C-W>', '<C-R><C-A>' ] " {{{
+	if !has_key(s:mappings, s:motion)
+		let s:mappings[s:motion] = s:motion
+	endif
+	if !empty(s:mappings[s:motion])
+		let s:mode = 'c'
+		let s:map = s:mode . 'noremap'
+		let s:lhs = '<expr>' . s:mappings[s:motion]
+		let s:u = index(s:uppercases, s:motion) != -1
+		let s:rhs = '<SID>GetCurrentWord(' . s:u . ')'
+		execute s:map s:lhs s:rhs
+		call add(s:existing, { 'mode' : s:mode, 'lhs' : s:lhs, 'rhs' : s:rhs })
+	endif
+endfor " }}}
 
 " '-' in the middle will turn into a range, move it to the back.
 let s:spaces = substitute(s:spaces, '-\(.*\)$', '\1-', '')
@@ -112,7 +118,7 @@ endfunction " }}}
 
 let s:word = s:BuildWordPattern()
 
-function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
+function! <SID>WordMotion(count, mode, flags, uppercase, extra) abort " {{{
 	if a:mode == 'x'
 		normal! gv
 	elseif a:mode == 'o' && a:flags =~# 'e'
@@ -120,7 +126,7 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 		normal! v
 	endif
 
-	let l:words = a:extra + [s:word]
+	let l:words = a:extra + [a:uppercase ? s:S . '\+' : s:word]
 	if a:flags != 'e' " e does not stop in an empty line
 		call add(l:words, '^$')
 	endif
@@ -152,7 +158,7 @@ function! <SID>WordMotion(count, mode, flags, extra) abort " {{{
 	endif
 endfunction " }}}
 
-function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
+function! <SID>AOrInnerWordMotion(count, mode, inner, uppercase) abort " {{{
 	let l:flags = 'e'
 	let l:extra = []
 	let l:backwards = 0
@@ -187,14 +193,14 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 	endif
 
 	if !l:existing_selection
-		call <SID>WordMotion(1, 'n', 'bc', l:extra)
+		call <SID>WordMotion(1, 'n', 'bc', a:uppercase, l:extra)
 		let l:start = getpos('.')
 		normal! v
-		call <SID>WordMotion(1, 'n', 'ec', l:extra)
+		call <SID>WordMotion(1, 'n', 'ec', a:uppercase, l:extra)
 		let l:count -= 1
 	endif
 
-	call <SID>WordMotion(l:count, 'n', l:flags, l:extra)
+	call <SID>WordMotion(l:count, 'n', l:flags, a:uppercase, l:extra)
 
 	if !a:inner
 		if col('.') == col('$') - 1
@@ -219,11 +225,11 @@ function! <SID>AOrInnerWordMotion(count, mode, inner) abort " {{{
 	endif
 endfunction " }}}
 
-function! <SID>GetCurrentWord() abort " {{{
+function! <SID>GetCurrentWord(uppercase) abort " {{{
 	let l:cursor = getpos('.')
-	call <SID>WordMotion(1, 'n', 'ec', [])
+	call <SID>WordMotion(1, 'n', 'ec', a:uppercase, [])
 	let l:end = getpos('.')
-	call <SID>WordMotion(1, 'n', 'bc', [])
+	call <SID>WordMotion(1, 'n', 'bc', a:uppercase, [])
 	let l:start = getpos('.')
 	call cursor(l:cursor)
 	let l:line = l:cursor[1]

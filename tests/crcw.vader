@@ -16,6 +16,12 @@ Do (s/<cword>/changed/ at [s]ome):
 Expect (ChangedText):
   This is changedText
 
+Do (s/<cWORD>/changed/ at [s]ome):
+  2w:s/\<C-R>\<C-A>/changed/\<CR>
+
+Expect (Changed):
+  This is changed
+
 Given (Some text):
   This is some text
 

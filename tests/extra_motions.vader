@@ -25,6 +25,28 @@ Execute (Move by e and then ge):
     normal ge
   endfor
 
+Execute (Move by W and then B):
+  let expected = split('CuLDc0aesdet0iuledma0.', '\zs')
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal W
+  endfor
+  for current in reverse(expected)
+    AssertEqual current, getline('.')[col('.')-1]
+    normal B
+  endfor
+
+Execute (Move by E and then gE):
+  let expected = split('Cs4m,r0g,dodr1tteteaa.', '\zs')
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal E
+  endfor
+  for current in reverse(expected)
+    AssertEqual current, getline('.')[col('.')-1]
+    normal gE
+  endfor
+
 Given (CamelCaseACRONYMWords_underscore1234):
   CamelCaseACRONYMWords_underscore1234
 

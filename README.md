@@ -3,7 +3,7 @@ More useful word motions for Vim
 
 [![Build Status](https://travis-ci.org/chaoren/vim-wordmotion.svg?branch=master)](https://travis-ci.org/chaoren/vim-wordmotion)
 
-Under Vim's definition of a `word`:
+This is one word under Vim's definition:
 
 ```
 CamelCaseACRONYMWords_underscore1234
@@ -12,7 +12,7 @@ e--------------------------------->e
 b<---------------------------------b
 ```
 
-With this plugin:
+With this plugin, this becomes six words:
 
 ```
 CamelCaseACRONYMWords_underscore1234
@@ -23,6 +23,8 @@ b<---b<--b<-----b<----b<--------b<-b
 
 `word` definitions
 ==================
+
+A `word` (lowercase) is any of the following:
 
 | `word`               | Example               |
 |:---------------------|:----------------------|
@@ -36,20 +38,23 @@ b<---b<--b<-----b<----b<--------b<-b
 | Regular numbers      | `[1234] [5678]`       |
 | Other characters     | `[~!@#$]`             |
 
+A `WORD` (uppercase) is any sequence of non-space characters separated by
+spaces.
+
 Customization
 =============
 
-The default word motion mappings are as follows:
+Default `word`/`WORD` mappings:
 
-| Mode  | Mapping      |
-|:-----:|:------------:|
-| `nxo` | `w`          |
-| `nxo` | `b`          |
-| `nxo` | `e`          |
-| `nxo` | `ge`         |
-| `xo`  | `aw`         |
-| `xo`  | `iw`         |
-| `c`   | `<C-R><C-W>` |
+| Mode  | Mapping                   |
+|:-----:|:-------------------------:|
+| `nxo` | `w`/`W`                   |
+| `nxo` | `b`/`B`                   |
+| `nxo` | `e`/`E`                   |
+| `nxo` | `ge`/`gE`                 |
+| `xo`  | `aw`/`aW`                 |
+| `xo`  | `iw`/`iW`                 |
+| `c`   | `<C-R><C-W>`/`<C-R><C-A>` |
 
 Use `g:wordmotion_prefix` to apply a common prefix to each of the default word
 motion mappings.  
@@ -57,7 +62,8 @@ E.g.,
 ```
 let g:wordmotion_prefix = '<Leader>'
 ```
-NOTE: does not apply to the command line mode `<C-R><C-W>` mapping.
+NOTE: does not apply to the command line mode `<C-R><C-W>` and `<C-R><C-A>`
+mappings.
 
 Use `g:wordmotion_mappings` to individually replace the default word motion
 mappings.  
@@ -132,11 +138,8 @@ do this:
 ```
 nmap dw de
 nmap cw ce
-```
-If you want to also remove the special case behavior from `dW` and `cW`, as this
-plugin does with `dw` and `cw`, you can do this:
-```
-onoremap W :<C-U>normal! vWh<CR>
+nmap dW dE
+nmap cW cE
 ```
 
 Related

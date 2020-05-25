@@ -14,6 +14,13 @@ Execute (Check removed mappings after reload):
   \ 'iw' : '',
   \ 'aw' : '',
   \ '<C-R><C-W>' : '',
+  \ 'W' : '',
+  \ 'E' : '',
+  \ 'B' : '',
+  \ 'gE' : '',
+  \ 'iW' : '',
+  \ 'aW' : '',
+  \ '<C-R><C-A>' : '',
   \ }
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
