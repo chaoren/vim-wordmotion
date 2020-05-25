@@ -14,8 +14,7 @@ With this plugin, this becomes six words:
 <
 WORDS						*wordmotion-words*
 
-A word is any of the following separated with spaces
-(<Space>, <Tab>, <EOL>, `_`, etc):
+A `word` is any of the following:
 
 - An uppercase letter followed by one or more lowercase letters
 - One or more uppercase letters that does not immediately precede
@@ -29,42 +28,77 @@ A word is any of the following separated with spaces
 - One or more of other characters
 - An empty line
 
+A `WORD` is any sequence of non-space characters separated by spaces.
+
 MAPPINGS					*wordmotion-mappings*
 
 						*wordmotion-w*
-{prefix}w		[count] words forward. |exclusive| motion.
+{prefix}w		[count] `word`s forward. |exclusive| motion.
 
 						*wordmotion-e*
-{prefix}e		Forward to the end of word [count] |inclusive|.
+{prefix}e		Forward to the end of `word` [count] |inclusive|.
 			Does not stop in an empty line.
 
 						*wordmotion-b*
-{prefix}b		[count] words backward. |exclusive| motion.
+{prefix}b		[count] `word`s backward. |exclusive| motion.
 
 						*wordmotion-ge*
-{prefix}ge		Backward to the end of word [count] |inclusive|.
+{prefix}ge		Backward to the end of `word` [count] |inclusive|.
 
 						*wordmotion-aw*
-a{prefix}w		"a word", select [count] words (see |wordmotion-word|).
+a{prefix}w		"a `word`", select [count] `word`s (see |wordmotion-word|).
 			Leading or trailing white space is included, but not
 			counted.
 			When used in Visual linewise mode "aw" switches to
 			Visual characterwise mode.
 
 						*wordmotion-iw*
-i{prefix}w		"inner word", select [count] words
+i{prefix}w		"inner `word`", select [count] `word`s
 			(see |wordmotion-word|).
-			White space between words is counted too.
+			White space between `word`s is counted too.
 			When used in Visual linewise mode "iw" switches to
 			Visual characterwise mode.
 
-						*wordmotion-<C-R>_<C-W>*
-<C-R><C-W>		Insert the word under the cursor in Cmdline mode
+						*wordmotion-c_<C-R>_<C-W>*
+CTRL-R CTRL-W		Insert the `word` under the cursor
+			(see |wordmotion-word|).
+
+						*wordmotion-W*
+{prefix}W		[count] `WORD`s forward. |exclusive| motion.
+
+						*wordmotion-E*
+{prefix}E		Forward to the end of `WORD` [count] |inclusive|.
+			Does not stop in an empty line.
+
+						*wordmotion-B*
+{prefix}B		[count] `WORD`s backward. |exclusive| motion.
+
+						*wordmotion-gE*
+{prefix}gE		Backward to the end of `WORD` [count] |inclusive|.
+
+						*wordmotion-aW*
+a{prefix}W		"a `WORD`", select [count] `WORD`s (see |wordmotion-word|).
+			Leading or trailing white space is included, but not
+			counted.
+			When used in Visual linewise mode "aW" switches to
+			Visual characterwise mode.
+
+						*wordmotion-iW*
+i{prefix}W		"inner `WORD`", select [count] `WORD`s
+			(see |wordmotion-word|).
+			White space between `WORD`s is counted too.
+			When used in Visual linewise mode "iW" switches to
+			Visual characterwise mode.
+
+						*wordmotion-c_<C-R>_<C-A>*
+<C-R><C-A>		Insert the `WORD` under the cursor
 			(see |wordmotion-word|).
 
 CUSTOMIZATION					*wordmotion-customization*
 
-The default word motion mappings are `w`, `b`, `e`, `ge`, `aw`, and `iw`.
+Default `word` mappings are `w`, `b`, `e`, `ge`, `aw`, `iw`, and `<C-R><C-W>`.
+
+Default `WORD` mappings are `W`, `B`, `E`, `gE`, `aW`, `iW`, and `<C-R><C-A>`.
 
 						*g:wordmotion_prefix*
 Use |g:wordmotion_prefix| to apply a common prefix to each of the default word
@@ -73,7 +107,8 @@ E.g.,
 >
 	let g:wordmotion_prefix = '<Leader>'
 <
-NOTE: does not apply to the command line mode `<C-R><C-W>` mapping.
+NOTE: does not apply to the command line mode `<C-R><C-W>` and `<C-R><C-A>`
+mappings.
 
 						*g:wordmotion_mappings*
 Use |g:wordmotion_mappings| to individually replace the default word motion
@@ -148,11 +183,8 @@ do this:
 >
 	nmap dw de
 	nmap cw ce
-<
-If you want to also remove the special case behavior from `dW` and `cW`, as this
-plugin does with `dw` and `cw`, you can do this:
->
-	onoremap W :<C-U>normal! vWh<CR>
+	nmap dW dE
+	nmap cW cE
 <
 
  vim:tw=78:ts=8:ft=help:norl:
