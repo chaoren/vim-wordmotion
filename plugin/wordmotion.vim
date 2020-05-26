@@ -8,7 +8,7 @@ let s:mappings = get(g:, 'wordmotion_mappings', { })
 let s:spaces = get(g:, 'wordmotion_spaces', '_')
 
 let s:flags = { 'w' : '', 'e' : 'e', 'b' : 'b', 'ge' : 'be' }
-let s:uppercases = [ 'W', 'E', 'B', 'gE', '<C-R><C-A>' ]
+let s:uppercases = [ 'W', 'E', 'B', 'gE', 'aW', 'iW', '<C-R><C-A>' ]
 
 if exists('s:existing') " {{{
 	for s:mapping in s:existing
@@ -44,25 +44,22 @@ endfor " }}}
 
 let s:inner = { 'aw' : 0, 'iw' : 1 }
 
-for s:motion in [ 'w', 'W' ] " {{{
-	for s:qualifier in [ 'a', 'i' ]
-		let s:qualified_motion = s:qualifier . s:motion
-		if !has_key(s:mappings, s:qualified_motion)
-			let s:mappings[s:qualified_motion] = s:qualifier . s:prefix . s:motion
-		elseif empty(s:mappings[s:qualified_motion])
-			continue
-		endif
-		for s:mode in [ 'x', 'o' ]
-			let s:map = s:mode . 'noremap'
-			let s:lhs = s:mappings[s:qualified_motion]
-			let s:m = "'" . s:mode . "'"
-			let s:i = s:inner[tolower(s:qualified_motion)]
-			let s:u = index(s:uppercases, s:motion) != -1
-			let s:args = join([ 'v:count1', s:m, s:i, s:u ], ', ')
-			let s:rhs = ':<C-U>call <SID>AOrInnerWordMotion(' . s:args . ')<CR>'
-			execute s:map '<silent>' . s:lhs s:rhs
-			call add(s:existing, { 'mode' : s:mode, 'lhs' : s:lhs, 'rhs' : s:rhs })
-		endfor
+for s:motion in [ 'aw', 'iw', 'aW', 'iW' ] " {{{
+	if !has_key(s:mappings, s:motion)
+		let s:mappings[s:motion] = s:motion[0] . s:prefix . s:motion[1]
+	elseif empty(s:mappings[s:motion])
+		continue
+	endif
+	for s:mode in [ 'x', 'o' ]
+		let s:map = s:mode . 'noremap'
+		let s:lhs = s:mappings[s:motion]
+		let s:m = "'" . s:mode . "'"
+		let s:i = s:inner[tolower(s:motion)]
+		let s:u = index(s:uppercases, s:motion) != -1
+		let s:args = join([ 'v:count1', s:m, s:i, s:u ], ', ')
+		let s:rhs = ':<C-U>call <SID>AOrInnerWordMotion(' . s:args . ')<CR>'
+		execute s:map '<silent>' . s:lhs s:rhs
+		call add(s:existing, { 'mode' : s:mode, 'lhs' : s:lhs, 'rhs' : s:rhs })
 	endfor
 endfor " }}}
 
