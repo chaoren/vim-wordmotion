@@ -1,7 +1,7 @@
 if exists('g:loaded_wordmotion')
 	finish
 endif
-let g:loaded_wordmotion = 1
+let g:loaded_wordmotion = v:true
 
 let s:prefix = get(g:, 'wordmotion_prefix', '')
 let s:mappings = get(g:, 'wordmotion_mappings', { })
@@ -42,7 +42,7 @@ for s:motion in [ 'w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE' ] " {{{
 	endfor
 endfor " }}}
 
-let s:inner = { 'aw' : 0, 'iw' : 1 }
+let s:inner = { 'aw' : v:false, 'iw' : v:true }
 
 for s:motion in [ 'aw', 'iw', 'aW', 'iW' ] " {{{
 	if !has_key(s:mappings, s:motion)
@@ -158,9 +158,9 @@ endfunction " }}}
 function! <SID>AOrInnerWordMotion(count, mode, inner, uppercase) abort " {{{
 	let l:flags = 'e'
 	let l:extra = []
-	let l:backwards = 0
+	let l:backwards = v:false
 	let l:count = a:count
-	let l:existing_selection = 0
+	let l:existing_selection = v:false
 
 	if a:mode == 'x'
 		normal! gv
@@ -168,11 +168,11 @@ function! <SID>AOrInnerWordMotion(count, mode, inner, uppercase) abort " {{{
 			" no existing selection, exit visual mode
 			execute 'normal!' visualmode()
 		else
-			let l:existing_selection = 1
+			let l:existing_selection = v:true
 			let l:start = getpos('.')
 			if l:start == getpos("'<")
 				let l:flags = 'b'
-				let l:backwards = 1
+				let l:backwards = v:true
 			endif
 		endif
 	endif
@@ -183,7 +183,7 @@ function! <SID>AOrInnerWordMotion(count, mode, inner, uppercase) abort " {{{
 	else
 		if getline('.')[col('.') - 1] =~ s:s
 			if !l:existing_selection
-				let l:backwards = 1
+				let l:backwards = v:true
 			endif
 			call search('\m' . s:S, 'W')
 		endif
@@ -202,7 +202,7 @@ function! <SID>AOrInnerWordMotion(count, mode, inner, uppercase) abort " {{{
 	if !a:inner
 		if col('.') == col('$') - 1
 			" at end of line, go back, and consume preceding white spaces
-			let l:backwards = 1
+			let l:backwards = v:true
 		endif
 
 		if l:backwards && !l:existing_selection
