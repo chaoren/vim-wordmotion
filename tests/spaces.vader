@@ -1,5 +1,6 @@
 Execute (Set spaces to '-'):
   let g:wordmotion_spaces = '-'
+  let g:Wordmotion_Spaces = '-'
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
 
@@ -53,6 +54,7 @@ Execute (Move by E and then gE):
 
 Execute (Set spaces to '_-.'):
   let g:wordmotion_spaces = '_-.'
+  let g:Wordmotion_Spaces = '_-.'
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
 
@@ -106,5 +108,6 @@ Execute (Move by E and then gE):
 
 Execute (Reset plugin for further tests):
   unlet! g:wordmotion_spaces
+  unlet! g:Wordmotion_Spaces
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim

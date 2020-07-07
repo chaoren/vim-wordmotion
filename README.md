@@ -95,6 +95,12 @@ foo_bar-baz.qux
 w-->w-->w-->w>w
 ```
 
+Use `g:Wordmotion_Spaces` (defaults to whatever `g:wordmotion_spaces` is) to
+designate extra space characters when in 'WORD' mode. Setting this
+separately is useful in snake- or kebab-case languages where you want `w`
+and `b` to move by words (treating `_` or `-` as spaces), but `W` and `B` to
+move by entire tokens (ignoring the extra spaces defined for `w` and `b`).
+
 All options can be applied dynamically by reloading the plugin.  
 E.g., to disable the `w` mapping:
 ```

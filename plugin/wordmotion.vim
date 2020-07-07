@@ -6,6 +6,7 @@ let g:loaded_wordmotion = v:true
 let s:prefix = get(g:, 'wordmotion_prefix', '')
 let s:mappings = get(g:, 'wordmotion_mappings', { })
 let s:spaces = get(g:, 'wordmotion_spaces', '_')
+let s:Spaces = get(g:, 'Wordmotion_Spaces', '_')
 
 let s:flags = { 'w' : '', 'e' : 'e', 'b' : 'b', 'ge' : 'be' }
 let s:uppercases = [ 'W', 'E', 'B', 'gE', 'aW', 'iW', '<C-R><C-A>' ]
@@ -81,7 +82,9 @@ endfor " }}}
 " '-' in the middle will turn into a range, move it to the back.
 let s:spaces = substitute(s:spaces, '-\(.*\)$', '\1-', '')
 let s:s = '[[:space:]' . s:spaces . ']'
-let s:S = '[^[:space:]' . s:spaces . ']'
+
+let s:Spaces = substitute(s:Spaces, '-\(.*\)$', '\1-', '')
+let s:S = '[^[:space:]' . s:Spaces . ']'
 
 function! s:BuildWordPattern() abort " {{{
 	" [:alnum:] and [:alpha:] are ASCII only
