@@ -41,8 +41,8 @@ A `word` (lowercase) is any of the following:
 A `WORD` (uppercase) is any sequence of non-space characters separated by
 spaces.
 
-Customization
-=============
+Customizing mappings
+====================
 
 Default `word`/`WORD` mappings:
 
@@ -56,8 +56,10 @@ Default `word`/`WORD` mappings:
 | `xo`  | `iw`/`iW`                 |
 | `c`   | `<C-R><C-W>`/`<C-R><C-A>` |
 
-Use `g:wordmotion_prefix` to apply a common prefix to each of the default word
-motion mappings.  
+There are three ways to customize these mappings:
+
+**(1) Use `g:wordmotion_prefix` to apply a common prefix to each of the default word
+motion mappings.** 
 E.g.,
 ```
 let g:wordmotion_prefix = '<Leader>'
@@ -65,8 +67,8 @@ let g:wordmotion_prefix = '<Leader>'
 NOTE: does not apply to the command line mode `<C-R><C-W>` and `<C-R><C-A>`
 mappings.
 
-Use `g:wordmotion_mappings` to individually replace the default word motion
-mappings.  
+**(2) Use `g:wordmotion_mappings` to individually replace the default word motion
+mappings.** 
 E.g.,
 ```
 let g:wordmotion_mappings = {
@@ -84,6 +86,25 @@ Set the value to an empty string to disable the mapping.
 
 NOTE: this overrides `g:wordmotion_prefix`.
 
+**(3) Use `<Plug>` mappings.**
+
+All available functionality is exposed through `<Plug>` mappings. If you use
+`<Plug>` mappings, you probably want to prevent wordmotion from defining any of
+the default bindings, which you can do by setting
+`g:wordmotion_disable_default_mappings = 1`.
+
+`<Plug>` mappings are defined according to this schema:
+```
+<Plug>WordMotion_MOTION/TEXTOBJ
+```
+
+For instance, `<Plug>WordMotion_w` is defined for modes `nxo`,
+`<Plug>WordMotion_aW` is defined for modes `xo`, and
+`<Plug>WordMotion_<C-R><C-W>` is defined for command mode.
+
+Customizing word definition
+===========================
+
 Use `g:wordmotion_spaces` (default `'_'`) to designate extra space characters.  
 E.g.,
 ```
@@ -94,6 +115,9 @@ will produce the following result:
 foo_bar-baz.qux
 w-->w-->w-->w>w
 ```
+
+Reloading
+=========
 
 All options can be applied dynamically by reloading the plugin.  
 E.g., to disable the `w` mapping:

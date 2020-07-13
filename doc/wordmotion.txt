@@ -32,67 +32,80 @@ A `WORD` is any sequence of non-space characters separated by spaces.
 
 MAPPINGS					*wordmotion-mappings*
 
+By default, wordmotion overwrites Vim's built-in word motions. Set
+|g:wordmotion_prefix| to instead map wordmotion's commands to
+`{prefix}<MOTION>`. Alternatively, you can disable all default mappings by
+setting |g:wordmotion_disable_default_mappings| to 1, and define your own
+mappings against the |<Plug>| targets wordmotion provides. These are of the
+form |<Plug>WordMotion_MOTION|.
+
 						*wordmotion-w*
 {prefix}w		[count] `word`s forward. |exclusive| motion.
+<Plug>WordMotion_w
 
 						*wordmotion-e*
 {prefix}e		Forward to the end of `word` [count] |inclusive|.
-			Does not stop in an empty line.
+<Plug>WordMotion_e	Does not stop in an empty line.
 
 						*wordmotion-b*
 {prefix}b		[count] `word`s backward. |exclusive| motion.
+<Plug>WordMotion_b
 
 						*wordmotion-ge*
 {prefix}ge		Backward to the end of `word` [count] |inclusive|.
+<Plug>WordMotion_ge
 
 						*wordmotion-aw*
 a{prefix}w		"a `word`", select [count] `word`s (see |wordmotion-word|).
-			Leading or trailing white space is included, but not
+<Plug>WordMotion_aw	Leading or trailing white space is included, but not
 			counted.
 			When used in Visual linewise mode "aw" switches to
 			Visual characterwise mode.
 
 						*wordmotion-iw*
 i{prefix}w		"inner `word`", select [count] `word`s
-			(see |wordmotion-word|).
+<Plug>WordMotion_iw	(see |wordmotion-word|).
 			White space between `word`s is counted too.
 			When used in Visual linewise mode "iw" switches to
 			Visual characterwise mode.
 
 						*wordmotion-c_<C-R>_<C-W>*
-CTRL-R CTRL-W		Insert the `word` under the cursor
-			(see |wordmotion-word|).
+CTRL-R CTRL-W		        Insert the `word` under the cursor
+<Plug>WordMotion_<C-R><C-W>	(see |wordmotion-word|).
 
 						*wordmotion-W*
 {prefix}W		[count] `WORD`s forward. |exclusive| motion.
+<Plug>WordMotion_W
 
 						*wordmotion-E*
 {prefix}E		Forward to the end of `WORD` [count] |inclusive|.
-			Does not stop in an empty line.
+<Plug>WordMotion_E	Does not stop in an empty line.
 
 						*wordmotion-B*
 {prefix}B		[count] `WORD`s backward. |exclusive| motion.
+<Plug>WordMotion_B
 
 						*wordmotion-gE*
 {prefix}gE		Backward to the end of `WORD` [count] |inclusive|.
+<Plug>WordMotion_gE
 
 						*wordmotion-aW*
 a{prefix}W		"a `WORD`", select [count] `WORD`s (see |wordmotion-word|).
-			Leading or trailing white space is included, but not
+<Plug>WordMotion_aW	Leading or trailing white space is included, but not
 			counted.
 			When used in Visual linewise mode "aW" switches to
 			Visual characterwise mode.
 
 						*wordmotion-iW*
 i{prefix}W		"inner `WORD`", select [count] `WORD`s
-			(see |wordmotion-word|).
+<Plug>WordMotion_iW	(see |wordmotion-word|).
 			White space between `WORD`s is counted too.
 			When used in Visual linewise mode "iW" switches to
 			Visual characterwise mode.
 
 						*wordmotion-c_<C-R>_<C-A>*
-<C-R><C-A>		Insert the `WORD` under the cursor
-			(see |wordmotion-word|).
+<C-R><C-A>		        Insert the `WORD` under the cursor
+<Plug>WordMotion_<C-R><C-A>	(see |wordmotion-word|).
 
 CUSTOMIZATION					*wordmotion-customization*
 
@@ -129,6 +142,10 @@ Unspecified entries will still use the default mappings.
 Set the value to an empty string to disable the mapping.
 
 NOTE: this overrides |g:wordmotion_prefix|.
+
+						*g:wordmotion_disable_default_mappings*
+Set |g:wordmotion_disable_default_mappings = 1| to disable all default key
+mappings. This is useful if you want to use the |<Plug>| mappings.
 
 						*g:wordmotion_spaces*
 Use |g:wordmotion_spaces| (default '_') to designate extra space characters.
