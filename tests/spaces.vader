@@ -1,11 +1,6 @@
-Execute (Set spaces to '-'):
-  let g:wordmotion_spaces = '-'
-  unlet! g:loaded_wordmotion
-  runtime plugin/wordmotion.vim
-
-Given (Lorem ipsum sometimes deliminated by '-'):
-  Lorem-ipsum dolor sit amet, consectetur---adipiscing-elit, sed do-eiusmod
-  tempor incididunt ut-labore et-dolore magna aliqua.
+Given (Lorem ipsum deliminated by '_'):
+  Lorem_ipsum dolor	sit_ amet, _ consectetur___adipiscing_elit, _sed do	_	eiusmod
+  tempor_	_incididunt ut_labore et_dolore magna	_ aliqua.
 
 Execute (Move by w and then b):
   let expected = split('Lidsa,cae,sdetiuledma.', '\zs')
@@ -30,7 +25,7 @@ Execute (Move by e and then ge):
   endfor
 
 Execute (Move by W and then B):
-  let expected = split('Lidsacaesdetiuledma.', '\zs')
+  let expected = split('Ldsa_c_d_et_uem_a.', '\zs')
   for current in expected
     AssertEqual current, getline('.')[col('.')-1]
     normal W
@@ -41,7 +36,7 @@ Execute (Move by W and then B):
   endfor
 
 Execute (Move by E and then gE):
-  let expected = split('Lmmrt,rg,dodrttetea.', '\zs')
+  let expected = split('Lmr_,_,do_d_teea_.', '\zs')
   for current in expected
     AssertEqual current, getline('.')[col('.')-1]
     normal E
@@ -51,8 +46,63 @@ Execute (Move by E and then gE):
     normal gE
   endfor
 
-Execute (Set spaces to '_-.'):
+Execute (Set spaces to '-', and uppercase spaces to '_'):
+  let g:wordmotion_spaces = '-'
+  let g:wordmotion_uppercase_spaces = '_'
+  unlet! g:loaded_wordmotion
+  runtime plugin/wordmotion.vim
+
+Given (Lorem ipsum deliminated by '_' or '-'):
+  Lorem-ipsum_dolor sit_amet, consectetur---adipiscing-elit, sed do-eiusmod
+  tempor incididunt ut-labore et-dolore magna_aliqua.
+
+Execute (Move by w and then b):
+  let expected = split('Li_ds_a,cae,sdetiuledm_a.', '\zs')
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal w
+  endfor
+  for current in reverse(expected)
+    AssertEqual current, getline('.')[col('.')-1]
+    normal b
+  endfor
+
+Execute (Move by e and then ge):
+  let expected = split('Lmm_rt_t,rgt,dodrttetea_a.', '\zs')
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal e
+  endfor
+  for current in reverse(expected)
+    AssertEqual current, getline('.')[col('.')-1]
+    normal ge
+  endfor
+
+Execute (Move by W and then B):
+  let expected = split('Ldsacsdtiuema.', '\zs')
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal W
+  endfor
+  for current in reverse(expected)
+    AssertEqual current, getline('.')[col('.')-1]
+    normal B
+  endfor
+
+Execute (Move by E and then gE):
+  let expected = split('Lmrt,,ddrteea.', '\zs')
+  for current in expected
+    AssertEqual current, getline('.')[col('.')-1]
+    normal E
+  endfor
+  for current in reverse(expected)
+    AssertEqual current, getline('.')[col('.')-1]
+    normal gE
+  endfor
+
+Execute (Set spaces to '_-.', and uppercase spaces to '_-'):
   let g:wordmotion_spaces = '_-.'
+  let g:wordmotion_uppercase_spaces = '_-'
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
 
@@ -83,7 +133,7 @@ Execute (Move by e and then ge):
   endfor
 
 Execute (Move by W and then B):
-  let expected = split('Lidsacaesdetiuledma!', '\zs')
+  let expected = split('Lidsaca.sdetiledma!', '\zs')
   for current in expected
     AssertEqual current, getline('.')[col('.')-1]
     normal W
@@ -94,7 +144,7 @@ Execute (Move by W and then B):
   endfor
 
 Execute (Move by E and then gE):
-  let expected = split('Lmmrt,rg,dodrtteteaa!', '\zs')
+  let expected = split('Lmmrt,rg,dodrtetea!', '\zs')
   for current in expected
     AssertEqual current, getline('.')[col('.')-1]
     normal E
@@ -106,5 +156,6 @@ Execute (Move by E and then gE):
 
 Execute (Reset plugin for further tests):
   unlet! g:wordmotion_spaces
+  unlet! g:wordmotion_uppercase_spaces
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim

@@ -26,7 +26,7 @@ Execute (Move by e and then ge):
   endfor
 
 Execute (Move by W and then B):
-  let expected = split('CuLDc0aesdet0iuledma0.', '\zs')
+  let expected = split('CLDc0aest0iule_dma0.', '\zs')
   for current in expected
     AssertEqual current, getline('.')[col('.')-1]
     normal W
@@ -37,7 +37,7 @@ Execute (Move by W and then B):
   endfor
 
 Execute (Move by E and then gE):
-  let expected = split('Cs4m,r0g,dodr1tteteaa.', '\zs')
+  let expected = split('C4m,r0g,dr1ttet_eaa.', '\zs')
   for current in expected
     AssertEqual current, getline('.')[col('.')-1]
     normal E

@@ -1,4 +1,38 @@
 Execute (Check default mappings):
+  for map in [ 'iw', 'aw' ]
+    for mode in [ 'x', 'o' ]
+      AssertEqual '<Plug>WordMotion_' . map, mapcheck(map, mode)
+      Assert mapcheck('<Plug>WordMotion_' . map, mode) =~ '_AOrInnerWordMotion('
+      execute mode . 'unmap' map
+      Assert !hasmapto('<Plug>WordMotion_' . map, mode)
+      execute mode . 'unmap' '<Plug>WordMotion_' . map
+    endfor
+  endfor
+  Assert !hasmapto('_AOrInnerWordMotion(', 'nvxsoilc')
+  for map in [ 'w', 'e', 'b', 'ge' ]
+    for mode in [ 'n', 'x', 'o' ]
+      AssertEqual '<Plug>WordMotion_' . map, mapcheck(map, mode)
+      Assert mapcheck('<Plug>WordMotion_' . map, mode) =~ '_WordMotion('
+      execute mode . 'unmap' map
+      Assert !hasmapto('<Plug>WordMotion_' . map, mode)
+      execute mode . 'unmap' '<Plug>WordMotion_' . map
+    endfor
+  endfor
+  Assert !hasmapto('_WordMotion(', 'nvxsoilc')
+  for map in [ '<C-R><C-W>' ]
+    AssertEqual '<Plug>WordMotion_' . map, mapcheck(map, 'c')
+    Assert mapcheck('<Plug>WordMotion_'  . map, 'c') =~ '_GetCurrentWord('
+    execute 'cunmap' map
+    Assert !hasmapto('<Plug>WordMotion_' . map, 'c')
+    execute 'cunmap' '<Plug>WordMotion_' . map
+  endfor
+  Assert !hasmapto('_GetCurrentWord(', 'nvxsoilc')
+  Assert !hasmapto('<Plug>WordMotion_', 'nvxsoilc')
+
+Execute (Check default uppercase mappings):
+  let g:wordmotion_uppercase_spaces = '_'
+  unlet! g:loaded_wordmotion
+  runtime plugin/wordmotion.vim
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
     for mode in [ 'x', 'o' ]
       AssertEqual '<Plug>WordMotion_' . map, mapcheck(map, mode)
@@ -31,8 +65,7 @@ Execute (Check default mappings):
 
 Execute (Check disable default mappings):
   let g:wordmotion_disable_default_mappings = 1
-  unlet! g:wordmotion_prefix
-  unlet! g:wordmotion_mappings
+  let g:wordmotion_uppercase_spaces = '_'
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
@@ -55,5 +88,6 @@ Execute (Check disable default mappings):
 
 Execute (Reset plugin for further tests):
   unlet! g:wordmotion_disable_default_mappings
+  unlet! g:wordmotion_uppercase_spaces
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
