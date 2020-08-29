@@ -56,14 +56,27 @@ Default `word`/`WORD` mappings:
 | `xo`  | `iw`/`iW`                 |
 | `c`   | `<C-R><C-W>`/`<C-R><C-A>` |
 
+Use `g:wordmotion_disable_default_mappings` to disable the default word motion
+mappings.\
+You can create your own mappings with `<Plug>WordMotion_*`, where `*` is any of
+the default mappings.\
+E.g.,
+```
+nmap w          <Plug>WordMotion_w
+nmap b          <Plug>WordMotion_b
+nmap gE         <Plug>WordMotion_gE
+omap aW         <Plug>WordMotion_aW
+cmap <C-R><C-W> <Plug>WordMotion_<C-R><C-W>
+```
+
 Use `g:wordmotion_prefix` to apply a common prefix to each of the default word
 motion mappings.\
 E.g.,
 ```
 let g:wordmotion_prefix = '<Leader>'
 ```
-NOTE: does not apply to the command line mode `<C-R><C-W>` and `<C-R><C-A>`
-mappings.
+NOTE: does not apply to the `<C-R><C-W>` and `<C-R><C-A>` mappings.\
+NOTE: no effect if default mappings are disabled.
 
 Use `g:wordmotion_mappings` to individually replace the default word motion
 mappings.\
@@ -81,7 +94,8 @@ let g:wordmotion_mappings = {
 ```
 Unspecified entries will still use the default mappings.\
 Set the value to an empty string to disable the mapping.\
-NOTE: this overrides `g:wordmotion_prefix`.
+NOTE: this overrides `g:wordmotion_prefix`.\
+NOTE: no effect if default mappings are disabled.
 
 Use `g:wordmotion_spaces` (default `'_'`) to designate extra space characters.\
 E.g.,
