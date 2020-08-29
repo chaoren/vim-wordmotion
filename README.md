@@ -57,7 +57,7 @@ Default `word`/`WORD` mappings:
 | `c`   | `<C-R><C-W>`/`<C-R><C-A>` |
 
 Use `g:wordmotion_prefix` to apply a common prefix to each of the default word
-motion mappings.  
+motion mappings.\
 E.g.,
 ```
 let g:wordmotion_prefix = '<Leader>'
@@ -66,7 +66,7 @@ NOTE: does not apply to the command line mode `<C-R><C-W>` and `<C-R><C-A>`
 mappings.
 
 Use `g:wordmotion_mappings` to individually replace the default word motion
-mappings.  
+mappings.\
 E.g.,
 ```
 let g:wordmotion_mappings = {
@@ -79,12 +79,11 @@ let g:wordmotion_mappings = {
 \ '<C-R><C-W>' : '<C-R><M-w>'
 \ }
 ```
-Unspecified entries will still use the default mappings.  
-Set the value to an empty string to disable the mapping.
-
+Unspecified entries will still use the default mappings.\
+Set the value to an empty string to disable the mapping.\
 NOTE: this overrides `g:wordmotion_prefix`.
 
-Use `g:wordmotion_spaces` (default `'_'`) to designate extra space characters.  
+Use `g:wordmotion_spaces` (default `'_'`) to designate extra space characters.\
 E.g.,
 ```
 let g:wordmotion_spaces = '_-.'
@@ -95,7 +94,7 @@ foo_bar-baz.qux
 w-->w-->w-->w>w
 ```
 
-All options can be applied dynamically by reloading the plugin.  
+All options can be applied dynamically by reloading the plugin.\
 E.g., to disable the `w` mapping:
 ```
 let g:wordmotion_mappings['w'] = ''
@@ -112,7 +111,7 @@ runtime plugin/wordmotion.vim
 Caveats
 =======
 
-There are some special cases with how Vim's word motions work.  
+There are some special cases with how Vim's word motions work.\
 E.g.,
 ```
 Vim:
