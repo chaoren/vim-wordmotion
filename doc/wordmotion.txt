@@ -154,6 +154,21 @@ will produce the following result:
 	foo_bar-baz.qux
 	^   ^   ^   ^
 <
+					*g:wordmotion_uppercase_spaces*
+Use `g:wordmotion_uppercase_spaces` (default empty) to designate extra space
+characters for uppercase motions.\
+E.g.,
+>
+	let g:wordmotion_uppercase_spaces = '-'
+<
+will produce the following result:
+>
+	foo_bar-baz.qux
+	^       ^
+<
+If `g:wordmotion_uppercase_spaces` is not set there will not be any mappings for
+uppercase motions.
+
 					*wordmotion-reload*
 All options can be applied dynamically by reloading the plugin.
 E.g., to disable the `w` mapping:
@@ -196,8 +211,14 @@ do this:
 >
 	nmap dw de
 	nmap cw ce
-	nmap dW dE
-	nmap cW cE
 <
+If you want the same behavior for uppercase motions (i.e., `dW` and `cW`), you
+can set `g:wordmotion_uppercase_spaces`.
+E.g.,
+>
+	let g:wordmotion_uppercase_spaces = ' '
+<
+will enable this behavior without adding extra space characters to uppercase
+motions.
 
  vim:tw=78:ts=8:sw=8:noet:ft=help:norl:

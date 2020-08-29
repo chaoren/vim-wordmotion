@@ -2,6 +2,7 @@ Execute (Check mappings with prefix):
   let g:wordmotion_prefix = '<Leader>'
   unlet! g:wordmotion_mappings
   unlet! g:loaded_wordmotion
+  let g:wordmotion_uppercase_spaces = '_'
   runtime plugin/wordmotion.vim
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
     for mode in [ 'x', 'o' ]
@@ -52,6 +53,7 @@ Execute (Check custom mappings):
   \ 'aW' : 'a<M-W>',
   \ '<C-R><C-A>' : '<C-R><M-a>',
   \ }
+  let g:wordmotion_uppercase_spaces = '_'
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
@@ -95,6 +97,7 @@ Execute (Check mixed custom mappings with prefix):
   \ 'iw' : '<Plug>CustomMappingIW',
   \ 'aW' : '<Plug>CustomMappingAW',
   \ }
+  let g:wordmotion_uppercase_spaces = '_'
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
   let mappings = {
@@ -164,6 +167,7 @@ Execute (Check no mappings):
   \ 'aW' : '',
   \ '<C-R><C-A>' : '',
   \ }
+  let g:wordmotion_uppercase_spaces = '_'
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
@@ -202,6 +206,7 @@ Execute (Check no mappings even with prefix):
   \ 'aW' : '',
   \ '<C-R><C-A>' : '',
   \ }
+  let g:wordmotion_uppercase_spaces = '_'
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
@@ -225,5 +230,6 @@ Execute (Check no mappings even with prefix):
 Execute (Reset plugin for further tests):
   unlet! g:wordmotion_prefix
   unlet! g:wordmotion_mappings
+  unlet! g:wordmotion_uppercase_spaces
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
