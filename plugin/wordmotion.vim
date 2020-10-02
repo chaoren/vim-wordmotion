@@ -5,8 +5,8 @@ let g:loaded_wordmotion = v:true
 
 let s:prefix = get(g:, 'wordmotion_prefix', '')
 let s:mappings = get(g:, 'wordmotion_mappings', { })
-let s:spaces = get(g:, 'wordmotion_spaces', '_')
-let s:uspaces = get(g:, 'wordmotion_uppercase_spaces', '')
+let s:spaces = get(g:, 'wordmotion_spaces', ['_'])
+let s:uspaces = get(g:, 'wordmotion_uppercase_spaces', [])
 let s:disable_default = get(g:, 'wordmotion_disable_default_mappings', v:false)
 
 let s:plug = '<Plug>WordMotion_'
@@ -99,13 +99,19 @@ for s:motion in [ '<C-R><C-W>', '<C-R><C-A>' ] " {{{
 	call add(s:existing, { 'mode' : s:mode, 'lhs' : s:lhs, 'rhs' : s:map })
 endfor " }}}
 
-" '-' in the middle will turn into a range, move it to the back.
-let s:spaces = substitute(s:spaces, '-\(.*\)$', '\1-', '')
-let s:s = '[[:space:]' . s:spaces . ']'
-let s:S = '[^[:space:]' . s:spaces . ']'
-let s:uspaces = substitute(s:uspaces, '-\(.*\)$', '\1-', '')
-let s:us = '[[:space:]' . s:uspaces . ']'
-let s:uS = '[^[:space:]' . s:uspaces . ']'
+if type(s:spaces) == type('')
+	let s:spaces = split(s:spaces, '\zs')
+endif
+let s:s = '\%([' . join(['[:space:]'] + s:spaces, ']\|[') . ']\)'
+let s:S = '\%(' . s:s . '\@!.\)'
+unlet s:spaces
+
+if type(s:uspaces) == type('')
+	let s:uspaces = split(s:uspaces, '\zs')
+endif
+let s:us = '\%([' . join(['[:space:]'] + s:uspaces, ']\|[') . ']\)'
+let s:uS = '\%(' . s:us . '\@!.\)'
+unlet s:uspaces
 
 function! s:BuildWordPattern() abort " {{{
 	" [:alnum:] and [:alpha:] are ASCII only
@@ -118,8 +124,8 @@ function! s:BuildWordPattern() abort " {{{
 
 	" set complement
 	function! s:C(set, ...) abort " {{{
-		let l:exclude = join(map(copy(a:000), 'v:val[1:-2]'), '')
-		return '\%(\%([' . l:exclude . ']\)\@!' . a:set . '\)'
+		let l:exclude = join(a:000, '\|')
+		return '\%(\%(' . l:exclude . '\)\@!' . a:set . '\)'
 	endfunction " }}}
 
 	let l:words = get(g:, 'wordmotion_extra', [])

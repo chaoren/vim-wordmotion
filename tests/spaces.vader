@@ -47,8 +47,8 @@ Execute (Move by E and then gE):
   endfor
 
 Execute (Set spaces to '-', and uppercase spaces to '_'):
-  let g:wordmotion_spaces = '-'
-  let g:wordmotion_uppercase_spaces = '_'
+  let g:wordmotion_spaces = ['-']
+  let g:wordmotion_uppercase_spaces = ['_']
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
 
@@ -101,8 +101,8 @@ Execute (Move by E and then gE):
   endfor
 
 Execute (Set spaces to '_-.', and uppercase spaces to '_-'):
-  let g:wordmotion_spaces = '_-.'
-  let g:wordmotion_uppercase_spaces = '_-'
+  let g:wordmotion_spaces = ['_', '-', '.']
+  let g:wordmotion_uppercase_spaces = ['_', '-']
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
 

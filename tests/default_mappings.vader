@@ -30,7 +30,7 @@ Execute (Check default mappings):
   Assert !hasmapto('<Plug>WordMotion_', 'nvxsoilc')
 
 Execute (Check default uppercase mappings):
-  let g:wordmotion_uppercase_spaces = '_'
+  let g:wordmotion_uppercase_spaces = ['_']
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
@@ -65,7 +65,7 @@ Execute (Check default uppercase mappings):
 
 Execute (Check disable default mappings):
   let g:wordmotion_disable_default_mappings = 1
-  let g:wordmotion_uppercase_spaces = '_'
+  let g:wordmotion_uppercase_spaces = ['_']
   unlet! g:loaded_wordmotion
   runtime plugin/wordmotion.vim
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
