@@ -97,10 +97,10 @@ Set the value to an empty string to disable the mapping.\
 NOTE: this overrides `g:wordmotion_prefix`.\
 NOTE: no effect if default mappings are disabled.
 
-Use `g:wordmotion_spaces` (default `'_'`) to designate extra space characters.\
+Use `g:wordmotion_spaces` (default `['_']`) to designate extra space characters.\
 E.g.,
 ```
-let g:wordmotion_spaces = '_-.'
+let g:wordmotion_spaces = ['_', '-', '.']
 ```
 will produce the following result:
 ```
@@ -112,7 +112,7 @@ Use `g:wordmotion_uppercase_spaces` (default empty) to designate extra space
 characters for uppercase motions.\
 E.g.,
 ```
-let g:wordmotion_uppercase_spaces = '-'
+let g:wordmotion_uppercase_spaces = ['-']
 ```
 will produce the following result:
 ```
@@ -171,7 +171,7 @@ If you want the same behavior for uppercase motions (i.e., `dW` and `cW`), you
 can set `g:wordmotion_uppercase_spaces`.\
 E.g.,
 ```
-let g:wordmotion_uppercase_spaces = ' '
+let g:wordmotion_uppercase_spaces = [' ']
 ```
 will enable this behavior without adding extra space characters to uppercase
 motions.
