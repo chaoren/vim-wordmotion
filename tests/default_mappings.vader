@@ -1,3 +1,6 @@
+After:
+  call wordmotion#_default()
+
 Execute (Check default mappings):
   for map in [ 'iw', 'aw' ]
     for mode in [ 'x', 'o' ]
@@ -31,8 +34,7 @@ Execute (Check default mappings):
 
 Execute (Check default uppercase mappings):
   let g:wordmotion_uppercase_spaces = ['_']
-  unlet! g:loaded_wordmotion
-  runtime plugin/wordmotion.vim
+  call wordmotion#reload()
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
     for mode in [ 'x', 'o' ]
       AssertEqual '<Plug>WordMotion_' . map, maparg(map, mode)
@@ -66,8 +68,7 @@ Execute (Check default uppercase mappings):
 Execute (Check disable default mappings):
   let g:wordmotion_nomap = 1
   let g:wordmotion_uppercase_spaces = ['_']
-  unlet! g:loaded_wordmotion
-  runtime plugin/wordmotion.vim
+  call wordmotion#reload()
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
     for mode in [ 'x', 'o' ]
       Assert empty(maparg(map, mode))
@@ -85,9 +86,3 @@ Execute (Check disable default mappings):
     Assert maparg('<Plug>WordMotion_'  . map, 'c') =~ 'wordmotion#current('
   endfor
   Assert !hasmapto('<Plug>WordMotion_', 'nvxsoilc')
-
-Execute (Reset plugin for further tests):
-  unlet! g:wordmotion_nomap
-  unlet! g:wordmotion_uppercase_spaces
-  unlet! g:loaded_wordmotion
-  runtime plugin/wordmotion.vim

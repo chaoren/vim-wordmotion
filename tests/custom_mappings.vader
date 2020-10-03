@@ -1,9 +1,10 @@
+After:
+  call wordmotion#_default()
+
 Execute (Check mappings with prefix):
   let g:wordmotion_prefix = '<Leader>'
-  unlet! g:wordmotion_mappings
-  unlet! g:loaded_wordmotion
   let g:wordmotion_uppercase_spaces = ['_']
-  runtime plugin/wordmotion.vim
+  call wordmotion#reload()
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
     for mode in [ 'x', 'o' ]
       let lhs = map[0] . '<Leader>' . map[1]
@@ -36,7 +37,6 @@ Execute (Check mappings with prefix):
   Assert !hasmapto('<Plug>WordMotion_', 'nvxsoilc')
 
 Execute (Check custom mappings):
-  unlet! g:wordmotion_prefix
   let g:wordmotion_mappings = {
   \ 'w' : '<M-w>',
   \ 'e' : '<M-e>',
@@ -54,8 +54,8 @@ Execute (Check custom mappings):
   \ '<C-R><C-A>' : '<C-R><M-a>',
   \ }
   let g:wordmotion_uppercase_spaces = ['_']
-  unlet! g:loaded_wordmotion
-  runtime plugin/wordmotion.vim
+  call wordmotion#reload()
+
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
     for mode in [ 'x', 'o' ]
       let lhs = g:wordmotion_mappings[map]
@@ -98,8 +98,8 @@ Execute (Check mixed custom mappings with prefix):
   \ 'aW' : '<Plug>CustomMappingAW',
   \ }
   let g:wordmotion_uppercase_spaces = ['_']
-  unlet! g:loaded_wordmotion
-  runtime plugin/wordmotion.vim
+  call wordmotion#reload()
+
   let mappings = {
   \ 'iw' : '<Plug>CustomMappingIW',
   \ 'aw' : 'a,w',
@@ -150,7 +150,6 @@ Execute (Check mixed custom mappings with prefix):
   Assert !hasmapto('<Plug>WordMotion_', 'nvxsoilc')
 
 Execute (Check no mappings):
-  unlet! g:wordmotion_prefix
   let g:wordmotion_mappings = {
   \ 'w' : '',
   \ 'e' : '',
@@ -168,8 +167,7 @@ Execute (Check no mappings):
   \ '<C-R><C-A>' : '',
   \ }
   let g:wordmotion_uppercase_spaces = ['_']
-  unlet! g:loaded_wordmotion
-  runtime plugin/wordmotion.vim
+  call wordmotion#reload()
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
     for mode in [ 'x', 'o' ]
       Assert empty(maparg(map, mode))
@@ -207,8 +205,7 @@ Execute (Check no mappings even with prefix):
   \ '<C-R><C-A>' : '',
   \ }
   let g:wordmotion_uppercase_spaces = ['_']
-  unlet! g:loaded_wordmotion
-  runtime plugin/wordmotion.vim
+  call wordmotion#reload()
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
     for mode in [ 'x', 'o' ]
       Assert empty(maparg(map, mode))
@@ -226,10 +223,3 @@ Execute (Check no mappings even with prefix):
     Assert maparg('<Plug>WordMotion_'  . map, 'c') =~ 'wordmotion#current('
   endfor
   Assert !hasmapto('<Plug>WordMotion_', 'nvxsoilc')
-
-Execute (Reset plugin for further tests):
-  unlet! g:wordmotion_prefix
-  unlet! g:wordmotion_mappings
-  unlet! g:wordmotion_uppercase_spaces
-  unlet! g:loaded_wordmotion
-  runtime plugin/wordmotion.vim

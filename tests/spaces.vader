@@ -1,3 +1,6 @@
+After:
+  call wordmotion#_default()
+
 Given (Lorem ipsum deliminated by '_'):
   Lorem_ipsum dolor	sit_ amet, _ consectetur___adipiscing_elit, _sed do	_	eiusmod
   tempor_	_incididunt ut_labore et_dolore magna	_ aliqua.
@@ -46,11 +49,11 @@ Execute (Move by E and then gE):
     normal gE
   endfor
 
-Execute (Set spaces to '-', and uppercase spaces to '_'):
+Before (Set spaces to '-', and uppercase spaces to '_'):
+  call wordmotion#_default()
   let g:wordmotion_spaces = ['-']
   let g:wordmotion_uppercase_spaces = ['_']
-  unlet! g:loaded_wordmotion
-  runtime plugin/wordmotion.vim
+  call wordmotion#reload()
 
 Given (Lorem ipsum deliminated by '_' or '-'):
   Lorem-ipsum_dolor sit_amet, consectetur---adipiscing-elit, sed do-eiusmod
@@ -100,11 +103,11 @@ Execute (Move by E and then gE):
     normal gE
   endfor
 
-Execute (Set spaces to '_-.', and uppercase spaces to '_-'):
+Before (Set spaces to '_-.', and uppercase spaces to '_-'):
+  call wordmotion#_default()
   let g:wordmotion_spaces = ['_', '-', '.']
   let g:wordmotion_uppercase_spaces = ['_', '-']
-  unlet! g:loaded_wordmotion
-  runtime plugin/wordmotion.vim
+  call wordmotion#reload()
 
 Given (Lorem ipsum sometimes deliminated by '_', '-', or '.'):
   Lorem-ipsum dolor sit_amet, consectetur_-adipiscing-_.elit, sed_do-eiusmod
@@ -153,9 +156,3 @@ Execute (Move by E and then gE):
     AssertEqual current, getline('.')[col('.')-1]
     normal gE
   endfor
-
-Execute (Reset plugin for further tests):
-  unlet! g:wordmotion_spaces
-  unlet! g:wordmotion_uppercase_spaces
-  unlet! g:loaded_wordmotion
-  runtime plugin/wordmotion.vim
