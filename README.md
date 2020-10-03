@@ -1,7 +1,7 @@
 More useful word motions for Vim
 =================================
 
-[![Build Status](https://travis-ci.org/chaoren/vim-wordmotion.svg?branch=master)](https://travis-ci.org/chaoren/vim-wordmotion)
+[![Build Status](https://travis-ci.com/chaoren/vim-wordmotion.svg?branch=master)](https://travis-ci.com/chaoren/vim-wordmotion)
 
 This is one word under Vim's definition:
 
