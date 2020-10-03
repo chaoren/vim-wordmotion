@@ -7,7 +7,11 @@ let s:prefix = get(g:, 'wordmotion_prefix', '')
 let s:mappings = get(g:, 'wordmotion_mappings', { })
 let s:spaces = get(g:, 'wordmotion_spaces', ['_'])
 let s:uspaces = get(g:, 'wordmotion_uppercase_spaces', [])
-let s:disable_default = get(g:, 'wordmotion_disable_default_mappings', v:false)
+if exists('g:wordmotion_nomap')
+	let s:nomap = g:wordmotion_nomap
+else
+	let s:nomap = get(g:, 'wordmotion_disable_default_mappings', v:false)
+endif
 
 let s:plug = '<Plug>WordMotion_'
 let s:flags = { 'w' : '', 'e' : 'e', 'b' : 'b', 'ge' : 'be' }
@@ -39,7 +43,7 @@ for s:motion in [ 'w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE' ] " {{{
 		let s:rhs = ':<C-U>call <SID>WordMotion(' . s:args . ')<CR>'
 		execute s:mode . 'noremap' '<silent>' . s:map s:rhs
 		call add(s:existing, { 'mode' : s:mode, 'lhs' : s:map, 'rhs' : s:rhs })
-		if s:disable_default
+		if s:nomap
 			continue
 		endif
 		let s:lhs = get(s:mappings, s:motion, s:prefix . s:motion)
@@ -66,7 +70,7 @@ for s:motion in [ 'aw', 'iw', 'aW', 'iW' ] " {{{
 		let s:rhs = ':<C-U>call <SID>AOrInnerWordMotion(' . s:args . ')<CR>'
 		execute s:mode . 'noremap' '<silent>' . s:map s:rhs
 		call add(s:existing, { 'mode' : s:mode, 'lhs' : s:map, 'rhs' : s:rhs })
-		if s:disable_default
+		if s:nomap
 			continue
 		endif
 		let s:lhs = get(s:mappings, s:motion, s:motion[0] . s:prefix . s:motion[1])
@@ -88,7 +92,7 @@ for s:motion in [ '<C-R><C-W>', '<C-R><C-A>' ] " {{{
 	let s:rhs = '<SID>GetCurrentWord(' . s:u . ')'
 	execute s:mode . 'noremap' '<expr>' . s:map s:rhs
 	call add(s:existing, { 'mode' : s:mode, 'lhs' : s:map, 'rhs' : s:rhs })
-	if s:disable_default
+	if s:nomap
 		continue
 	endif
 	let s:lhs = get(s:mappings, s:motion, s:motion)
