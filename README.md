@@ -119,18 +119,16 @@ W------>W---->W
 If `g:wordmotion_uppercase_spaces` is not set there will not be any mappings for
 uppercase motions.
 
-All options can be applied dynamically by reloading the plugin.\
+All options can be updated by reloading the plugin.\
 E.g., to disable the `w` mapping:
 ```
 let g:wordmotion_mappings['w'] = ''
-unlet g:loaded_wordmotion
-runtime plugin/wordmotion.vim
+call wordmotion#reload()
 ```
 then later re-enable it
 ```
 let g:wordmotion_mappings['w'] = '<M-w>'
-unlet g:loaded_wordmotion
-runtime plugin/wordmotion.vim
+call wordmotion#reload()
 ```
 
 Caveats

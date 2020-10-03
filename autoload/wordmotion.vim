@@ -173,3 +173,17 @@ function wordmotion#current(uppercase)
 		return getline(l:line)[l:start[2]-1:l:end[2]-1]
 	endif
 endfunction
+
+function wordmotion#reload()
+	unlet g:loaded_wordmotion
+	runtime plugin/wordmotion.vim
+endfunction
+
+function wordmotion#_default()
+	unlet! g:wordmotion_nomap
+	unlet! g:wordmotion_prefix
+	unlet! g:wordmotion_mappings
+	unlet! g:wordmotion_spaces
+	unlet! g:wordmotion_uppercase_spaces
+	call wordmotion#reload()
+endfunction

@@ -7,5 +7,4 @@ Include: iw.vader
 Include: aw.vader
 
 Execute (Reset plugin for further tests):
-  unlet! g:loaded_wordmotion
-  runtime plugin/wordmotion.vim
+  call wordmotion#reload()
