@@ -8,31 +8,31 @@ Execute (Check mappings with prefix):
     for mode in [ 'x', 'o' ]
       let lhs = map[0] . '<Leader>' . map[1]
       AssertEqual '<Plug>WordMotion_' . map, maparg(lhs, mode)
-      Assert maparg('<Plug>WordMotion_' . map, mode) =~ '_AOrInnerWordMotion('
+      Assert maparg('<Plug>WordMotion_' . map, mode) =~ 'wordmotion#object('
       execute mode . 'unmap' lhs
       Assert !hasmapto('<Plug>WordMotion_' . map, mode)
       execute mode . 'unmap' '<Plug>WordMotion_' . map
     endfor
   endfor
-  Assert !hasmapto('_AOrInnerWordMotion(', 'nvxsoilc')
+  Assert !hasmapto('wordmotion#object(', 'nvxsoilc')
   for map in [ 'w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE' ]
     for mode in [ 'n', 'x', 'o' ]
       AssertEqual '<Plug>WordMotion_' . map, maparg('<Leader>' . map, mode)
-      Assert maparg('<Plug>WordMotion_' . map, mode) =~ '_WordMotion('
+      Assert maparg('<Plug>WordMotion_' . map, mode) =~ 'wordmotion#motion('
       execute mode . 'unmap' '<Leader>' . map
       Assert !hasmapto('<Plug>WordMotion_' . map, mode)
       execute mode . 'unmap' '<Plug>WordMotion_' . map
     endfor
   endfor
-  Assert !hasmapto('_WordMotion(', 'nvxsoilc')
+  Assert !hasmapto('wordmotion#motion(', 'nvxsoilc')
   for map in [ '<C-R><C-W>', '<C-R><C-A>' ]
     AssertEqual '<Plug>WordMotion_' . map, maparg(map, 'c')
-    Assert maparg('<Plug>WordMotion_'  . map, 'c') =~ '_GetCurrentWord('
+    Assert maparg('<Plug>WordMotion_'  . map, 'c') =~ 'wordmotion#current('
     execute 'cunmap' map
     Assert !hasmapto('<Plug>WordMotion_' . map, 'c')
     execute 'cunmap' '<Plug>WordMotion_' . map
   endfor
-  Assert !hasmapto('_GetCurrentWord(', 'nvxsoilc')
+  Assert !hasmapto('wordmotion#current(', 'nvxsoilc')
   Assert !hasmapto('<Plug>WordMotion_', 'nvxsoilc')
 
 Execute (Check custom mappings):
@@ -60,33 +60,33 @@ Execute (Check custom mappings):
     for mode in [ 'x', 'o' ]
       let lhs = g:wordmotion_mappings[map]
       AssertEqual '<Plug>WordMotion_' . map, maparg(lhs, mode)
-      Assert maparg('<Plug>WordMotion_' . map, mode) =~ '_AOrInnerWordMotion('
+      Assert maparg('<Plug>WordMotion_' . map, mode) =~ 'wordmotion#object('
       execute mode . 'unmap' lhs
       Assert !hasmapto('<Plug>WordMotion_' . map, mode)
       execute mode . 'unmap' '<Plug>WordMotion_' . map
     endfor
   endfor
-  Assert !hasmapto('_AOrInnerWordMotion(', 'nvxsoilc')
+  Assert !hasmapto('wordmotion#object(', 'nvxsoilc')
   for map in [ 'w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE' ]
     for mode in [ 'n', 'x', 'o' ]
       let lhs = g:wordmotion_mappings[map]
       AssertEqual '<Plug>WordMotion_' . map, maparg(lhs, mode)
-      Assert maparg('<Plug>WordMotion_' . map, mode) =~ '_WordMotion('
+      Assert maparg('<Plug>WordMotion_' . map, mode) =~ 'wordmotion#motion('
       execute mode . 'unmap' lhs
       Assert !hasmapto('<Plug>WordMotion_' . map, mode)
       execute mode . 'unmap' '<Plug>WordMotion_' . map
     endfor
   endfor
-  Assert !hasmapto('_WordMotion(', 'nvxsoilc')
+  Assert !hasmapto('wordmotion#motion(', 'nvxsoilc')
   for map in [ '<C-R><C-W>', '<C-R><C-A>' ]
     let lhs = g:wordmotion_mappings[map]
     AssertEqual '<Plug>WordMotion_' . map, maparg(lhs, 'c')
-    Assert maparg('<Plug>WordMotion_'  . map, 'c') =~ '_GetCurrentWord('
+    Assert maparg('<Plug>WordMotion_'  . map, 'c') =~ 'wordmotion#current('
     execute 'cunmap' lhs
     Assert !hasmapto('<Plug>WordMotion_' . map, 'c')
     execute 'cunmap' '<Plug>WordMotion_' . map
   endfor
-  Assert !hasmapto('_GetCurrentWord(', 'nvxsoilc')
+  Assert !hasmapto('wordmotion#current(', 'nvxsoilc')
   Assert !hasmapto('<Plug>WordMotion_', 'nvxsoilc')
 
 Execute (Check mixed custom mappings with prefix):
@@ -120,33 +120,33 @@ Execute (Check mixed custom mappings with prefix):
     for mode in [ 'x', 'o' ]
       let lhs = mappings[map]
       AssertEqual '<Plug>WordMotion_' . map, maparg(lhs, mode)
-      Assert maparg('<Plug>WordMotion_' . map, mode) =~ '_AOrInnerWordMotion('
+      Assert maparg('<Plug>WordMotion_' . map, mode) =~ 'wordmotion#object('
       execute mode . 'unmap' lhs
       Assert !hasmapto('<Plug>WordMotion_' . map, mode)
       execute mode . 'unmap' '<Plug>WordMotion_' . map
     endfor
   endfor
-  Assert !hasmapto('_AOrInnerWordMotion(', 'nvxsoilc')
+  Assert !hasmapto('wordmotion#object(', 'nvxsoilc')
   for map in [ 'w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE' ]
     for mode in [ 'n', 'x', 'o' ]
       let lhs = mappings[map]
       AssertEqual '<Plug>WordMotion_' . map, maparg(lhs, mode)
-      Assert maparg('<Plug>WordMotion_' . map, mode) =~ '_WordMotion('
+      Assert maparg('<Plug>WordMotion_' . map, mode) =~ 'wordmotion#motion('
       execute mode . 'unmap' lhs
       Assert !hasmapto('<Plug>WordMotion_' . map, mode)
       execute mode . 'unmap' '<Plug>WordMotion_' . map
     endfor
   endfor
-  Assert !hasmapto('_WordMotion(', 'nvxsoilc')
+  Assert !hasmapto('wordmotion#motion(', 'nvxsoilc')
   for map in [ '<C-R><C-W>', '<C-R><C-A>' ]
     let lhs = mappings[map]
     AssertEqual '<Plug>WordMotion_' . map, maparg(lhs, 'c')
-    Assert maparg('<Plug>WordMotion_'  . map, 'c') =~ '_GetCurrentWord('
+    Assert maparg('<Plug>WordMotion_'  . map, 'c') =~ 'wordmotion#current('
     execute 'cunmap' lhs
     Assert !hasmapto('<Plug>WordMotion_' . map, 'c')
     execute 'cunmap' '<Plug>WordMotion_' . map
   endfor
-  Assert !hasmapto('_GetCurrentWord(', 'nvxsoilc')
+  Assert !hasmapto('wordmotion#current(', 'nvxsoilc')
   Assert !hasmapto('<Plug>WordMotion_', 'nvxsoilc')
 
 Execute (Check no mappings):
@@ -173,18 +173,18 @@ Execute (Check no mappings):
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
     for mode in [ 'x', 'o' ]
       Assert empty(maparg(map, mode))
-      Assert maparg('<Plug>WordMotion_' . map, mode) =~ '_AOrInnerWordMotion('
+      Assert maparg('<Plug>WordMotion_' . map, mode) =~ 'wordmotion#object('
     endfor
   endfor
   for map in [ 'w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE' ]
     for mode in [ 'n', 'x', 'o' ]
       Assert empty(maparg(map, mode))
-      Assert maparg('<Plug>WordMotion_' . map, mode) =~ '_WordMotion('
+      Assert maparg('<Plug>WordMotion_' . map, mode) =~ 'wordmotion#motion('
     endfor
   endfor
   for map in [ '<C-R><C-W>', '<C-R><C-A>' ]
     Assert empty(maparg(map, 'c'))
-    Assert maparg('<Plug>WordMotion_'  . map, 'c') =~ '_GetCurrentWord('
+    Assert maparg('<Plug>WordMotion_'  . map, 'c') =~ 'wordmotion#current('
   endfor
   Assert !hasmapto('<Plug>WordMotion_', 'nvxsoilc')
 
@@ -212,18 +212,18 @@ Execute (Check no mappings even with prefix):
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
     for mode in [ 'x', 'o' ]
       Assert empty(maparg(map, mode))
-      Assert maparg('<Plug>WordMotion_' . map, mode) =~ '_AOrInnerWordMotion('
+      Assert maparg('<Plug>WordMotion_' . map, mode) =~ 'wordmotion#object('
     endfor
   endfor
   for map in [ 'w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE' ]
     for mode in [ 'n', 'x', 'o' ]
       Assert empty(maparg(map, mode))
-      Assert maparg('<Plug>WordMotion_' . map, mode) =~ '_WordMotion('
+      Assert maparg('<Plug>WordMotion_' . map, mode) =~ 'wordmotion#motion('
     endfor
   endfor
   for map in [ '<C-R><C-W>', '<C-R><C-A>' ]
     Assert empty(maparg(map, 'c'))
-    Assert maparg('<Plug>WordMotion_'  . map, 'c') =~ '_GetCurrentWord('
+    Assert maparg('<Plug>WordMotion_'  . map, 'c') =~ 'wordmotion#current('
   endfor
   Assert !hasmapto('<Plug>WordMotion_', 'nvxsoilc')
 

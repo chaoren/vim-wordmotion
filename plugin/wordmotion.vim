@@ -3,279 +3,118 @@ if exists('g:loaded_wordmotion')
 endif
 let g:loaded_wordmotion = v:true
 
-let s:prefix = get(g:, 'wordmotion_prefix', '')
-let s:mappings = get(g:, 'wordmotion_mappings', { })
-let s:spaces = get(g:, 'wordmotion_spaces', ['_'])
-let s:uspaces = get(g:, 'wordmotion_uppercase_spaces', [])
-if exists('g:wordmotion_nomap')
-	let s:nomap = g:wordmotion_nomap
-else
-	let s:nomap = get(g:, 'wordmotion_disable_default_mappings', v:false)
+let s:_ = {}
+
+if exists('*wordmotion#init')
+	call wordmotion#init()
 endif
 
-let s:plug = '<Plug>WordMotion_'
-let s:flags = { 'w' : '', 'e' : 'e', 'b' : 'b', 'ge' : 'be' }
-let s:uppercases = [ 'W', 'E', 'B', 'gE', 'aW', 'iW', '<C-R><C-A>' ]
-
-if exists('s:existing') " {{{
-	for s:mapping in s:existing
-		let s:mode = s:mapping['mode']
-		let s:unmap = s:mode . 'unmap'
-		let s:lhs = s:mapping['lhs']
-		let s:rhs = s:mapping['rhs']
-		if hasmapto(s:rhs, s:mode)
-			execute s:unmap s:lhs
+if exists('s:existing')
+	for s:_.mapping in s:existing
+		let s:_.mode = s:_.mapping['mode']
+		let s:_.unmap = s:_.mode . 'unmap'
+		let s:_.lhs = s:_.mapping['lhs']
+		let s:_.rhs = s:_.mapping['rhs']
+		if hasmapto(s:_.rhs, s:_.mode)
+			execute s:_.unmap s:_.lhs
 		endif
 	endfor
-endif " }}}
+endif
 let s:existing = []
+function s:_.add_existing(mode, lhs, rhs)
+	call add(s:existing, { 'mode' : a:mode, 'lhs' : a:lhs, 'rhs' : a:rhs })
+endfunction
 
-for s:motion in [ 'w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE' ] " {{{
-	for s:mode in [ 'n', 'x', 'o' ]
-		let s:u = index(s:uppercases, s:motion) != -1
-		if s:u && empty(s:uspaces)
-			continue
-		endif
-		let s:map = s:plug . s:motion
-		let s:m = "'" . s:mode . "'"
-		let s:f = "'" . s:flags[tolower(s:motion)] . "'"
-		let s:args = join([ 'v:count1', s:m, s:f, s:u, '[]' ], ', ')
-		let s:rhs = ':<C-U>call <SID>WordMotion(' . s:args . ')<CR>'
-		execute s:mode . 'noremap' '<silent>' . s:map s:rhs
-		call add(s:existing, { 'mode' : s:mode, 'lhs' : s:map, 'rhs' : s:rhs })
-		if s:nomap
-			continue
-		endif
-		let s:lhs = get(s:mappings, s:motion, s:prefix . s:motion)
-		if empty(s:lhs)
-			continue
-		endif
-		execute s:mode . 'map' '<silent>' . s:lhs s:map
-		call add(s:existing, { 'mode' : s:mode, 'lhs' : s:lhs, 'rhs' : s:map })
-	endfor
-endfor " }}}
-
-let s:inner = { 'aw' : v:false, 'iw' : v:true }
-
-for s:motion in [ 'aw', 'iw', 'aW', 'iW' ] " {{{
-	for s:mode in [ 'x', 'o' ]
-		let s:u = index(s:uppercases, s:motion) != -1
-		if s:u && empty(s:uspaces)
-			continue
-		endif
-		let s:map = s:plug . s:motion
-		let s:m = "'" . s:mode . "'"
-		let s:i = s:inner[tolower(s:motion)]
-		let s:args = join([ 'v:count1', s:m, s:i, s:u ], ', ')
-		let s:rhs = ':<C-U>call <SID>AOrInnerWordMotion(' . s:args . ')<CR>'
-		execute s:mode . 'noremap' '<silent>' . s:map s:rhs
-		call add(s:existing, { 'mode' : s:mode, 'lhs' : s:map, 'rhs' : s:rhs })
-		if s:nomap
-			continue
-		endif
-		let s:lhs = get(s:mappings, s:motion, s:motion[0] . s:prefix . s:motion[1])
-		if empty(s:lhs)
-			continue
-		endif
-		execute s:mode . 'map' '<silent>' . s:lhs s:map
-		call add(s:existing, { 'mode' : s:mode, 'lhs' : s:lhs, 'rhs' : s:map })
-	endfor
-endfor " }}}
-
-for s:motion in [ '<C-R><C-W>', '<C-R><C-A>' ] " {{{
-	let s:u = index(s:uppercases, s:motion) != -1
-	if s:u && empty(s:uspaces)
-		continue
-	endif
-	let s:map = s:plug . s:motion
-	let s:mode = 'c'
-	let s:rhs = '<SID>GetCurrentWord(' . s:u . ')'
-	execute s:mode . 'noremap' '<expr>' . s:map s:rhs
-	call add(s:existing, { 'mode' : s:mode, 'lhs' : s:map, 'rhs' : s:rhs })
-	if s:nomap
-		continue
-	endif
-	let s:lhs = get(s:mappings, s:motion, s:motion)
-	if empty(s:lhs)
-		continue
-	endif
-	execute s:mode . 'map' s:lhs s:map
-	call add(s:existing, { 'mode' : s:mode, 'lhs' : s:lhs, 'rhs' : s:map })
-endfor " }}}
-
-if type(s:spaces) == type('')
-	let s:spaces = split(s:spaces, '\zs')
+let s:_.prefix = get(g:, 'wordmotion_prefix', '')
+let s:_.mappings = get(g:, 'wordmotion_mappings', { })
+let s:_.uspaces = get(g:, 'wordmotion_uppercase_spaces', [])
+if exists('g:wordmotion_nomap')
+	let s:_.nomap = g:wordmotion_nomap
+else
+	let s:_.nomap = get(g:, 'wordmotion_disable_default_mappings', v:false)
 endif
-let s:s = '\%([' . join(['[:space:]'] + s:spaces, ']\|[') . ']\)'
-let s:S = '\%(' . s:s . '\@!.\)'
-unlet s:spaces
 
-if type(s:uspaces) == type('')
-	let s:uspaces = split(s:uspaces, '\zs')
+let s:_.plug = '<Plug>WordMotion_'
+let s:_.flags = { 'w' : '', 'e' : 'e', 'b' : 'b', 'ge' : 'be' }
+
+let s:_.motions = [ 'w', 'e', 'b', 'ge' ]
+if !empty(s:_.uspaces)
+	let s:_.motions += [ 'W', 'E', 'B', 'gE' ]
 endif
-let s:us = '\%([' . join(['[:space:]'] + s:uspaces, ']\|[') . ']\)'
-let s:uS = '\%(' . s:us . '\@!.\)'
-unlet s:uspaces
 
-function! s:BuildWordPattern() abort " {{{
-	" [:alnum:] and [:alpha:] are ASCII only
-	let l:a = '[[:digit:][:lower:][:upper:]]'
-	let l:d = '[[:digit:]]'
-	let l:p = '[[:print:]]'
-	let l:l = '[[:lower:]]'
-	let l:u = '[[:upper:]]'
-	let l:x = '[[:xdigit:]]'
-
-	" set complement
-	function! s:C(set, ...) abort " {{{
-		let l:exclude = join(a:000, '\|')
-		return '\%(\%(' . l:exclude . '\)\@!' . a:set . '\)'
-	endfunction " }}}
-
-	let l:words = get(g:, 'wordmotion_extra', [])
-	call add(l:words, l:u . l:l . '\+')          " CamelCase
-	call add(l:words, l:u . '\+\ze' . l:u . l:l) " ACRONYMSBeforeCamelCase
-	call add(l:words, l:u . '\+')                " UPPERCASE
-	call add(l:words, l:l . '\+')                " lowercase
-	call add(l:words, '0[xX]' . l:x . '\+')      " 0x00 0Xff
-	call add(l:words, '0[oO][0-7]\+')            " 0o00 0O77
-	call add(l:words, '0[bB][01]\+')             " 0b00 0B11
-	call add(l:words, l:d . '\+')                " 1234 5678
-	call add(l:words, s:C(l:p, l:a, s:s) . '\+') " other printable characters
-	call add(l:words, '\%^')                     " start of file
-	call add(l:words, '\%$')                     " end of file
-	return join(l:words, '\|')
-endfunction " }}}
-
-let s:word = s:BuildWordPattern()
-
-function! <SID>WordMotion(count, mode, flags, uppercase, extra) abort " {{{
-	if a:mode == 'x'
-		normal! gv
-	elseif a:mode == 'o' && a:flags =~# 'e'
-		" need to make this inclusive for operator pending mode
-		normal! v
-	endif
-
-	let l:words = a:extra + [a:uppercase ? s:uS . '\+' : s:word]
-	if a:flags != 'e' " e does not stop in an empty line
-		call add(l:words, '^$')
-	endif
-
-	let l:pattern = '\m\%(' . join(l:words, '\|') . '\)'
-
-	" save position to see if it moved
-	let l:pos = getpos('.')
-
-	for @_ in range(a:count)
-		call search(l:pattern, a:flags . 'W')
+for s:_.motion in s:_.motions
+	for s:_.mode in [ 'n', 'x', 'o' ]
+		let s:_.map = s:_.plug . s:_.motion
+		let s:_.m = "'" . s:_.mode . "'"
+		let s:_.f = "'" . s:_.flags[tolower(s:_.motion)] . "'"
+		let s:_.u = s:_.motion =~ '\u'
+		let s:_.args = join([ 'v:count1', s:_.m, s:_.f, s:_.u, '[]' ], ', ')
+		let s:_.rhs = ':<C-U>call wordmotion#motion(' . s:_.args . ')<CR>'
+		execute s:_.mode . 'noremap' '<silent>' . s:_.map s:_.rhs
+		call s:_.add_existing(s:_.mode, s:_.map, s:_.rhs)
+		if s:_.nomap
+			continue
+		endif
+		let s:_.lhs = get(s:_.mappings, s:_.motion, s:_.prefix . s:_.motion)
+		if empty(s:_.lhs)
+			continue
+		endif
+		execute s:_.mode . 'map' '<silent>' . s:_.lhs s:_.map
+		call s:_.add_existing(s:_.mode, s:_.lhs, s:_.map)
 	endfor
+endfor
 
-	" ugly hack for 'w' going forwards at end of file
-	" and 'ge' going backwards at beginning of file
-	if a:count && l:pos == getpos('.')
-		" cursor didn't move
-		if a:flags == 'be' && line('.') == 1
-			" at first line and going backwards, let's go to the front
-			normal! 0
-		elseif a:flags == '' && line('.') == line('$')
-			" at last line and going forwards, let's go to the back
-			if a:mode == 'o'
-				" need to include last character if in operator pending mode
-				normal! v
-			endif
-			normal! $
+let s:_.inner = { 'aw' : v:false, 'iw' : v:true }
+
+let s:_.motions = [ 'aw', 'iw' ]
+if !empty(s:_.uspaces)
+	let s:_.motions += [ 'aW', 'iW' ]
+endif
+
+for s:_.motion in s:_.motions
+	for s:_.mode in [ 'x', 'o' ]
+		let s:_.map = s:_.plug . s:_.motion
+		let s:_.m = "'" . s:_.mode . "'"
+		let s:_.i = s:_.inner[tolower(s:_.motion)]
+		let s:_.u = s:_.motion =~ '\u'
+		let s:_.args = join([ 'v:count1', s:_.m, s:_.i, s:_.u ], ', ')
+		let s:_.rhs = ':<C-U>call wordmotion#object(' . s:_.args . ')<CR>'
+		execute s:_.mode . 'noremap' '<silent>' . s:_.map s:_.rhs
+		call s:_.add_existing(s:_.mode, s:_.map, s:_.rhs)
+		if s:_.nomap
+			continue
 		endif
-	endif
-endfunction " }}}
-
-function! <SID>AOrInnerWordMotion(count, mode, inner, uppercase) abort " {{{
-	let l:flags = 'e'
-	let l:extra = []
-	let l:backwards = v:false
-	let l:count = a:count
-	let l:existing_selection = v:false
-	let l:s = a:uppercase ? s:us : s:s
-	let l:S = a:uppercase ? s:uS : s:S
-
-	if a:mode == 'x'
-		normal! gv
-		if getpos("'<") == getpos("'>")
-			" no existing selection, exit visual mode
-			execute 'normal!' visualmode()
-		else
-			let l:existing_selection = v:true
-			let l:start = getpos('.')
-			if l:start == getpos("'<")
-				let l:flags = 'b'
-				let l:backwards = v:true
-			endif
+		let s:_.default = s:_.motion[0] . s:_.prefix . s:_.motion[1]
+		let s:_.lhs = get(s:_.mappings, s:_.motion, s:_.default)
+		if empty(s:_.lhs)
+			continue
 		endif
+		execute s:_.mode . 'map' '<silent>' . s:_.lhs s:_.map
+		call s:_.add_existing(s:_.mode, s:_.lhs, s:_.map)
+	endfor
+endfor
+
+let s:_.motions = [ '<C-R><C-W>' ]
+if !empty(s:_.uspaces)
+	let s:_.motions += [ '<C-R><C-A>' ]
+endif
+
+for s:_.motion in s:_.motions
+	let s:_.map = s:_.plug . s:_.motion
+	let s:_.mode = 'c'
+	let s:_.u = s:_.motion == '<C-R><C-A>'
+	let s:_.rhs = 'wordmotion#current(' . s:_.u . ')'
+	execute s:_.mode . 'noremap' '<expr>' . s:_.map s:_.rhs
+	call s:_.add_existing(s:_.mode, s:_.map, s:_.rhs)
+	if s:_.nomap
+		continue
 	endif
-
-	if a:inner
-		" for inner word, count white spaces too
-		call add(l:extra, l:s . '\+')
-	else
-		if getline('.')[col('.') - 1] =~ l:s
-			if !l:existing_selection
-				let l:backwards = v:true
-			endif
-			call search('\m' . l:S, 'W')
-		endif
+	let s:_.lhs = get(s:_.mappings, s:_.motion, s:_.motion)
+	if empty(s:_.lhs)
+		continue
 	endif
+	execute s:_.mode . 'map' s:_.lhs s:_.map
+	call s:_.add_existing(s:_.mode, s:_.lhs, s:_.map)
+endfor
 
-	if !l:existing_selection
-		call <SID>WordMotion(1, 'n', 'bc', a:uppercase, l:extra)
-		let l:start = getpos('.')
-		normal! v
-		call <SID>WordMotion(1, 'n', 'ec', a:uppercase, l:extra)
-		let l:count -= 1
-	endif
-
-	call <SID>WordMotion(l:count, 'n', l:flags, a:uppercase, l:extra)
-
-	if !a:inner
-		if col('.') == col('$') - 1
-			" at end of line, go back, and consume preceding white spaces
-			let l:backwards = v:true
-		endif
-
-		if l:backwards && !l:existing_selection
-			" selection is forwards, but need to extend backwards
-			let l:end = getpos('.')
-			call cursor(l:start[1], l:start[2])
-			call search('\m' . l:s . '\+\%#', 'bW')
-			normal! vv
-			call cursor(l:end[1], l:end[2])
-		elseif l:backwards
-			" selection is actually going backwards
-			call search('\m' . l:s . '\+\%#', 'bW')
-		else
-			" forward selection, consume following white spaces
-			call search('\m\%#.' . l:s . '\+', 'eW')
-		endif
-	endif
-endfunction " }}}
-
-function! <SID>GetCurrentWord(uppercase) abort " {{{
-	let l:cursor = getpos('.')
-	call <SID>WordMotion(1, 'n', 'ec', a:uppercase, [])
-	let l:end = getpos('.')
-	call <SID>WordMotion(1, 'n', 'bc', a:uppercase, [])
-	let l:start = getpos('.')
-	call cursor(l:cursor)
-	let l:line = l:cursor[1]
-	if l:start[1] != l:line || l:end[1] != l:line ||
-				\ len(getline(l:line)) < l:end[2] ||
-				\ getline(l:line)[l:end[2]-1] =~ (a:uppercase ? s:us : s:s)
-		echohl ErrorMsg
-		echomsg 'E348: No string under cursor'
-		echohl None
-		return ''
-	else
-		return getline(l:line)[l:start[2]-1:l:end[2]-1]
-	endif
-endfunction " }}}
-
-" vim:fdm=marker
+unlet s:_
