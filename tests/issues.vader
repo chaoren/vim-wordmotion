@@ -3,6 +3,8 @@ Given (Weird characters: https://github.com/chaoren/vim-wordmotion/issues/1):
 
 Execute (Move 2 words):
   normal 2w
+
+Then (Assert that cursor is at [g]hi):
   AssertEqual 'g', getline('.')[col('.') - 1]
 
 Given (Underscores: https://github.com/chaoren/vim-wordmotion/issues/5):
@@ -10,6 +12,8 @@ Given (Underscores: https://github.com/chaoren/vim-wordmotion/issues/5):
 
 Execute (Move 2 words):
   normal 2w
+
+Then (Assert that cursor is at _[d]ef_):
   AssertEqual 'g', getline('.')[col('.') - 1]
 
 Given (CamelCase):

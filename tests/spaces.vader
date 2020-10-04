@@ -1,4 +1,4 @@
-After:
+After (Restore default options):
   call wordmotion#_default()
 
 Given (Lorem ipsum deliminated by '_'):
