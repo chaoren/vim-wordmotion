@@ -138,45 +138,6 @@ let g:wordmotion_mappings['w'] = '<M-w>'
 call wordmotion#reload()
 ```
 
-## Caveats
-
-There are some special cases with how Vim's word motions work.\
-E.g.,
-```
-Vim:
-
-	^foo [b]ar$ -> dw -> ^foo[ ]$
-	^ baz$               ^ baz$
-
-	^[f]oo bar$ -> cw -> ^[ ]bar$
-
-This plugin:
-
-	^foo [b]ar$ -> dw -> ^foo [b]az$
-	^ baz$
-
-	^[f]oo bar$ -> cw -> ^[b]ar$
-```
-This plugin faithfully follows the motion of `w` when executing `dw` and `cw`,
-while Vim replaces these two special cases with the behavior of `de` and `ce`,
-respectively.
-
-If you want to restore Vim's special case behavior with `dw` and `cw`, you can
-do this:
-```
-nmap dw de
-nmap cw ce
-```
-
-If you want the same behavior for uppercase motions (i.e., `dW` and `cW`), you
-can set `g:wordmotion_uppercase_spaces`.\
-E.g.,
-```
-let g:wordmotion_uppercase_spaces = [' ']
-```
-will enable this behavior without adding extra space characters to uppercase
-motions.
-
 ## Related
 [camelcasemotion][3]
 

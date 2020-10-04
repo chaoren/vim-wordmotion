@@ -1,4 +1,4 @@
-After:
+After (Restore default options):
   call wordmotion#_default()
 
 Execute (Check default mappings):

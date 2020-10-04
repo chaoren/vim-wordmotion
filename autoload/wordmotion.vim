@@ -46,15 +46,22 @@ endfunction
 call wordmotion#init()
 
 function wordmotion#motion(count, mode, flags, uppercase, extra)
+	let l:flags = a:flags
+
+	if a:mode == 'o' && v:operator == 'c' && l:flags == ''
+		" special case (see :help cw)
+		let l:flags = 'ce'
+	endif
+
 	if a:mode == 'x'
 		normal! gv
-	elseif a:mode == 'o' && a:flags =~# 'e'
+	elseif a:mode == 'o' && l:flags =~# 'e'
 		" need to make this inclusive for operator pending mode
 		normal! v
 	endif
 
 	let l:words = a:extra + [a:uppercase ? s:uS . '\+' : s:word]
-	if a:flags != 'e' " e does not stop in an empty line
+	if l:flags != 'e' " e does not stop in an empty line
 		call add(l:words, '^$')
 	endif
 
@@ -64,17 +71,17 @@ function wordmotion#motion(count, mode, flags, uppercase, extra)
 	let l:pos = getpos('.')
 
 	for @_ in range(a:count)
-		call search(l:pattern, a:flags . 'W')
+		call search(l:pattern, l:flags . 'W')
 	endfor
 
 	" ugly hack for 'w' going forwards at end of file
 	" and 'ge' going backwards at beginning of file
 	if a:count && l:pos == getpos('.')
 		" cursor didn't move
-		if a:flags == 'be' && line('.') == 1
+		if l:flags == 'be' && line('.') == 1
 			" at first line and going backwards, let's go to the front
 			normal! 0
-		elseif a:flags == '' && line('.') == line('$')
+		elseif l:flags == '' && line('.') == line('$')
 			" at last line and going forwards, let's go to the back
 			if a:mode == 'o'
 				" need to include last character if in operator pending mode
