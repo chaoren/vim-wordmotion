@@ -45,22 +45,21 @@ endif
 for s:_.motion in s:_.motions
 	for s:_.mode in [ 'n', 'x', 'o' ]
 		let s:_.map = s:_.plug . s:_.motion
-		let s:_.m = "'" . s:_.mode . "'"
-		let s:_.f = "'" . s:_.flags[tolower(s:_.motion)] . "'"
+		let s:_.m = printf("'%s'", s:_.mode)
+		let s:_.f = printf("'%s'", s:_.flags[tolower(s:_.motion)])
 		let s:_.u = s:_.motion =~ '\u'
 		let s:_.args = join([ 'v:count1', s:_.m, s:_.f, s:_.u, '[]' ], ', ')
-		let s:_.rhs = ':<C-U>call wordmotion#motion(' . s:_.args . ')<CR>'
-		execute s:_.mode . 'noremap' '<silent>' . s:_.map s:_.rhs
+		let s:_.rhs = printf(':<C-U>call wordmotion#motion(%s)<CR>', s:_.args)
+		execute s:_.mode . 'noremap' '<silent>' s:_.map s:_.rhs
 		call s:_.add_existing(s:_.mode, s:_.map, s:_.rhs)
 		if s:_.nomap
 			continue
 		endif
 		let s:_.lhs = get(s:_.mappings, s:_.motion, s:_.prefix . s:_.motion)
-		if empty(s:_.lhs)
-			continue
+		if !empty(s:_.lhs)
+			execute s:_.mode . 'map' '<silent>' s:_.lhs s:_.map
+			call s:_.add_existing(s:_.mode, s:_.lhs, s:_.map)
 		endif
-		execute s:_.mode . 'map' '<silent>' . s:_.lhs s:_.map
-		call s:_.add_existing(s:_.mode, s:_.lhs, s:_.map)
 	endfor
 endfor
 
@@ -74,23 +73,22 @@ endif
 for s:_.motion in s:_.motions
 	for s:_.mode in [ 'x', 'o' ]
 		let s:_.map = s:_.plug . s:_.motion
-		let s:_.m = "'" . s:_.mode . "'"
+		let s:_.m = printf("'%s'", s:_.mode)
 		let s:_.i = s:_.inner[tolower(s:_.motion)]
 		let s:_.u = s:_.motion =~ '\u'
 		let s:_.args = join([ 'v:count1', s:_.m, s:_.i, s:_.u ], ', ')
-		let s:_.rhs = ':<C-U>call wordmotion#object(' . s:_.args . ')<CR>'
-		execute s:_.mode . 'noremap' '<silent>' . s:_.map s:_.rhs
+		let s:_.rhs = printf(':<C-U>call wordmotion#object(%s)<CR>', s:_.args)
+		execute s:_.mode . 'noremap' '<silent>' s:_.map s:_.rhs
 		call s:_.add_existing(s:_.mode, s:_.map, s:_.rhs)
 		if s:_.nomap
 			continue
 		endif
 		let s:_.default = s:_.motion[0] . s:_.prefix . s:_.motion[1]
 		let s:_.lhs = get(s:_.mappings, s:_.motion, s:_.default)
-		if empty(s:_.lhs)
-			continue
+		if !empty(s:_.lhs)
+			execute s:_.mode . 'map' '<silent>' s:_.lhs s:_.map
+			call s:_.add_existing(s:_.mode, s:_.lhs, s:_.map)
 		endif
-		execute s:_.mode . 'map' '<silent>' . s:_.lhs s:_.map
-		call s:_.add_existing(s:_.mode, s:_.lhs, s:_.map)
 	endfor
 endfor
 
@@ -103,18 +101,17 @@ for s:_.motion in s:_.motions
 	let s:_.map = s:_.plug . s:_.motion
 	let s:_.mode = 'c'
 	let s:_.u = s:_.motion == '<C-R><C-A>'
-	let s:_.rhs = 'wordmotion#current(' . s:_.u . ')'
-	execute s:_.mode . 'noremap' '<expr>' . s:_.map s:_.rhs
+	let s:_.rhs = printf('wordmotion#current(%d)', s:_.u)
+	execute s:_.mode . 'noremap' '<expr>' s:_.map s:_.rhs
 	call s:_.add_existing(s:_.mode, s:_.map, s:_.rhs)
 	if s:_.nomap
 		continue
 	endif
 	let s:_.lhs = get(s:_.mappings, s:_.motion, s:_.motion)
-	if empty(s:_.lhs)
-		continue
+	if !empty(s:_.lhs)
+		execute s:_.mode . 'map' s:_.lhs s:_.map
+		call s:_.add_existing(s:_.mode, s:_.lhs, s:_.map)
 	endif
-	execute s:_.mode . 'map' s:_.lhs s:_.map
-	call s:_.add_existing(s:_.mode, s:_.lhs, s:_.map)
 endfor
 
 unlet s:_
