@@ -3,15 +3,15 @@ function wordmotion#init()
 	if type(l:spaces) == type('')
 		let l:spaces = split(l:spaces, '\zs')
 	endif
-	let s:s = '\%([' . join(['[:space:]'] + l:spaces, ']\|[') . ']\)'
-	let s:S = '\%(' . s:s . '\@!.\)'
+	let s:s = printf('\%%([%s]\)', join(['[:space:]'] + l:spaces, ']\|['))
+	let s:S = printf('\%%(%s\@!.\)', s:s)
 
 	let l:uspaces = get(g:, 'wordmotion_uppercase_spaces', [])
 	if type(l:uspaces) == type('')
 		let l:uspaces = split(l:uspaces, '\zs')
 	endif
-	let s:us = '\%([' . join(['[:space:]'] + l:uspaces, ']\|[') . ']\)'
-	let s:uS = '\%(' . s:us . '\@!.\)'
+	let s:us = printf('\%%([%s]\)', join(['[:space:]'] + l:uspaces, ']\|['))
+	let s:uS = printf('\%%(%s\@!.\)', s:us)
 
 	" [:alnum:] and [:alpha:] are ASCII only
 	let l:a = '[[:digit:][:lower:][:upper:]]'
@@ -25,7 +25,7 @@ function wordmotion#init()
 	let l:_ = {}
 	function l:_.C(set, ...)
 		let l:exclude = join(a:000, '\|')
-		return '\%(\%(' . l:exclude . '\)\@!' . a:set . '\)'
+		return printf('\%%(\%%(%s\)\@!%s\)', l:exclude, a:set)
 	endfunction
 
 	let l:words = get(g:, 'wordmotion_extra', [])
@@ -58,7 +58,7 @@ function wordmotion#motion(count, mode, flags, uppercase, extra)
 		call add(l:words, '^$')
 	endif
 
-	let l:pattern = '\m\%(' . join(l:words, '\|') . '\)'
+	let l:pattern = printf('\m\%%(%s\)', join(l:words, '\|'))
 
 	" save position to see if it moved
 	let l:pos = getpos('.')
@@ -141,15 +141,15 @@ function wordmotion#object(count, mode, inner, uppercase)
 			" selection is forwards, but need to extend backwards
 			let l:end = getpos('.')
 			call cursor(l:start[1], l:start[2])
-			call search('\m' . l:s . '\+\%#', 'bW')
+			call search(printf('\m%s\+\%%#', l:s), 'bW')
 			normal! vv
 			call cursor(l:end[1], l:end[2])
 		elseif l:backwards
 			" selection is actually going backwards
-			call search('\m' . l:s . '\+\%#', 'bW')
+			call search(printf('\m%s\+\%%#', l:s), 'bW')
 		else
 			" forward selection, consume following white spaces
-			call search('\m\%#.' . l:s . '\+', 'eW')
+			call search(printf('\m\%%#.%s\+', l:s), 'eW')
 		endif
 	endif
 endfunction
