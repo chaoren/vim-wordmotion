@@ -112,10 +112,9 @@ Expect (text changed to texchange):
 
 # single character words
 
-Given (a b c\nd e f\ng h i):
+Given (a b c\nd e f):
   a b c
   d e f
-  g h i
 
 Do (cw at [a]):
   cwz\<Esc>
@@ -127,7 +126,6 @@ Then (Assert that cursor is at z):
 Expect (a changed to z):
   z b c
   d e f
-  g h i
 
 Do (cw at [b]):
   w
@@ -140,7 +138,6 @@ Then (Assert that cursor is at z):
 Expect (a changed to z):
   a z c
   d e f
-  g h i
 
 Do (cw at [c]):
   2w
@@ -153,7 +150,6 @@ Then (Assert that cursor is at z):
 Expect (a changed to z):
   a b z
   d e f
-  g h i
 
 Do (cw at [d]):
   j
@@ -166,7 +162,6 @@ Then (Assert that cursor is at z):
 Expect (d changed to z):
   a b c
   z e f
-  g h i
 
 Do (cw at [e]):
   jw
@@ -179,7 +174,6 @@ Then (Assert that cursor is at z):
 Expect (e changed to z):
   a b c
   d z f
-  g h i
 
 Do (cw at [f]):
   j2w
@@ -192,46 +186,6 @@ Then (Assert that cursor is at z):
 Expect (f changed to z):
   a b c
   d e z
-  g h i
-
-Do (cw at [g]):
-  2j
-  cwz\<Esc>
-
-Then (Assert that cursor is at z):
-  Assert 3, line('.')
-  Assert 1, col('.')
-
-Expect (g changed to z):
-  a b c
-  d e f
-  z h i
-
-Do (cw at [h]):
-  2jw
-  cwz\<Esc>
-
-Then (Assert that cursor is at z):
-  Assert 3, line('.')
-  Assert 3, col('.')
-
-Expect (h changed to z):
-  a b c
-  d e f
-  g z i
-
-Do (cw at [i]):
-  2j2w
-  cwz\<Esc>
-
-Then (Assert that cursor is at z):
-  Assert 3, line('.')
-  Assert 5, col('.')
-
-Expect (h changed to z):
-  a b c
-  d e f
-  g h z
 
 Do (c2w at [b]):
   w
@@ -244,7 +198,6 @@ Then (Assert that cursor is at z):
 Expect ("b c" changed to z):
   a z
   d e f
-  g h i
 
 Do (2cw at [b]):
   w
@@ -257,7 +210,6 @@ Then (Assert that cursor is at z):
 Expect ("b c" changed to z):
   a z
   d e f
-  g h i
 
 Do (c4w at [b]):
   w
@@ -269,7 +221,6 @@ Then (Assert that cursor is at z):
 
 Expect ("b c\nd e" changed to z):
   a z f
-  g h i
 
 Do (4cw at [b]):
   w
@@ -281,4 +232,3 @@ Then (Assert that cursor is at z):
 
 Expect ("b c\nd e" changed to z):
   a z f
-  g h i
