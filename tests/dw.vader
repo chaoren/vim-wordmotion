@@ -1,0 +1,244 @@
+# regular words
+
+Given (This is some text):
+  This is some text
+
+# first word of line, start of word
+
+Do (dw at [T]his):
+  dw
+
+Then (Assert that cursor is at [i]s):
+  Assert 1, col('.')
+
+Expect (This deleted):
+  is some text
+
+# first word of line, middle of word
+
+Do (dw at T[h]is):
+  l
+  dw
+
+Then (Assert that cursor is at [i]s):
+  Assert 2, col('.')
+
+Expect (his deleted):
+  Tis some text
+
+# first word of line, end of word
+
+Do (dw at Thi[s]):
+  e
+  dw
+
+Then (Assert that cursor is at [i]s):
+  Assert 5, col('.')
+
+Expect (his deleted):
+  Thiis some text
+
+# middle of line, start of word
+
+Do (dw at [s]ome):
+  2w
+  dw
+
+Then (Assert that cursor is at [t]ext):
+  Assert 9, col('.')
+
+Expect (some deleted):
+  This is text
+
+# middle of line, middle of word
+
+Do (dw at s[o]me):
+  2wl
+  dw
+
+Then (Assert that cursor is at [t]ext):
+  Assert 10, col('.')
+
+Expect (some deleted):
+  This is stext
+
+# middle of line, end of word
+
+Do (dw at som[e]):
+  3e
+  dw
+
+Then (Assert that cursor is at [t]ext):
+  Assert 12, col('.')
+
+Expect (some deleted):
+  This is somtext
+
+# end of line, start of word
+
+Do (dw at [t]ext):
+  3w
+  dw
+
+Then (Assert that cursor is at some[_]):
+  Assert 13, col('.')
+
+Expect (text deleted):
+  This is some 
+
+# end of line, middle of word
+
+Do (dw at t[e]xt):
+  3wl
+  dw
+
+Then (Assert that cursor is at _[t]):
+  Assert 14, col('.')
+
+Expect (text deleted):
+  This is some t
+
+# single character words
+
+Given (a b c\nd e f\ng h i):
+  a b c
+  d e f
+  g h i
+
+Do (dw at [a]):
+  dw
+
+Then (Assert that cursor is at b):
+  Assert 1, line('.')
+  Assert 1, col('.')
+
+Expect (a deleted):
+  b c
+  d e f
+  g h i
+
+Do (dw at [b]):
+  w
+  dw
+
+Then (Assert that cursor is at c):
+  Assert 1, line('.')
+  Assert 3, col('.')
+
+Expect (b deleted):
+  a c
+  d e f
+  g h i
+
+Do (dw at [c]):
+  2w
+  dw
+
+Then (Assert that cursor is at b[ ]):
+  Assert 1, line('.')
+  Assert 4, col('.')
+
+Expect (c deleted):
+  a b 
+  d e f
+  g h i
+
+Do (dw at [d]):
+  j
+  dw
+
+Then (Assert that cursor is at e):
+  Assert 2, line('.')
+  Assert 1, col('.')
+
+Expect (d deleted):
+  a b c
+  e f
+  g h i
+
+Do (dw at [e]):
+  jw
+  dw
+
+Then (Assert that cursor is at f):
+  Assert 2, line('.')
+  Assert 3, col('.')
+
+Expect (e deleted):
+  a b c
+  d f
+  g h i
+
+Do (dw at [f]):
+  j2w
+  dw
+
+Then (Assert that cursor is at e[ ]):
+  Assert 2, line('.')
+  Assert 4, col('.')
+
+Expect (f deleted):
+  a b c
+  d e 
+  g h i
+
+Do (dw at [g]):
+  2j
+  dw
+
+Then (Assert that cursor is at h):
+  Assert 3, line('.')
+  Assert 1, col('.')
+
+Expect (g deleted):
+  a b c
+  d e f
+  h i
+
+Do (dw at [h]):
+  2jw
+  dw
+
+Then (Assert that cursor is at i):
+  Assert 3, line('.')
+  Assert 3, col('.')
+
+Expect (g deleted):
+  a b c
+  d e f
+  g i
+
+Do (dw at [i]):
+  2j2w
+  dw
+
+Then (Assert that cursor is at h[ ]):
+  Assert 3, line('.')
+  Assert 4, col('.')
+
+Expect (i deleted):
+  a b c
+  d e f
+  g h 
+
+Given (Leading space, word, newline, word):
+  	foo
+  bar
+
+Do (dw on word with leading space):
+  wdw
+
+Expect (Leading space left intact):
+  	
+  bar
+
+Given (Word, newline, leading space, word):
+  foo
+  	bar
+
+Do (dw on word with leading space on the next line):
+  dw
+
+Expect (Leading space left intact):
+  
+  	bar
