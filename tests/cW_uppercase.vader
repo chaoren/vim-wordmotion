@@ -1,0 +1,122 @@
+After (Restore default options):
+  call wordmotion#_default()
+
+Before (Set uppercase spaces to '-'):
+  let g:wordmotion_uppercase_spaces = ['-']
+  call wordmotion#reload()
+
+Given (-a-b-\n-c-d-):
+  -a-b-
+  -c-d-
+
+Do (cW at [a]):
+  fa
+  cWz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 1, line('.')
+  Assert 2, col('.')
+
+Expect (a changed to z):
+  -z-b-
+  -c-d-
+
+Do (cW at [b]):
+  fb
+  cWz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 1, line('.')
+  Assert 4, col('.')
+
+Expect (b changed to z):
+  -a-z-
+  -c-d-
+
+Do (cW at [c]):
+  jfc
+  cWz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 2, line('.')
+  Assert 2, col('.')
+
+Expect (c changed to z):
+  -a-b-
+  -z-d-
+
+Do (cW at [d]):
+  jfd
+  cWz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 2, line('.')
+  Assert 4, col('.')
+
+Expect (d changed to z):
+  -a-b-
+  -c-z-
+
+Given (a-b-\n-c-d):
+  a-b
+  c-d
+
+Do (cW at [a]):
+  cWz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 1, line('.')
+  Assert 1, col('.')
+
+Expect (a changed to z):
+  z-b
+  c-d
+
+Do (cW at [b]):
+  fb
+  cWz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 1, line('.')
+  Assert 3, col('.')
+
+Expect (b changed to z):
+  a-z
+  c-d
+
+Do (cW at [c]):
+  j
+  cWz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 2, line('.')
+  Assert 1, col('.')
+
+Expect (c changed to z):
+  a-b
+  z-d
+
+Do (cW at [d]):
+  jfd
+  cWz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 2, line('.')
+  Assert 3, col('.')
+
+Expect (d changed to z):
+  a-b
+  c-z
+
+Given (foo bar baz):
+  foo-bar-baz
+
+Do (cW at [b]ar):
+  W
+  cWasdf\<Esc>
+
+Then (Assert that cursor is at asd[f]):
+  Assert 8, col('.')
+
+Expect (bar changed to asdf):
+  foo-asdf-baz

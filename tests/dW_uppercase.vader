@@ -1,0 +1,29 @@
+After (Restore default options):
+  call wordmotion#_default()
+
+Before (Set uppercase spaces to '-'):
+  let g:wordmotion_uppercase_spaces = ['-']
+  call wordmotion#reload()
+
+Given (Leading space, word, newline, word):
+  --foo
+  bar
+
+Do (dW on word with leading space):
+  W
+  dW
+
+Expect (Leading space left intact):
+  --
+  bar
+
+Given (Word, newline, leading space, word):
+  foo
+  --bar
+
+Do (dW on word with leading space on the next line):
+  dW
+
+Expect (Leading space left intact):
+  
+  --bar

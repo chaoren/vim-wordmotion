@@ -100,10 +100,9 @@ Expect (text deleted):
 
 # single character words
 
-Given (a b c\nd e f\ng h i):
+Given (a b c\nd e f):
   a b c
   d e f
-  g h i
 
 Do (dw at [a]):
   dw
@@ -115,7 +114,6 @@ Then (Assert that cursor is at b):
 Expect (a deleted):
   b c
   d e f
-  g h i
 
 Do (dw at [b]):
   w
@@ -128,7 +126,6 @@ Then (Assert that cursor is at c):
 Expect (b deleted):
   a c
   d e f
-  g h i
 
 Do (dw at [c]):
   2w
@@ -141,7 +138,6 @@ Then (Assert that cursor is at b[ ]):
 Expect (c deleted):
   a b 
   d e f
-  g h i
 
 Do (dw at [d]):
   j
@@ -154,7 +150,6 @@ Then (Assert that cursor is at e):
 Expect (d deleted):
   a b c
   e f
-  g h i
 
 Do (dw at [e]):
   jw
@@ -167,7 +162,6 @@ Then (Assert that cursor is at f):
 Expect (e deleted):
   a b c
   d f
-  g h i
 
 Do (dw at [f]):
   j2w
@@ -180,46 +174,6 @@ Then (Assert that cursor is at e[ ]):
 Expect (f deleted):
   a b c
   d e 
-  g h i
-
-Do (dw at [g]):
-  2j
-  dw
-
-Then (Assert that cursor is at h):
-  Assert 3, line('.')
-  Assert 1, col('.')
-
-Expect (g deleted):
-  a b c
-  d e f
-  h i
-
-Do (dw at [h]):
-  2jw
-  dw
-
-Then (Assert that cursor is at i):
-  Assert 3, line('.')
-  Assert 3, col('.')
-
-Expect (g deleted):
-  a b c
-  d e f
-  g i
-
-Do (dw at [i]):
-  2j2w
-  dw
-
-Then (Assert that cursor is at h[ ]):
-  Assert 3, line('.')
-  Assert 4, col('.')
-
-Expect (i deleted):
-  a b c
-  d e f
-  g h 
 
 Do (d2w at [b]):
   w
@@ -232,7 +186,6 @@ Then (Assert that cursor is at a[ ]):
 Expect ("b c" deleted):
   a 
   d e f
-  g h i
 
 Do (2dw at [b]):
   w
@@ -245,7 +198,6 @@ Then (Assert that cursor is at a[ ]):
 Expect ("b c" deleted):
   a 
   d e f
-  g h i
 
 Do (d4w at [b]):
   w
@@ -257,7 +209,6 @@ Then (Assert that cursor is at f):
 
 Expect ("b c\nd e " deleted):
   a f
-  g h i
 
 Do (4dw at [b]):
   w
@@ -269,7 +220,6 @@ Then (Assert that cursor is at f):
 
 Expect ("b c\nd e " deleted):
   a f
-  g h i
 
 # leading space before current word
 
@@ -285,9 +235,9 @@ Expect (Leading space left intact):
   	
   bar
 
-Given (Leading space, word, word, newline, word):
-  	foo asdf
-  bar
+Given (Leading space, word, space, word, newline, word):
+  	foo bar
+  baz
 
 Do (d2w on word with leading space):
   w
@@ -295,11 +245,11 @@ Do (d2w on word with leading space):
 
 Expect (Leading space left intact):
   	
-  bar
+  baz
 
-Given (Leading space, word, word, newline, word):
-  	foo asdf
-  bar
+Given (Leading space, word, space, word, newline, word):
+  	foo bar
+  baz
 
 Do (2dw on word with leading space):
   w
@@ -307,7 +257,20 @@ Do (2dw on word with leading space):
 
 Expect (Leading space left intact):
   	
-  bar
+  baz
+
+Given (Leading space, word, newline, leading space, word, newline, word):
+  	foo
+  	bar
+  baz
+
+Do (2dw on word with leading space):
+  w
+  2dw
+
+Expect (Leading space left intact):
+  	
+  baz
 
 # leading space on next line
 
@@ -322,24 +285,36 @@ Expect (Leading space left intact):
   
   	bar
 
-Given (Word, word, newline, leading space, word):
-  foo asdf
-  	bar
+Given (Word, space, word, newline, leading space, word):
+  foo bar
+  	baz
 
 Do (d2w on word with leading space on the next line):
   d2w
 
-Expect (Leading space left intact):
+Expect (Newline and leading space left intact):
   
-  	bar
+  	baz
 
-Given (Word, word, newline, leading space, word):
-  foo asdf
-  	bar
+Given (Word, space, word, newline, leading space, word):
+  foo bar
+  	baz
 
 Do (2dw on word with leading space on the next line):
   2dw
 
-Expect (Leading space left intact):
+Expect (Newline and leading space left intact):
   
+  	baz
+
+Given (Word, newline, leading space, word, newline, leading space, word):
+  foo
   	bar
+  	baz
+
+Do (2dw on word with leading space on the next line):
+  2dw
+
+Expect (Newline and leading space left intact):
+  
+  	baz
