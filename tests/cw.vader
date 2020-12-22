@@ -1,0 +1,234 @@
+# regular words
+
+Given (This is some text):
+  This is some text
+
+# first word of line, start of word
+
+Do (cw at [T]his):
+  cwThat\<Esc>
+
+Then (Assert that cursor is at Tha[t]):
+  Assert 4, col('.')
+
+Expect (This changed to That):
+  That is some text
+
+# first word of line, middle of word
+
+Do (cw at T[h]is):
+  l
+  cwThat\<Esc>
+
+Then (Assert that cursor is at TTha[t]):
+  Assert 5, col('.')
+
+Expect (This changed to TThat):
+  TThat is some text
+
+# first word of line, end of word
+
+Do (cw at Thi[s]):
+  e
+  cwThat\<Esc>
+
+Then (Assert that cursor is at ThiTha[t]):
+  Assert 7, col('.')
+
+Expect (This changed to ThiThat):
+  ThiThat is some text
+
+# middle of line, start of word
+
+Do (cw at [s]ome):
+  2w
+  cwother\<Esc>
+
+Then (Assert that cursor is at othe[r]):
+  Assert 13, col('.')
+
+Expect (some changed to other):
+  This is other text
+
+# middle of line, middle of word
+
+Do (cw at s[o]me):
+  2wl
+  cwother\<Esc>
+
+Then (Assert that cursor is at othe[r]):
+  Assert 13, col('.')
+
+Expect (some changed to sother):
+  This is sother text
+
+# middle of line, end of word
+
+Do (cw at som[e]):
+  3e
+  cwother\<Esc>
+
+Then (Assert that cursor is at somothe[r]):
+  Assert 15, col('.')
+
+Expect (some changed to somother):
+  This is somother text
+
+# end of line, start of word
+
+Do (cw at [t]ext):
+  3w
+  cwchange\<Esc>
+
+Then (Assert that cursor is at chang[e]):
+  Assert 19, col('.')
+
+Expect (text changed to change):
+  This is some change
+
+# end of line, middle of word
+
+Do (cw at t[e]xt):
+  3wl
+  cwchange\<Esc>
+
+Then (Assert that cursor is at tchang[e]):
+  Assert 20, col('.')
+
+Expect (text changed to tchange):
+  This is some tchange
+
+# end of line, end of word
+
+Do (cw at tex[t]):
+  4e
+  cwchange\<Esc>
+
+Then (Assert that cursor is at texchang[e]):
+  Assert 22, col('.')
+
+Expect (text changed to texchange):
+  This is some texchange
+
+# single character words
+
+Given (a b c\nd e f\ng h i):
+  a b c
+  d e f
+  g h i
+
+Do (cw at [a]):
+  cwz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 1, line('.')
+  Assert 1, col('.')
+
+Expect (a changed to z):
+  z b c
+  d e f
+  g h i
+
+Do (cw at [b]):
+  w
+  cwz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 1, line('.')
+  Assert 3, col('.')
+
+Expect (a changed to z):
+  a z c
+  d e f
+  g h i
+
+Do (cw at [c]):
+  2w
+  cwz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 1, line('.')
+  Assert 5, col('.')
+
+Expect (a changed to z):
+  a b z
+  d e f
+  g h i
+
+Do (cw at [d]):
+  j
+  cwz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 2, line('.')
+  Assert 1, col('.')
+
+Expect (d changed to z):
+  a b c
+  z e f
+  g h i
+
+Do (cw at [e]):
+  jw
+  cwz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 2, line('.')
+  Assert 3, col('.')
+
+Expect (e changed to z):
+  a b c
+  d z f
+  g h i
+
+Do (cw at [f]):
+  j2w
+  cwz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 2, line('.')
+  Assert 5, col('.')
+
+Expect (f changed to z):
+  a b c
+  d e z
+  g h i
+
+Do (cw at [g]):
+  2j
+  cwz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 3, line('.')
+  Assert 1, col('.')
+
+Expect (g changed to z):
+  a b c
+  d e f
+  z h i
+
+Do (cw at [h]):
+  2jw
+  cwz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 3, line('.')
+  Assert 3, col('.')
+
+Expect (h changed to z):
+  a b c
+  d e f
+  g z i
+
+Do (cw at [i]):
+  2j2w
+  cwz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 3, line('.')
+  Assert 5, col('.')
+
+Expect (h changed to z):
+  a b c
+  d e f
+  g h z

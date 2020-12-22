@@ -74,6 +74,21 @@ function wordmotion#motion(count, mode, flags, uppercase, extra)
 		call search(l:pattern, l:flags . 'W')
 	endfor
 
+	" dw at the end of a line should not consume the newline or leading white
+	" space on the next line
+	if a:mode == 'o' && v:operator == 'd' && l:flags == '' &&
+				\ l:pos[1] < getpos('.')[1]
+		let l:s = a:uppercase ? s:us : s:s
+		" newline, leading whitespace, cursor
+		if search('\m\n\%(' . l:s . '\)*\%#', 'bW') != 0
+			let l:dwpos = getpos('.')
+			" need to make range inclusive
+			call setpos('.', l:pos)
+			normal! v
+			call setpos('.', l:dwpos)
+		endif
+	endif
+
 	" ugly hack for 'w' going forwards at end of file
 	" and 'ge' going backwards at beginning of file
 	if a:count && l:pos == getpos('.')
