@@ -232,3 +232,53 @@ Expect (h changed to z):
   a b c
   d e f
   g h z
+
+Do (c2w at [b]):
+  w
+  c2wz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 1, line('.')
+  Assert 3, col('.')
+
+Expect ("b c" changed to z):
+  a z
+  d e f
+  g h i
+
+Do (2cw at [b]):
+  w
+  2cwz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 1, line('.')
+  Assert 3, col('.')
+
+Expect ("b c" changed to z):
+  a z
+  d e f
+  g h i
+
+Do (c4w at [b]):
+  w
+  c4wz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 1, line('.')
+  Assert 3, col('.')
+
+Expect ("b c\nd e" changed to z):
+  a z f
+  g h i
+
+Do (4cw at [b]):
+  w
+  4cwz\<Esc>
+
+Then (Assert that cursor is at z):
+  Assert 1, line('.')
+  Assert 3, col('.')
+
+Expect ("b c\nd e" changed to z):
+  a z f
+  g h i
