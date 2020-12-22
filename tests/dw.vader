@@ -221,16 +221,95 @@ Expect (i deleted):
   d e f
   g h 
 
+Do (d2w at [b]):
+  w
+  d2w
+
+Then (Assert that cursor is at a[ ]):
+  Assert 1, line('.')
+  Assert 2, col('.')
+
+Expect ("b c" deleted):
+  a 
+  d e f
+  g h i
+
+Do (2dw at [b]):
+  w
+  2dw
+
+Then (Assert that cursor is at a[ ]):
+  Assert 1, line('.')
+  Assert 2, col('.')
+
+Expect ("b c" deleted):
+  a 
+  d e f
+  g h i
+
+Do (d4w at [b]):
+  w
+  d4w
+
+Then (Assert that cursor is at f):
+  Assert 1, line('.')
+  Assert 3, col('.')
+
+Expect ("b c\nd e " deleted):
+  a f
+  g h i
+
+Do (4dw at [b]):
+  w
+  4dw
+
+Then (Assert that cursor is at f):
+  Assert 1, line('.')
+  Assert 3, col('.')
+
+Expect ("b c\nd e " deleted):
+  a f
+  g h i
+
+# leading space before current word
+
 Given (Leading space, word, newline, word):
   	foo
   bar
 
 Do (dw on word with leading space):
-  wdw
+  w
+  dw
 
 Expect (Leading space left intact):
   	
   bar
+
+Given (Leading space, word, word, newline, word):
+  	foo asdf
+  bar
+
+Do (d2w on word with leading space):
+  w
+  d2w
+
+Expect (Leading space left intact):
+  	
+  bar
+
+Given (Leading space, word, word, newline, word):
+  	foo asdf
+  bar
+
+Do (2dw on word with leading space):
+  w
+  2dw
+
+Expect (Leading space left intact):
+  	
+  bar
+
+# leading space on next line
 
 Given (Word, newline, leading space, word):
   foo
@@ -238,6 +317,28 @@ Given (Word, newline, leading space, word):
 
 Do (dw on word with leading space on the next line):
   dw
+
+Expect (Leading space left intact):
+  
+  	bar
+
+Given (Word, word, newline, leading space, word):
+  foo asdf
+  	bar
+
+Do (d2w on word with leading space on the next line):
+  d2w
+
+Expect (Leading space left intact):
+  
+  	bar
+
+Given (Word, word, newline, leading space, word):
+  foo asdf
+  	bar
+
+Do (2dw on word with leading space on the next line):
+  2dw
 
 Expect (Leading space left intact):
   

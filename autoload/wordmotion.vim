@@ -50,7 +50,10 @@ function wordmotion#motion(count, mode, flags, uppercase, extra)
 
 	if a:mode == 'o' && v:operator == 'c' && l:flags == ''
 		" special case (see :help cw)
-		let l:flags = 'ce'
+		let l:flags = 'e'
+		let l:cw = v:true
+	else
+		let l:cw = v:false
 	endif
 
 	if a:mode == 'x'
@@ -70,9 +73,14 @@ function wordmotion#motion(count, mode, flags, uppercase, extra)
 	" save position to see if it moved
 	let l:pos = getpos('.')
 
-	for @_ in range(a:count)
+	let l:count = a:count
+	while l:count > 0
+		if l:count == 1 && l:cw
+			let l:flags .= 'c'
+		endif
 		call search(l:pattern, l:flags . 'W')
-	endfor
+		let l:count -= 1
+	endwhile
 
 	" dw at the end of a line should not consume the newline or leading white
 	" space on the next line
