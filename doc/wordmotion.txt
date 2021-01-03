@@ -21,7 +21,8 @@ A `word` is any of the following:
   a lowercase letter
 - One or more uppercase letters
 - One or more lowercase letters
-- A valid hexadecimal literal
+- A valid hex color code
+- A valid hex literal
 - A valid octal literal
 - A valid binary literal
 - One or more numeric digits
