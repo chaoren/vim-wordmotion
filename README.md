@@ -22,17 +22,18 @@ b<---b<--b<-----b<----b<--------b<-b
 
 A `word` (lowercase) is any of the following:
 
-| `word`               | Example               |
-|:---------------------|:----------------------|
-| Camel case words     | `[Camel][Case]`       |
-| Acronyms             | `[HTML]And[CSS]`      |
-| Uppercase words      | `[UPPERCASE] [WORDS]` |
-| Lowercase words      | `[lowercase] [words]` |
-| Hexadecimal literals | `[0x00ffFF] [0x0f]`   |
-| Octal literals       | `[0o644] [0o0755]`    |
-| Binary literals      | `[0b01] [0b0011]`     |
-| Regular numbers      | `[1234] [5678]`       |
-| Other characters     | `[~!@#$]`             |
+| `word`           | Example               |
+|:-----------------|:----------------------|
+| Camel case words | `[Camel][Case]`       |
+| Acronyms         | `[HTML]And[CSS]`      |
+| Uppercase words  | `[UPPERCASE] [WORDS]` |
+| Lowercase words  | `[lowercase] [words]` |
+| Hex color codes  | `[#0f0f0f]`           |
+| Hex literals     | `[0x00ffFF] [0x0f]`   |
+| Octal literals   | `[0o644] [0o0755]`    |
+| Binary literals  | `[0b01] [0b0011]`     |
+| Regular numbers  | `[1234] [5678]`       |
+| Other characters | `[~!@#$]`             |
 
 A `WORD` (uppercase) is any sequence of non-space characters separated by
 spaces.
