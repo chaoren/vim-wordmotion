@@ -1,8 +1,8 @@
 Given (Weird characters: https://github.com/chaoren/vim-wordmotion/issues/1):
   abc déf ghi
 
-Execute (Move 2 words):
-  normal 2w
+Do (Move 2 words):
+  2w
 
 Then (Assert that cursor is at [g]hi):
   AssertEqual 'g', getline('.')[col('.') - 1]
@@ -10,8 +10,8 @@ Then (Assert that cursor is at [g]hi):
 Given (Underscores: https://github.com/chaoren/vim-wordmotion/issues/5):
   abc_def_ghi
 
-Execute (Move 2 words):
-  normal 2w
+Do (Move 2 words):
+  2w
 
 Then (Assert that cursor is at _[d]ef_):
   AssertEqual 'g', getline('.')[col('.') - 1]
@@ -24,3 +24,20 @@ Do (<C-V>iw at C: https://github.com/chaoren/vim-wordmotion/issues/7):
 
 Expect (Case deleted):
   Camel
+
+Given (Hex color codes: https://github.com/chaoren/vim-wordmotion/issues/48):
+  #abcabc #012 #1234 #12345 #NOTHEX
+  123456789012345678901234567890123
+           1         2         3
+
+Do (Move 2 words):
+  2w
+
+Then (Assert that cursor is at [#]1234):
+  AssertEqual 14, col('.')
+
+Do (Move 5 words):
+  5w
+
+Then (Assert that cursor is at #[N]OTHEX):
+  AssertEqual 28, col('.')
