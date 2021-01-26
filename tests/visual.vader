@@ -48,6 +48,23 @@ Execute (Move around in linewise visual, then delete first two lines):
 Expect (First two lines deleted):
   stu vwx yz
 
+Execute (Move around in blockwise visual, then delete first two columns):
+  AssertEqual 'a', getline('.')[col('.') - 1]
+  execute 'normal' "\<C-V>w"
+  AssertEqual 'd', getline('.')[col('.') - 1]
+  normal jj
+  AssertEqual 'v', getline('.')[col('.') - 1]
+  normal b
+  AssertEqual 's', getline('.')[col('.') - 1]
+  normal ee
+  AssertEqual 'x', getline('.')[col('.') - 1]
+  normal d
+
+Expect (First two columns deleted):
+   ghi
+   pqr
+   yz
+
 Given (Block of text with custom motions):
   abc_defGhi
   jklMNOPqr
