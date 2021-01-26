@@ -1,10 +1,9 @@
 Given (Text with the extra word motions):
-  CamelCaseACRONYMWords_underscore1234
   LoremIpsum DOLORSitAmet, consectetur 0xffaa00 adipiscing elit, sed_do_eiusmod
   tempor 0b010101 incididunt ut labore et _ dolore magna aliqua 0o0644.
 
 Execute (Move by w and then b):
-  let expected = split('CCAWu1LIDSA,c0ae,sdet0iuledma0.', '\zs')
+  let expected = split('LIDSA,c0ae,sdet0iule_dma0.', '\zs')
   for current in expected
     AssertEqual current, getline('.')[col('.')-1]
     normal w
@@ -15,7 +14,7 @@ Execute (Move by w and then b):
   endfor
 
 Execute (Move by e and then ge):
-  let expected = split('CleMse4mmRtt,r0gt,dodr1tteteaa4.', '\zs')
+  let expected = split('LmmRtt,r0gt,dodr1ttet_eaa4.', '\zs')
   for current in expected
     AssertEqual current, getline('.')[col('.')-1]
     normal e
@@ -26,7 +25,7 @@ Execute (Move by e and then ge):
   endfor
 
 Execute (Move by W and then B):
-  let expected = split('CLDc0aest0iule_dma0.', '\zs')
+  let expected = split('LDc0aest0iule_dma0.', '\zs')
   for current in expected
     AssertEqual current, getline('.')[col('.')-1]
     normal W
@@ -37,7 +36,7 @@ Execute (Move by W and then B):
   endfor
 
 Execute (Move by E and then gE):
-  let expected = split('C4m,r0g,dr1ttet_eaa.', '\zs')
+  let expected = split('Lm,r0g,dr1ttet_eaa.', '\zs')
   for current in expected
     AssertEqual current, getline('.')[col('.')-1]
     normal E
@@ -46,69 +45,3 @@ Execute (Move by E and then gE):
     AssertEqual current, getline('.')[col('.')-1]
     normal gE
   endfor
-
-Given (CamelCaseACRONYMWords_underscore1234):
-  CamelCaseACRONYMWords_underscore1234
-
-Do (d2w at [C]ase):
-  w
-  d2w
-
-Expect (CaseACRONYM deleted):
-  CamelWords_underscore1234
-
-Do (3dw at Ca[s]e):
-  wfs
-  3dw
-
-Expect (seACRONYMWords_ deleted):
-  CamelCaunderscore1234
-
-Do (daw at [C]ase):
-  w
-  daw
-
-Expect (Case deleted):
-  CamelACRONYMWords_underscore1234
-
-Do (d2aw at C[a]se):
-  wfa
-  d2aw
-
-Expect (CaseACRONYM deleted):
-  CamelWords_underscore1234
-
-Do (3daw at Cas[e]):
-  wfe
-  3daw
-
-Expect (CaseACRONYMWords_ deleted):
-  Camelunderscore1234
-
-Do (daw at Word[s]):
-  3wfs
-  daw
-
-Expect (Words_ deleted):
-  CamelCaseACRONYMunderscore1234
-
-Do (diw at Word[s]):
-  3wfs
-  diw
-
-Expect (Words deleted):
-  CamelCaseACRONYM_underscore1234
-
-Do (yaw at ACRO[N]YM):
-  2wfN
-  yaw
-
-Then (ACRONYM copied):
-  AssertEqual 'ACRONYM', @0
-
-Do (viw~ at [u]nderscore):
-  4w
-  viw~
-
-Expect (UNDERSCORE):
-  CamelCaseACRONYMWords_UNDERSCORE1234

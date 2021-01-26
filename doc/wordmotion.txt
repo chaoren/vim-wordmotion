@@ -142,19 +142,24 @@ NOTE: this overrides |g:wordmotion_prefix|.
 NOTE: no effect if `g:wordmotion_nomap` is enabled.
 
 						*g:wordmotion_spaces*
-Use |g:wordmotion_spaces| (default `['_']`) to designate extra space characters.
+Use |g:wordmotion_spaces| to designate extra space character patterns.
 E.g.,
 >
-	let g:wordmotion_spaces = ['_', '-', '.']
+	let g:wordmotion_spaces = ['\w\@<=-\w\@=', '\.']
 <
 will produce the following result:
 >
-	foo_bar-baz.qux
-	^   ^   ^   ^
+	3. - foo-bar.baz
+	^  ^ ^   ^   ^
 <
+NOTE: make sure the regex matches a single character. You can use lookaheads
+and lookbehinds for context-sensitive space characters.
+NOTE: the default patterns match hyphens (`-`) between between alphabetic
+characters and underscores (`_`) between alphanumeric characters.
+
 						*g:wordmotion_uppercase_spaces*
 Use `g:wordmotion_uppercase_spaces` (default empty) to designate extra space
-characters for uppercase motions.\
+character patterns for uppercase motions.\
 E.g.,
 >
 	let g:wordmotion_uppercase_spaces = ['-']

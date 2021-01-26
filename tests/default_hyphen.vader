@@ -1,0 +1,155 @@
+# - between words
+
+Given (foo-bar):
+  foo-bar
+
+Do (dw):
+  dw
+
+Expect (bar):
+  bar
+
+Given (foo--bar):
+  foo--bar
+
+Do (dw):
+  dw
+
+Expect (bar):
+  bar
+
+Given (foo---bar):
+  foo---bar
+
+Do (dw):
+  dw
+
+Expect (bar):
+  bar
+
+# - between numbers
+
+Given (123-456):
+  123-456
+
+Do (dw):
+  dw
+
+Expect (-456):
+  -456
+
+Do ($daw):
+  $daw
+
+Expect (123-):
+  123-
+
+Given (123--456):
+  123--456
+
+Do (dw):
+  dw
+
+Expect (--456):
+  --456
+
+Do ($daw):
+  $daw
+
+Expect (123--):
+  123--
+
+Given (123---456):
+  123---456
+
+Do (dw):
+  dw
+
+Expect (---456):
+  ---456
+
+Do ($daw):
+  $daw
+
+Expect (123---):
+  123---
+
+# - after word
+
+Given (foo-):
+  foo-
+
+Do (dw):
+  dw
+
+Expect (-):
+  -
+
+Given (foo--):
+  foo--
+
+Do (dw):
+  dw
+
+Expect (--):
+  --
+
+Given (foo---):
+  foo---
+
+Do (dw):
+  dw
+
+Expect (---):
+  ---
+
+# - before word
+
+Given (-foo):
+  -foo
+
+Do ($daw):
+  $daw
+
+Expect (-):
+  -
+
+Given (--foo):
+  --foo
+
+Do ($daw):
+  $daw
+
+Expect (--):
+  --
+
+Given (---foo):
+  ---foo
+
+Do ($daw):
+  $daw
+
+Expect (---):
+  ---
+
+# spaces after -
+
+Given (foo---   ):
+  foo---   
+
+Do (dw):
+  dw
+
+Expect (---   ):
+  ---   
+
+# spaces before -
+
+Given (    ---foo):
+     ---foo
+
+Do ($daw):
+  $daw
+
+Expect (   ---):
+     ---
