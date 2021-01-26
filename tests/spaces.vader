@@ -6,7 +6,7 @@ Given (Lorem ipsum deliminated by '_'):
   tempor_	_incididunt ut_labore et_dolore magna	_ aliqua.
 
 Execute (Move by w and then b):
-  let expected = split('Lidsa,cae,sdetiuledma.', '\zs')
+  let expected = split('Lids_a,_cae,_sd_et__iuledm_a.', '\zs')
   for current in expected
     AssertEqual current, getline('.')[col('.')-1]
     normal w
@@ -17,7 +17,7 @@ Execute (Move by w and then b):
   endfor
 
 Execute (Move by e and then ge):
-  let expected = split('Lmmrtt,rgt,dodrtteteaa.', '\zs')
+  let expected = split('Lmmrt_t,_rgt,_do_dr__ttetea_a.', '\zs')
   for current in expected
     AssertEqual current, getline('.')[col('.')-1]
     normal e

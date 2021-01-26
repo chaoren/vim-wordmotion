@@ -1,7 +1,7 @@
 if exists('g:loaded_wordmotion')
 	finish
 endif
-let g:loaded_wordmotion = v:true
+let g:loaded_wordmotion = 1
 
 let s:_ = {}
 
@@ -31,7 +31,7 @@ let s:_.uspaces = get(g:, 'wordmotion_uppercase_spaces', [])
 if exists('g:wordmotion_nomap')
 	let s:_.nomap = g:wordmotion_nomap
 else
-	let s:_.nomap = get(g:, 'wordmotion_disable_default_mappings', v:false)
+	let s:_.nomap = get(g:, 'wordmotion_disable_default_mappings', 0)
 endif
 
 let s:_.plug = '<Plug>WordMotion_'
@@ -63,7 +63,7 @@ for s:_.motion in s:_.motions
 	endfor
 endfor
 
-let s:_.inner = { 'aw' : v:false, 'iw' : v:true }
+let s:_.inner = { 'aw' : 0, 'iw' : 1 }
 
 let s:_.motions = [ 'aw', 'iw' ]
 if !empty(s:_.uspaces)

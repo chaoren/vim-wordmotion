@@ -1,0 +1,155 @@
+# _ between words
+
+Given (foo_bar):
+  foo_bar
+
+Do (dw):
+  dw
+
+Expect (bar):
+  bar
+
+Given (foo__bar):
+  foo__bar
+
+Do (dw):
+  dw
+
+Expect (bar):
+  bar
+
+Given (foo___bar):
+  foo___bar
+
+Do (dw):
+  dw
+
+Expect (bar):
+  bar
+
+# _ between numbers
+
+Given (123_456):
+  123_456
+
+Do (dw):
+  dw
+
+Expect (456):
+  456
+
+Do ($daw):
+  $daw
+
+Expect (123):
+  123
+
+Given (123__456):
+  123__456
+
+Do (dw):
+  dw
+
+Expect (456):
+  456
+
+Do ($daw):
+  $daw
+
+Expect (123):
+  123
+
+Given (123___456):
+  123___456
+
+Do (dw):
+  dw
+
+Expect (456):
+  456
+
+Do ($daw):
+  $daw
+
+Expect (123):
+  123
+
+# _ after word
+
+Given (foo_):
+  foo_
+
+Do (dw):
+  dw
+
+Expect (_):
+  _
+
+Given (foo__):
+  foo__
+
+Do (dw):
+  dw
+
+Expect (__):
+  __
+
+Given (foo___):
+  foo___
+
+Do (dw):
+  dw
+
+Expect (___):
+  ___
+
+# _ before word
+
+Given (_foo):
+  _foo
+
+Do ($daw):
+  $daw
+
+Expect (_):
+  _
+
+Given (__foo):
+  __foo
+
+Do ($daw):
+  $daw
+
+Expect (__):
+  __
+
+Given (___foo):
+  ___foo
+
+Do ($daw):
+  $daw
+
+Expect (___):
+  ___
+
+# spaces after _
+
+Given (foo___   ):
+  foo___   
+
+Do (dw):
+  dw
+
+Expect (___   ):
+  ___   
+
+# spaces before _
+
+Given (    ___foo):
+     ___foo
+
+Do ($daw):
+  $daw
+
+Expect (   ___):
+     ___

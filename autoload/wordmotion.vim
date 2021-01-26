@@ -1,20 +1,51 @@
 function wordmotion#init()
-	let l:spaces = get(g:, 'wordmotion_spaces', ['_'])
-	if type(l:spaces) == type('')
-		let l:spaces = split(l:spaces, '\zs')
-	endif
-	let s:s = printf('\%%([%s]\)', join(['[:space:]'] + l:spaces, ']\|['))
-	let s:S = printf('\%%(%s\@!.\)', s:s)
+	let l:_ = {}
 
-	let l:uspaces = get(g:, 'wordmotion_uppercase_spaces', [])
-	if type(l:uspaces) == type('')
-		let l:uspaces = split(l:uspaces, '\zs')
-	endif
-	let s:us = printf('\%%([%s]\)', join(['[:space:]'] + l:uspaces, ']\|['))
-	let s:uS = printf('\%%(%s\@!.\)', s:us)
+	function l:_.get(name, default)
+		let l:spaces = get(g:, a:name, a:default)
+		if type(l:spaces) == type('')
+			let l:spaces = split(l:spaces, '\zs')
+		endif
+		call uniq(l:spaces)
+		" escape single dot
+		" no one wants everything to be spaces
+		let l:i = index(l:spaces, '.')
+		if l:i != -1
+			let l:spaces[l:i] = '\.'
+		endif
+		return l:spaces
+	endfunction
 
-	" [:alnum:] and [:alpha:] are ASCII only
-	let l:a = '[[:digit:][:lower:][:upper:]]'
+	function l:_.or(...)
+		return '\%(\%('.join(a:000, '\)\|\%(').'\)\)'
+	endfunction
+
+	function l:_.not(not)
+		return '\%('.a:not.'\@!.\)'
+	endfunction
+
+	function l:_.between(s, w)
+		let l:before = '\%('.a:w.a:s.'*\)\@<='
+		let l:after = '\%('.a:s.'*'.a:w.'\)\@='
+		return l:before.a:s.l:after
+	endfunction
+
+	" [:alpha:] and [:alnum:] are ASCII only
+	let l:alpha = '[[:lower:][:upper:]]'
+	let l:alnum = '[[:lower:][:upper:][:digit:]]'
+	let l:ss = '[[:space:]]'
+
+	let l:hyphen = l:_.between('-', l:alpha)
+	let l:underscore = l:_.between('_', l:alnum)
+	let l:spaces = l:_.get('wordmotion_spaces', [l:hyphen, l:underscore])
+	let s:s = call(l:_.or, [l:ss] + l:spaces)
+	let s:S = l:_.not(s:s)
+
+	let l:uspaces = l:_.get('wordmotion_uppercase_spaces', [])
+	let s:us = call(l:_.or, [l:ss] + l:uspaces)
+	let s:uS = l:_.not(s:us)
+
+	let l:a = l:alnum
 	let l:d = '[[:digit:]]'
 	let l:p = '[[:print:]]'
 	let l:l = '[[:lower:]]'
@@ -22,26 +53,24 @@ function wordmotion#init()
 	let l:x = '[[:xdigit:]]'
 
 	" set complement
-	let l:_ = {}
 	function l:_.C(set, ...)
-		let l:exclude = join(a:000, '\|')
-		return printf('\%%(\%%(%s\)\@!%s\)', l:exclude, a:set)
+		return '\%(\%('.join(a:000, '\|').'\)\@!'.a:set.'\)'
 	endfunction
 
 	let l:words = get(g:, 'wordmotion_extra', [])
-	call add(l:words, l:u . l:l . '\+')            " CamelCase
-	call add(l:words, l:u . '\+\ze' . l:u . l:l)   " ACRONYMSBeforeCamelCase
-	call add(l:words, l:u . '\+')                  " UPPERCASE
-	call add(l:words, l:l . '\+')                  " lowercase
-	call add(l:words, '#' . l:x . '\+')            " #0F0F0F
-	call add(l:words, '0[xX]' . l:x . '\+')        " 0x00 0Xff
-	call add(l:words, '0[oO][0-7]\+')              " 0o00 0O77
-	call add(l:words, '0[bB][01]\+')               " 0b00 0B11
-	call add(l:words, l:d . '\+')                  " 1234 5678
-	call add(l:words, l:_.C(l:p, l:a, s:s) . '\+') " other printable characters
-	call add(l:words, '\%^')                       " start of file
-	call add(l:words, '\%$')                       " end of file
-	let s:word = join(l:words, '\|')
+	call add(l:words, l:u.l:l.'\+')              " CamelCase
+	call add(l:words, l:u.'\+\ze'.l:u.l:l)       " ACRONYMSBeforeCamelCase
+	call add(l:words, l:u.'\+')                  " UPPERCASE
+	call add(l:words, l:l.'\+')                  " lowercase
+	call add(l:words, '#'.l:x.'\+')              " #0F0F0F
+	call add(l:words, '0[xX]'.l:x.'\+')          " 0x00 0Xff
+	call add(l:words, '0[oO][0-7]\+')            " 0o00 0O77
+	call add(l:words, '0[bB][01]\+')             " 0b00 0B11
+	call add(l:words, l:d.'\+')                  " 1234 5678
+	call add(l:words, l:_.C(l:p, l:a, s:s).'\+') " other printable characters
+	call add(l:words, '\%^')                     " start of file
+	call add(l:words, '\%$')                     " end of file
+	let s:word = call(l:_.or, l:words)
 endfunction
 
 call wordmotion#init()
@@ -52,9 +81,9 @@ function wordmotion#motion(count, mode, flags, uppercase, extra)
 	if a:mode == 'o' && v:operator == 'c' && l:flags == ''
 		" special case (see :help cw)
 		let l:flags = 'e'
-		let l:cw = v:true
+		let l:cw = 1
 	else
-		let l:cw = v:false
+		let l:cw = 0
 	endif
 
 	if a:mode == 'x'
@@ -64,12 +93,12 @@ function wordmotion#motion(count, mode, flags, uppercase, extra)
 		normal! v
 	endif
 
-	let l:words = a:extra + [a:uppercase ? s:uS . '\+' : s:word]
+	let l:words = a:extra + [a:uppercase ? s:uS.'\+' : s:word]
 	if l:flags != 'e' " e does not stop in an empty line
 		call add(l:words, '^$')
 	endif
 
-	let l:pattern = printf('\m\%%(%s\)', join(l:words, '\|'))
+	let l:pattern = '\m\%('.join(l:words, '\|').'\)'
 
 	" save position to see if it moved
 	let l:pos = getpos('.')
@@ -79,7 +108,7 @@ function wordmotion#motion(count, mode, flags, uppercase, extra)
 		if l:count == 1 && l:cw
 			let l:flags .= 'c'
 		endif
-		call search(l:pattern, l:flags . 'W')
+		call search(l:pattern, l:flags.'W')
 		let l:count -= 1
 	endwhile
 
@@ -89,7 +118,7 @@ function wordmotion#motion(count, mode, flags, uppercase, extra)
 				\ l:pos[1] < getpos('.')[1]
 		let l:s = a:uppercase ? s:us : s:s
 		" newline, leading whitespace, cursor
-		if search('\m\n\%(' . l:s . '\)*\%#', 'bW') != 0
+		if search('\m\n\%('.l:s.'\)*\%#', 'bW') != 0
 			let l:dwpos = getpos('.')
 			" need to make range inclusive
 			call setpos('.', l:pos)
@@ -119,9 +148,9 @@ endfunction
 function wordmotion#object(count, mode, inner, uppercase)
 	let l:flags = 'e'
 	let l:extra = []
-	let l:backwards = v:false
+	let l:backwards = 0
 	let l:count = a:count
-	let l:existing_selection = v:false
+	let l:existing_selection = 0
 	let l:s = a:uppercase ? s:us : s:s
 	let l:S = a:uppercase ? s:uS : s:S
 
@@ -131,24 +160,24 @@ function wordmotion#object(count, mode, inner, uppercase)
 			" no existing selection, exit visual mode
 			execute 'normal!' visualmode()
 		else
-			let l:existing_selection = v:true
+			let l:existing_selection = 1
 			let l:start = getpos('.')
 			if l:start == getpos("'<")
 				let l:flags = 'b'
-				let l:backwards = v:true
+				let l:backwards = 1
 			endif
 		endif
 	endif
 
 	if a:inner
 		" for inner word, count white spaces too
-		call add(l:extra, l:s . '\+')
+		call add(l:extra, l:s.'\+')
 	else
 		if getline('.')[col('.') - 1] =~ l:s
 			if !l:existing_selection
-				let l:backwards = v:true
+				let l:backwards = 1
 			endif
-			call search('\m' . l:S, 'W')
+			call search('\m'.l:S, 'W')
 		endif
 	endif
 
@@ -165,14 +194,14 @@ function wordmotion#object(count, mode, inner, uppercase)
 	if !a:inner
 		if col('.') == col('$') - 1
 			" at end of line, go back, and consume preceding white spaces
-			let l:backwards = v:true
+			let l:backwards = 1
 		endif
 
 		if l:backwards && !l:existing_selection
 			" selection is forwards, but need to extend backwards
 			let l:end = getpos('.')
 			call cursor(l:start[1], l:start[2])
-			call search(printf('\m%s\+\%%#', l:s), 'bW')
+			call search('\m'.l:s.'\+\%#' , 'bW')
 			normal! vv
 			call cursor(l:end[1], l:end[2])
 		elseif l:backwards

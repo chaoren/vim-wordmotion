@@ -1,0 +1,113 @@
+Given (The example from README.md):
+  CamelCaseACRONYMWords_underscore1234
+# ^    ^   ^      ^     ^         ^  ^
+# 123456789012345678901234567890123456
+#          1         2         3
+
+Execute (Move by w):
+  AssertEqual 1, col('.')
+  for expected in [6, 10, 17, 23, 33, 36]
+    normal w
+    AssertEqual expected, col('.')
+  endfor
+
+Do (d2w at [C]ase):
+  w
+  d2w
+
+Expect (CaseACRONYM deleted):
+  CamelWords_underscore1234
+
+Do (3dw at Ca[s]e):
+  wfs
+  3dw
+
+Expect (seACRONYMWords_ deleted):
+  CamelCaunderscore1234
+
+Do (daw at [C]ase):
+  w
+  daw
+
+Expect (Case deleted):
+  CamelACRONYMWords_underscore1234
+
+Do (d2aw at C[a]se):
+  wfa
+  d2aw
+
+Expect (CaseACRONYM deleted):
+  CamelWords_underscore1234
+
+Do (3daw at Cas[e]):
+  wfe
+  3daw
+
+Expect (CaseACRONYMWords_ deleted):
+  Camelunderscore1234
+
+Do (daw at Word[s]):
+  3wfs
+  daw
+
+Expect (Words_ deleted):
+  CamelCaseACRONYMunderscore1234
+
+Do (diw at Word[s]):
+  3wfs
+  diw
+
+Expect (Words deleted):
+  CamelCaseACRONYM_underscore1234
+
+Do (yaw at ACRO[N]YM):
+  2wfN
+  yaw
+
+Then (ACRONYM copied):
+  AssertEqual 'ACRONYM', @0
+
+Do (viw~ at [u]nderscore):
+  4w
+  viw~
+
+Expect (UNDERSCORE):
+  CamelCaseACRONYMWords_UNDERSCORE1234
+
+After (Restore default options):
+  call wordmotion#_default()
+
+Before (Set spaces to the example from README.md):
+  let g:wordmotion_spaces = ['\w\@<=-\w\@=', '\.']
+  call wordmotion#reload()
+
+Given (The spaces example from README.md):
+  3. - foo-bar.baz
+# ^  ^ ^   ^   ^ ^
+# 1234567890123456
+#          1
+
+Execute (Move by w):
+  AssertEqual 1, col('.')
+  for expected in [4, 6, 10, 14, 16]
+    normal w
+    AssertEqual expected, col('.')
+  endfor
+
+Before (Set uppercase spaces to the example from README.md):
+  let g:wordmotion_uppercase_spaces = ['-']
+  call wordmotion#reload()
+
+Given (The uppercase spaces example from README.md):
+  foo_bar-baz.qux
+# ^       ^     ^
+# 123456789012345
+#          1
+
+Execute (Move by W):
+  AssertEqual 1, col('.')
+  for expected in [9, 15]
+    normal W
+    AssertEqual expected, col('.')
+  endfor
+
