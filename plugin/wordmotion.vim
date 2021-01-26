@@ -49,7 +49,7 @@ for s:_.motion in s:_.motions
 		let s:_.f = printf("'%s'", s:_.flags[tolower(s:_.motion)])
 		let s:_.u = s:_.motion =~ '\u'
 		let s:_.args = join([ 'v:count1', s:_.m, s:_.f, s:_.u, '[]' ], ', ')
-		let s:_.rhs = printf(':<C-U>call wordmotion#motion(%s)<CR>', s:_.args)
+		let s:_.rhs = wordmotion#cmd('call wordmotion#motion('.s:_.args.')<CR>')
 		execute s:_.mode . 'noremap' '<silent>' s:_.map s:_.rhs
 		call s:_.add_existing(s:_.mode, s:_.map, s:_.rhs)
 		if s:_.nomap
@@ -77,7 +77,7 @@ for s:_.motion in s:_.motions
 		let s:_.i = s:_.inner[tolower(s:_.motion)]
 		let s:_.u = s:_.motion =~ '\u'
 		let s:_.args = join([ 'v:count1', s:_.m, s:_.i, s:_.u ], ', ')
-		let s:_.rhs = printf(':<C-U>call wordmotion#object(%s)<CR>', s:_.args)
+		let s:_.rhs = wordmotion#cmd('call wordmotion#object('.s:_.args.')<CR>')
 		execute s:_.mode . 'noremap' '<silent>' s:_.map s:_.rhs
 		call s:_.add_existing(s:_.mode, s:_.map, s:_.rhs)
 		if s:_.nomap

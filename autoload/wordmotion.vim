@@ -1,3 +1,9 @@
+let s:cmd = v:version >= 802 ? "\<Cmd>" : ":\<C-U>"
+
+function wordmotion#cmd(expr)
+	return s:cmd.a:expr
+endfunction
+
 function wordmotion#init()
 	let l:_ = {}
 
@@ -206,10 +212,10 @@ function wordmotion#object(count, mode, inner, uppercase)
 			call cursor(l:end[1], l:end[2])
 		elseif l:backwards
 			" selection is actually going backwards
-			call search(printf('\m%s\+\%%#', l:s), 'bW')
+			call search('\m'.l:s.'\+\%#', 'bW')
 		else
 			" forward selection, consume following white spaces
-			call search(printf('\m\%%#.%s\+', l:s), 'eW')
+			call search('\m\%#.'.l:s.'\+', 'eW')
 		endif
 	endif
 endfunction
