@@ -41,3 +41,20 @@ Do (Move 5 words):
 
 Then (Assert that cursor is at #[N]OTHEX):
   AssertEqual 28, col('.')
+
+Given (Weird spaces: https://github.com/chaoren/vim-wordmotion/issues/52):
+  foo_-.:<>()[]{}&*=!+"'bar
+
+Before (Set space):
+  let g:wordmotion_spaces = '_-.:<>()\[\]{}&*=!+"'''
+  let g:wordmotion_uppercase_spaces = '.:<>()\[\]{}&*=!+"'''
+  call wordmotion#reload()
+
+After (Restore default options):
+  call wordmotion#_default()
+
+Do (Move over spaces):
+  w
+
+Then (Assert that cursor is at [b]ar):
+  AssertEqual 'b', getline('.')[col('.') - 1]
