@@ -119,8 +119,8 @@ w->w>w-->w-->w>w
 
 NOTE: make sure the regex matches a single character. You can use lookaheads and
 lookbehinds for context-sensitive space characters. \
-NOTE: the default patterns match hyphens (`-`) between between alphabetic
-characters and underscores (`_`) between alphanumeric characters.
+NOTE: the default patterns match 1) hyphens (`-`) between between alphabetic
+characters and 2) underscores (`_`) between alphanumeric characters.
 
 ### `g:wordmotion_uppercase_spaces`
 
