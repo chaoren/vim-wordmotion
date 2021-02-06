@@ -58,6 +58,7 @@ Use `g:wordmotion_nomap` to get `<Plug>` mappings only. \
 E.g.,
 
 ```vim
+let g:wordmotion_nomap = 1
 nmap w          <Plug>WordMotion_w
 nmap b          <Plug>WordMotion_b
 nmap gE         <Plug>WordMotion_gE
