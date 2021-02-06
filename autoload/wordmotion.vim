@@ -6,18 +6,22 @@ function wordmotion#init()
 		if type(l:spaces) == type('')
 			let l:spaces = split(l:spaces, '\zs')
 		endif
-		call uniq(l:spaces)
-		" escape single dot
-		" no one wants everything to be spaces
-		let l:i = index(l:spaces, '.')
+		call uniq(sort(l:spaces))
+		call filter(l:spaces, '!empty(v:val)')
+		let l:i = index(l:spaces, '\')
 		if l:i != -1
-			let l:spaces[l:i] = '\.'
+			let l:spaces[l:i] = '\\'
 		endif
+		for l:i in range(len(l:spaces))
+			if len(l:spaces[l:i]) == 1
+				let l:spaces[l:i] = '\V'.l:spaces[l:i].'\m'
+			endif
+		endfor
 		return l:spaces
 	endfunction
 
-	function l:_.or(...)
-		return '\%(\%('.join(a:000, '\)\|\%(').'\)\)'
+	function l:_.or(list)
+		return '\%(\%('.join(a:list, '\)\|\%(').'\)\)'
 	endfunction
 
 	function l:_.not(not)
@@ -38,11 +42,11 @@ function wordmotion#init()
 	let l:hyphen = l:_.between('-', l:alpha)
 	let l:underscore = l:_.between('_', l:alnum)
 	let l:spaces = l:_.get('wordmotion_spaces', [l:hyphen, l:underscore])
-	let s:s = call(l:_.or, [l:ss] + l:spaces)
+	let s:s = call(l:_.or, [[l:ss] + l:spaces])
 	let s:S = l:_.not(s:s)
 
 	let l:uspaces = l:_.get('wordmotion_uppercase_spaces', [])
-	let s:us = call(l:_.or, [l:ss] + l:uspaces)
+	let s:us = call(l:_.or, [[l:ss] + l:uspaces])
 	let s:uS = l:_.not(s:us)
 
 	let l:a = l:alnum
@@ -70,7 +74,7 @@ function wordmotion#init()
 	call add(l:words, l:_.C(l:p, l:a, s:s).'\+') " other printable characters
 	call add(l:words, '\%^')                     " start of file
 	call add(l:words, '\%$')                     " end of file
-	let s:word = call(l:_.or, l:words)
+	let s:word = call(l:_.or, [l:words])
 endfunction
 
 call wordmotion#init()
@@ -98,7 +102,7 @@ function wordmotion#motion(count, mode, flags, uppercase, extra)
 		call add(l:words, '^$')
 	endif
 
-	let l:pattern = '\m\%('.join(l:words, '\|').'\)'
+	let l:pattern = '\%('.join(l:words, '\|').'\)'
 
 	" save position to see if it moved
 	let l:pos = getpos('.')
@@ -108,7 +112,7 @@ function wordmotion#motion(count, mode, flags, uppercase, extra)
 		if l:count == 1 && l:cw
 			let l:flags .= 'c'
 		endif
-		call search(l:pattern, l:flags.'W')
+		call search('\m'.l:pattern, l:flags.'W')
 		let l:count -= 1
 	endwhile
 
@@ -206,10 +210,10 @@ function wordmotion#object(count, mode, inner, uppercase)
 			call cursor(l:end[1], l:end[2])
 		elseif l:backwards
 			" selection is actually going backwards
-			call search(printf('\m%s\+\%%#', l:s), 'bW')
+			call search('\m'.l:s.'\+\%#', 'bW')
 		else
 			" forward selection, consume following white spaces
-			call search(printf('\m\%%#.%s\+', l:s), 'eW')
+			call search('\m\%#.'.l:s.'\+', 'eW')
 		endif
 	endif
 endfunction
