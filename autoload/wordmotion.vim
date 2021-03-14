@@ -80,6 +80,9 @@ endfunction
 call wordmotion#init()
 
 function wordmotion#motion(count, mode, flags, uppercase, extra)
+	let l:cpo = &cpoptions
+	set cpoptions+=c
+
 	let l:flags = a:flags
 
 	if a:mode == 'o' && v:operator == 'c' && l:flags == ''
@@ -118,8 +121,9 @@ function wordmotion#motion(count, mode, flags, uppercase, extra)
 
 	" dw at the end of a line should not consume the newline or leading white
 	" space on the next line
-	if a:mode == 'o' && v:operator == 'd' && l:flags == '' &&
-				\ l:pos[1] < getpos('.')[1]
+	let l:is_dw = a:mode == 'o' && v:operator == 'd' && l:flags == ''
+	let l:next_line = l:pos[1] < getpos('.')[1]
+	if l:is_dw && l:next_line
 		let l:s = a:uppercase ? s:us : s:s
 		" newline, leading whitespace, cursor
 		if search('\m\n\%('.l:s.'\)*\%#', 'bW') != 0
@@ -147,9 +151,14 @@ function wordmotion#motion(count, mode, flags, uppercase, extra)
 			normal! $
 		endif
 	endif
+
+	let &cpoptions = l:cpo
 endfunction
 
 function wordmotion#object(count, mode, inner, uppercase)
+	let l:cpo = &cpoptions
+	set cpoptions+=c
+
 	let l:flags = 'e'
 	let l:extra = []
 	let l:backwards = 0
@@ -177,7 +186,7 @@ function wordmotion#object(count, mode, inner, uppercase)
 		" for inner word, count white spaces too
 		call add(l:extra, l:s.'\+')
 	else
-		if getline('.')[col('.') - 1] =~ l:s
+		if getline('.')[col('.') - 1] =~# l:s
 			if !l:existing_selection
 				let l:backwards = 1
 			endif
@@ -216,6 +225,8 @@ function wordmotion#object(count, mode, inner, uppercase)
 			call search('\m\%#.'.l:s.'\+', 'eW')
 		endif
 	endif
+
+	let &cpoptions = l:cpo
 endfunction
 
 function wordmotion#current(uppercase)
@@ -225,16 +236,19 @@ function wordmotion#current(uppercase)
 	call wordmotion#motion(1, 'n', 'bc', a:uppercase, [])
 	let l:start = getpos('.')
 	call cursor(l:cursor)
-	let l:line = l:cursor[1]
-	if l:start[1] != l:line || l:end[1] != l:line ||
-				\ len(getline(l:line)) < l:end[2] ||
-				\ getline(l:line)[l:end[2]-1] =~ (a:uppercase ? s:us : s:s)
+	let l:lnum = l:cursor[1]
+	let l:line = getline(l:lnum)
+	let l:space = a:uppercase ? s:us : s:s
+	let l:same_line = l:start[1] == l:lnum && l:end[1] == l:lnum
+	let l:not_empty = l:end[2] <= len(l:line)
+	let l:not_space = l:line[l:end[2]-1] !~# l:space
+	if l:same_line && l:not_empty && l:not_space
+		return l:line[l:start[2]-1:l:end[2]-1]
+	else
 		echohl ErrorMsg
 		echomsg 'E348: No string under cursor'
 		echohl None
 		return ''
-	else
-		return getline(l:line)[l:start[2]-1:l:end[2]-1]
 	endif
 endfunction
 

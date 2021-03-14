@@ -14,8 +14,8 @@ Do (cW at [a]):
   cWz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 1, line('.')
-  Assert 2, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 2, col('.')
 
 Expect (a changed to z):
   -z-b-
@@ -26,8 +26,8 @@ Do (cW at [b]):
   cWz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 1, line('.')
-  Assert 4, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 4, col('.')
 
 Expect (b changed to z):
   -a-z-
@@ -38,8 +38,8 @@ Do (cW at [c]):
   cWz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 2, line('.')
-  Assert 2, col('.')
+  AssertEqual 2, line('.')
+  AssertEqual 2, col('.')
 
 Expect (c changed to z):
   -a-b-
@@ -50,8 +50,8 @@ Do (cW at [d]):
   cWz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 2, line('.')
-  Assert 4, col('.')
+  AssertEqual 2, line('.')
+  AssertEqual 4, col('.')
 
 Expect (d changed to z):
   -a-b-
@@ -65,8 +65,8 @@ Do (cW at [a]):
   cWz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 1, line('.')
-  Assert 1, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 1, col('.')
 
 Expect (a changed to z):
   z-b
@@ -77,8 +77,8 @@ Do (cW at [b]):
   cWz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 1, line('.')
-  Assert 3, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 3, col('.')
 
 Expect (b changed to z):
   a-z
@@ -89,8 +89,8 @@ Do (cW at [c]):
   cWz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 2, line('.')
-  Assert 1, col('.')
+  AssertEqual 2, line('.')
+  AssertEqual 1, col('.')
 
 Expect (c changed to z):
   a-b
@@ -101,8 +101,8 @@ Do (cW at [d]):
   cWz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 2, line('.')
-  Assert 3, col('.')
+  AssertEqual 2, line('.')
+  AssertEqual 3, col('.')
 
 Expect (d changed to z):
   a-b
@@ -116,7 +116,7 @@ Do (cW at [b]ar):
   cWasdf\<Esc>
 
 Then (Assert that cursor is at asd[f]):
-  Assert 8, col('.')
+  AssertEqual 8, col('.')
 
 Expect (bar changed to asdf):
   foo-asdf-baz

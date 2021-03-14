@@ -1,0 +1,50 @@
+Given (Word):
+  foo bar
+
+Execute (w without cpo-c):
+  set cpoptions-=c
+  normal w
+  set cpoptions&
+  AssertEqual 5, col('.')
+
+Execute (w with cpo-C):
+  set cpoptions+=C
+  normal w
+  set cpoptions&
+  AssertEqual 5, col('.')
+
+Execute (w with cpo-l):
+  set cpoptions+=l
+  normal w
+  set cpoptions&
+  AssertEqual 5, col('.')
+
+Given (Leading spaces):
+      foo
+
+Execute (reference w without cpo-c):
+  set cpoptions-=c
+  normal! w
+  set cpoptions&
+  AssertEqual 5, col('.')
+
+Given (Leading spaces):
+      foo
+
+Execute (FIXME: cw with cpo-w):
+  set cpoptions+=w
+  normal cw
+  set cpoptions&
+  AssertEqual 1, col('.')
+
+Expect (Delete one space only):
+     foo
+
+Execute (reference cw with cpo-w):
+  set cpoptions+=w
+  normal! cw
+  set cpoptions&
+  AssertEqual 1, col('.')
+
+Expect (Delete one space only):
+     foo

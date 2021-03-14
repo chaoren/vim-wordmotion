@@ -5,7 +5,7 @@ Execute (Check default mappings):
   for map in [ 'iw', 'aw' ]
     for mode in [ 'x', 'o' ]
       AssertEqual '<Plug>WordMotion_' . map, maparg(map, mode)
-      Assert maparg('<Plug>WordMotion_' . map, mode) =~ 'wordmotion#object('
+      Assert maparg('<Plug>WordMotion_' . map, mode) =~# 'wordmotion#object('
       execute mode . 'unmap' map
       Assert !hasmapto('<Plug>WordMotion_' . map, mode)
       execute mode . 'unmap' '<Plug>WordMotion_' . map
@@ -15,7 +15,7 @@ Execute (Check default mappings):
   for map in [ 'w', 'e', 'b', 'ge' ]
     for mode in [ 'n', 'x', 'o' ]
       AssertEqual '<Plug>WordMotion_' . map, maparg(map, mode)
-      Assert maparg('<Plug>WordMotion_' . map, mode) =~ 'wordmotion#motion('
+      Assert maparg('<Plug>WordMotion_' . map, mode) =~# 'wordmotion#motion('
       execute mode . 'unmap' map
       Assert !hasmapto('<Plug>WordMotion_' . map, mode)
       execute mode . 'unmap' '<Plug>WordMotion_' . map
@@ -24,7 +24,7 @@ Execute (Check default mappings):
   Assert !hasmapto('wordmotion#motion(', 'nvxsoilc')
   for map in [ '<C-R><C-W>' ]
     AssertEqual '<Plug>WordMotion_' . map, maparg(map, 'c')
-    Assert maparg('<Plug>WordMotion_'  . map, 'c') =~ 'wordmotion#current('
+    Assert maparg('<Plug>WordMotion_'  . map, 'c') =~# 'wordmotion#current('
     execute 'cunmap' map
     Assert !hasmapto('<Plug>WordMotion_' . map, 'c')
     execute 'cunmap' '<Plug>WordMotion_' . map
@@ -38,7 +38,7 @@ Execute (Check default uppercase mappings):
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
     for mode in [ 'x', 'o' ]
       AssertEqual '<Plug>WordMotion_' . map, maparg(map, mode)
-      Assert maparg('<Plug>WordMotion_' . map, mode) =~ 'wordmotion#object('
+      Assert maparg('<Plug>WordMotion_' . map, mode) =~# 'wordmotion#object('
       execute mode . 'unmap' map
       Assert !hasmapto('<Plug>WordMotion_' . map, mode)
       execute mode . 'unmap' '<Plug>WordMotion_' . map
@@ -48,7 +48,7 @@ Execute (Check default uppercase mappings):
   for map in [ 'w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE' ]
     for mode in [ 'n', 'x', 'o' ]
       AssertEqual '<Plug>WordMotion_' . map, maparg(map, mode)
-      Assert maparg('<Plug>WordMotion_' . map, mode) =~ 'wordmotion#motion('
+      Assert maparg('<Plug>WordMotion_' . map, mode) =~# 'wordmotion#motion('
       execute mode . 'unmap' map
       Assert !hasmapto('<Plug>WordMotion_' . map, mode)
       execute mode . 'unmap' '<Plug>WordMotion_' . map
@@ -57,7 +57,7 @@ Execute (Check default uppercase mappings):
   Assert !hasmapto('wordmotion#motion(', 'nvxsoilc')
   for map in [ '<C-R><C-W>', '<C-R><C-A>' ]
     AssertEqual '<Plug>WordMotion_' . map, maparg(map, 'c')
-    Assert maparg('<Plug>WordMotion_'  . map, 'c') =~ 'wordmotion#current('
+    Assert maparg('<Plug>WordMotion_'  . map, 'c') =~# 'wordmotion#current('
     execute 'cunmap' map
     Assert !hasmapto('<Plug>WordMotion_' . map, 'c')
     execute 'cunmap' '<Plug>WordMotion_' . map
@@ -72,17 +72,17 @@ Execute (Check disable default mappings):
   for map in [ 'iw', 'aw', 'iW', 'aW' ]
     for mode in [ 'x', 'o' ]
       Assert empty(maparg(map, mode))
-      Assert maparg('<Plug>WordMotion_' . map, mode) =~ 'wordmotion#object('
+      Assert maparg('<Plug>WordMotion_' . map, mode) =~# 'wordmotion#object('
     endfor
   endfor
   for map in [ 'w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE' ]
     for mode in [ 'n', 'x', 'o' ]
       Assert empty(maparg(map, mode))
-      Assert maparg('<Plug>WordMotion_' . map, mode) =~ 'wordmotion#motion('
+      Assert maparg('<Plug>WordMotion_' . map, mode) =~# 'wordmotion#motion('
     endfor
   endfor
   for map in [ '<C-R><C-W>', '<C-R><C-A>' ]
     Assert empty(maparg(map, 'c'))
-    Assert maparg('<Plug>WordMotion_'  . map, 'c') =~ 'wordmotion#current('
+    Assert maparg('<Plug>WordMotion_'  . map, 'c') =~# 'wordmotion#current('
   endfor
   Assert !hasmapto('<Plug>WordMotion_', 'nvxsoilc')

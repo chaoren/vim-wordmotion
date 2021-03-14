@@ -9,7 +9,7 @@ Do (dw at [T]his):
   dw
 
 Then (Assert that cursor is at [i]s):
-  Assert 1, col('.')
+  AssertEqual 1, col('.')
 
 Expect (This deleted):
   is some text
@@ -21,7 +21,7 @@ Do (dw at T[h]is):
   dw
 
 Then (Assert that cursor is at [i]s):
-  Assert 2, col('.')
+  AssertEqual 2, col('.')
 
 Expect (his deleted):
   Tis some text
@@ -33,7 +33,7 @@ Do (dw at Thi[s]):
   dw
 
 Then (Assert that cursor is at [i]s):
-  Assert 5, col('.')
+  AssertEqual 4, col('.')
 
 Expect (his deleted):
   Thiis some text
@@ -45,7 +45,7 @@ Do (dw at [s]ome):
   dw
 
 Then (Assert that cursor is at [t]ext):
-  Assert 9, col('.')
+  AssertEqual 9, col('.')
 
 Expect (some deleted):
   This is text
@@ -57,7 +57,7 @@ Do (dw at s[o]me):
   dw
 
 Then (Assert that cursor is at [t]ext):
-  Assert 10, col('.')
+  AssertEqual 10, col('.')
 
 Expect (some deleted):
   This is stext
@@ -69,7 +69,7 @@ Do (dw at som[e]):
   dw
 
 Then (Assert that cursor is at [t]ext):
-  Assert 12, col('.')
+  AssertEqual 12, col('.')
 
 Expect (some deleted):
   This is somtext
@@ -81,7 +81,7 @@ Do (dw at [t]ext):
   dw
 
 Then (Assert that cursor is at some[_]):
-  Assert 13, col('.')
+  AssertEqual 13, col('.')
 
 Expect (text deleted):
   This is some 
@@ -93,7 +93,7 @@ Do (dw at t[e]xt):
   dw
 
 Then (Assert that cursor is at _[t]):
-  Assert 14, col('.')
+  AssertEqual 14, col('.')
 
 Expect (text deleted):
   This is some t
@@ -108,8 +108,8 @@ Do (dw at [a]):
   dw
 
 Then (Assert that cursor is at b):
-  Assert 1, line('.')
-  Assert 1, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 1, col('.')
 
 Expect (a deleted):
   b c
@@ -120,8 +120,8 @@ Do (dw at [b]):
   dw
 
 Then (Assert that cursor is at c):
-  Assert 1, line('.')
-  Assert 3, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 3, col('.')
 
 Expect (b deleted):
   a c
@@ -132,8 +132,8 @@ Do (dw at [c]):
   dw
 
 Then (Assert that cursor is at b[ ]):
-  Assert 1, line('.')
-  Assert 4, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 4, col('.')
 
 Expect (c deleted):
   a b 
@@ -144,8 +144,8 @@ Do (dw at [d]):
   dw
 
 Then (Assert that cursor is at e):
-  Assert 2, line('.')
-  Assert 1, col('.')
+  AssertEqual 2, line('.')
+  AssertEqual 1, col('.')
 
 Expect (d deleted):
   a b c
@@ -156,8 +156,8 @@ Do (dw at [e]):
   dw
 
 Then (Assert that cursor is at f):
-  Assert 2, line('.')
-  Assert 3, col('.')
+  AssertEqual 2, line('.')
+  AssertEqual 3, col('.')
 
 Expect (e deleted):
   a b c
@@ -168,8 +168,8 @@ Do (dw at [f]):
   dw
 
 Then (Assert that cursor is at e[ ]):
-  Assert 2, line('.')
-  Assert 4, col('.')
+  AssertEqual 2, line('.')
+  AssertEqual 4, col('.')
 
 Expect (f deleted):
   a b c
@@ -180,8 +180,8 @@ Do (d2w at [b]):
   d2w
 
 Then (Assert that cursor is at a[ ]):
-  Assert 1, line('.')
-  Assert 2, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 2, col('.')
 
 Expect ("b c" deleted):
   a 
@@ -192,8 +192,8 @@ Do (2dw at [b]):
   2dw
 
 Then (Assert that cursor is at a[ ]):
-  Assert 1, line('.')
-  Assert 2, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 2, col('.')
 
 Expect ("b c" deleted):
   a 
@@ -204,8 +204,8 @@ Do (d4w at [b]):
   d4w
 
 Then (Assert that cursor is at f):
-  Assert 1, line('.')
-  Assert 3, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 3, col('.')
 
 Expect ("b c\nd e " deleted):
   a f
@@ -215,8 +215,8 @@ Do (4dw at [b]):
   4dw
 
 Then (Assert that cursor is at f):
-  Assert 1, line('.')
-  Assert 3, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 3, col('.')
 
 Expect ("b c\nd e " deleted):
   a f
