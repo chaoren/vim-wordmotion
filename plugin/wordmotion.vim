@@ -47,7 +47,7 @@ for s:_.motion in s:_.motions
 		let s:_.map = s:_.plug . s:_.motion
 		let s:_.m = printf("'%s'", s:_.mode)
 		let s:_.f = printf("'%s'", s:_.flags[tolower(s:_.motion)])
-		let s:_.u = s:_.motion =~ '\u'
+		let s:_.u = s:_.motion =~# '\u'
 		let s:_.args = join([ 'v:count1', s:_.m, s:_.f, s:_.u, '[]' ], ', ')
 		let s:_.rhs = printf(':<C-U>call wordmotion#motion(%s)<CR>', s:_.args)
 		execute s:_.mode . 'noremap' '<silent>' s:_.map s:_.rhs
@@ -75,7 +75,7 @@ for s:_.motion in s:_.motions
 		let s:_.map = s:_.plug . s:_.motion
 		let s:_.m = printf("'%s'", s:_.mode)
 		let s:_.i = s:_.inner[tolower(s:_.motion)]
-		let s:_.u = s:_.motion =~ '\u'
+		let s:_.u = s:_.motion =~# '\u'
 		let s:_.args = join([ 'v:count1', s:_.m, s:_.i, s:_.u ], ', ')
 		let s:_.rhs = printf(':<C-U>call wordmotion#object(%s)<CR>', s:_.args)
 		execute s:_.mode . 'noremap' '<silent>' s:_.map s:_.rhs
