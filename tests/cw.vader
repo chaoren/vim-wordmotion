@@ -9,7 +9,7 @@ Do (cw at [T]his):
   cwThat\<Esc>
 
 Then (Assert that cursor is at Tha[t]):
-  Assert 4, col('.')
+  AssertEqual 4, col('.')
 
 Expect (This changed to That):
   That is some text
@@ -21,7 +21,7 @@ Do (cw at T[h]is):
   cwThat\<Esc>
 
 Then (Assert that cursor is at TTha[t]):
-  Assert 5, col('.')
+  AssertEqual 5, col('.')
 
 Expect (This changed to TThat):
   TThat is some text
@@ -33,7 +33,7 @@ Do (cw at Thi[s]):
   cwThat\<Esc>
 
 Then (Assert that cursor is at ThiTha[t]):
-  Assert 7, col('.')
+  AssertEqual 7, col('.')
 
 Expect (This changed to ThiThat):
   ThiThat is some text
@@ -45,7 +45,7 @@ Do (cw at [s]ome):
   cwother\<Esc>
 
 Then (Assert that cursor is at othe[r]):
-  Assert 13, col('.')
+  AssertEqual 13, col('.')
 
 Expect (some changed to other):
   This is other text
@@ -57,7 +57,7 @@ Do (cw at s[o]me):
   cwother\<Esc>
 
 Then (Assert that cursor is at othe[r]):
-  Assert 13, col('.')
+  AssertEqual 14, col('.')
 
 Expect (some changed to sother):
   This is sother text
@@ -69,7 +69,7 @@ Do (cw at som[e]):
   cwother\<Esc>
 
 Then (Assert that cursor is at somothe[r]):
-  Assert 15, col('.')
+  AssertEqual 16, col('.')
 
 Expect (some changed to somother):
   This is somother text
@@ -81,7 +81,7 @@ Do (cw at [t]ext):
   cwchange\<Esc>
 
 Then (Assert that cursor is at chang[e]):
-  Assert 19, col('.')
+  AssertEqual 19, col('.')
 
 Expect (text changed to change):
   This is some change
@@ -93,7 +93,7 @@ Do (cw at t[e]xt):
   cwchange\<Esc>
 
 Then (Assert that cursor is at tchang[e]):
-  Assert 20, col('.')
+  AssertEqual 20, col('.')
 
 Expect (text changed to tchange):
   This is some tchange
@@ -105,7 +105,7 @@ Do (cw at tex[t]):
   cwchange\<Esc>
 
 Then (Assert that cursor is at texchang[e]):
-  Assert 22, col('.')
+  AssertEqual 22, col('.')
 
 Expect (text changed to texchange):
   This is some texchange
@@ -120,8 +120,8 @@ Do (cw at [a]):
   cwz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 1, line('.')
-  Assert 1, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 1, col('.')
 
 Expect (a changed to z):
   z b c
@@ -132,8 +132,8 @@ Do (cw at [b]):
   cwz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 1, line('.')
-  Assert 3, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 3, col('.')
 
 Expect (a changed to z):
   a z c
@@ -144,8 +144,8 @@ Do (cw at [c]):
   cwz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 1, line('.')
-  Assert 5, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 5, col('.')
 
 Expect (a changed to z):
   a b z
@@ -156,8 +156,8 @@ Do (cw at [d]):
   cwz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 2, line('.')
-  Assert 1, col('.')
+  AssertEqual 2, line('.')
+  AssertEqual 1, col('.')
 
 Expect (d changed to z):
   a b c
@@ -168,8 +168,8 @@ Do (cw at [e]):
   cwz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 2, line('.')
-  Assert 3, col('.')
+  AssertEqual 2, line('.')
+  AssertEqual 3, col('.')
 
 Expect (e changed to z):
   a b c
@@ -180,8 +180,8 @@ Do (cw at [f]):
   cwz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 2, line('.')
-  Assert 5, col('.')
+  AssertEqual 2, line('.')
+  AssertEqual 5, col('.')
 
 Expect (f changed to z):
   a b c
@@ -192,8 +192,8 @@ Do (c2w at [b]):
   c2wz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 1, line('.')
-  Assert 3, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 3, col('.')
 
 Expect ("b c" changed to z):
   a z
@@ -204,8 +204,8 @@ Do (2cw at [b]):
   2cwz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 1, line('.')
-  Assert 3, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 3, col('.')
 
 Expect ("b c" changed to z):
   a z
@@ -216,8 +216,8 @@ Do (c4w at [b]):
   c4wz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 1, line('.')
-  Assert 3, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 3, col('.')
 
 Expect ("b c\nd e" changed to z):
   a z f
@@ -227,8 +227,25 @@ Do (4cw at [b]):
   4cwz\<Esc>
 
 Then (Assert that cursor is at z):
-  Assert 1, line('.')
-  Assert 3, col('.')
+  AssertEqual 1, line('.')
+  AssertEqual 3, col('.')
 
 Expect ("b c\nd e" changed to z):
   a z f
+
+Given (Leading spaces):
+      foo
+
+Execute (FIXME: cw):
+  normal cw
+  AssertEqual 1, col('.')
+
+Expect (Leading spaces deleted):
+  foo
+
+Execute (reference cw):
+  normal! cw
+  AssertEqual 1, col('.')
+
+Expect (Leading spaces deleted):
+  foo
