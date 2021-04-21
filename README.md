@@ -160,10 +160,16 @@ let g:wordmotion_mappings['w'] = '<M-w>'
 call wordmotion#reload()
 ```
 
-## Related
+## Conflicting Plugins
 
-[camelcasemotion][3]
+[YankRing.vim][3] has conflicting `omap`s on the word motions. You can use
+either plugin's settings to disable the conflicting mappings.
+
+## Related Plugins
+
+[camelcasemotion][4]
 
 [1]: https://travis-ci.com/chaoren/vim-wordmotion.svg?branch=master
 [2]: https://travis-ci.com/chaoren/vim-wordmotion
-[3]: http://www.vim.org/scripts/script.php?script_id=1905
+[3]: https://www.vim.org/scripts/script.php?script_id=1234
+[4]: http://www.vim.org/scripts/script.php?script_id=1905
