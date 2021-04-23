@@ -19,12 +19,10 @@ Execute (w with cpo-l):
   set cpoptions&
   AssertEqual 5, col('.')
 
-Given (Leading spaces):
-      foo
-
-Execute (reference w without cpo-c):
-  set cpoptions-=c
-  normal! w
+Execute (w with cpo-<):
+  set cpoptions+=<
+  call wordmotion#reload()
+  normal w
   set cpoptions&
   AssertEqual 5, col('.')
 

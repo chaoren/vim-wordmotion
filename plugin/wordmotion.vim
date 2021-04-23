@@ -9,6 +9,9 @@ if exists('*wordmotion#init')
 	call wordmotion#init()
 endif
 
+let s:_.cpo = &cpoptions
+set cpoptions-=<
+
 if exists('s:existing')
 	for s:_.mapping in s:existing
 		let s:_.mode = s:_.mapping['mode']
@@ -114,4 +117,5 @@ for s:_.motion in s:_.motions
 	endif
 endfor
 
+let &cpoptions = s:_.cpo
 unlet s:_
