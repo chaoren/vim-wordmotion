@@ -24,6 +24,7 @@ Execute (w with cpo-l):
 
 Execute (w with cpo-<):
   set cpoptions+=<
+  mapclear
   call wordmotion#reload()
   normal w
   AssertEqual 5, col('.')
