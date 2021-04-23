@@ -1,5 +1,9 @@
-Before (Disable magic):
+Execute (Disable magic):
+  Save &magic
   set nomagic
 
 Include: lorem_ipsum.vader
 Include: extra_motions.vader
+
+Execute (Restore magic):
+  Restore &magic
