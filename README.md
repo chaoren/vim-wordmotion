@@ -55,7 +55,7 @@ Default `word`/`WORD` mappings:
 
 Use `g:wordmotion_nomap` to get `<Plug>` mappings only.\
 E.g.,
-```
+```vim
 nmap w          <Plug>WordMotion_w
 nmap b          <Plug>WordMotion_b
 nmap gE         <Plug>WordMotion_gE
@@ -68,7 +68,7 @@ cmap <C-R><C-W> <Plug>WordMotion_<C-R><C-W>
 Use `g:wordmotion_prefix` to apply a common prefix to each of the default word
 motion mappings.\
 E.g.,
-```
+```vim
 let g:wordmotion_prefix = '<Leader>'
 ```
 NOTE: does not apply to the `<C-R><C-W>` and `<C-R><C-A>` mappings.\
@@ -79,7 +79,7 @@ NOTE: no effect if `g:wordmotion_nomap` is enabled.
 Use `g:wordmotion_mappings` to individually replace the default word motion
 mappings.\
 E.g.,
-```
+```vim
 let g:wordmotion_mappings = {
 \ 'w' : '<M-w>',
 \ 'b' : '<M-b>',
@@ -99,7 +99,7 @@ NOTE: no effect if `g:wordmotion_nomap` is enabled.
 
 Use `g:wordmotion_spaces` (default `['_']`) to designate extra space characters.\
 E.g.,
-```
+```vim
 let g:wordmotion_spaces = ['_', '-', '.']
 ```
 will produce the following result:
@@ -113,7 +113,7 @@ w-->w-->w-->w>w
 Use `g:wordmotion_uppercase_spaces` (default empty) to designate extra space
 characters for uppercase motions.\
 E.g.,
-```
+```vim
 let g:wordmotion_uppercase_spaces = ['-']
 ```
 will produce the following result:
@@ -128,12 +128,12 @@ uppercase motions.
 
 All options can be updated by reloading the plugin.\
 E.g., to disable the `w` mapping:
-```
+```vim
 let g:wordmotion_mappings['w'] = ''
 call wordmotion#reload()
 ```
 then later re-enable it
-```
+```vim
 let g:wordmotion_mappings['w'] = '<M-w>'
 call wordmotion#reload()
 ```
