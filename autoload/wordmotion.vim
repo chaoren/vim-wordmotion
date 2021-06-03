@@ -7,7 +7,7 @@ function wordmotion#init()
 			let l:spaces = split(l:spaces, '\zs')
 		endif
 		call uniq(sort(l:spaces))
-		call filter(l:spaces, '!empty(v:val)')
+		call filter(l:spaces, {_, val -> !empty(l:val)})
 		let l:i = index(l:spaces, '\')
 		if l:i != -1
 			let l:spaces[l:i] = '\\'
