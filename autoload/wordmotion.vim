@@ -7,7 +7,11 @@ function wordmotion#init()
 			let l:spaces = split(l:spaces, '\zs')
 		endif
 		call uniq(sort(l:spaces))
-		call filter(l:spaces, {_, val -> !empty(l:val)})
+		if has('patch-7.4.2044')
+			call filter(l:spaces, {_, val -> !empty(l:val)})
+		else
+			call filter(l:spaces, '!empty(v:val)')
+		endif
 		let l:i = index(l:spaces, '\')
 		if l:i != -1
 			let l:spaces[l:i] = '\\'
