@@ -5,8 +5,8 @@ Execute (Check mappings with prefix):
   let g:wordmotion_prefix = '<Leader>'
   let g:wordmotion_uppercase_spaces = ['_']
   call wordmotion#reload()
-  for map in [ 'iw', 'aw', 'iW', 'aW' ]
-    for mode in [ 'x', 'o' ]
+  for map in ['iw', 'aw', 'iW', 'aW']
+    for mode in ['x', 'o']
       let lhs = map[0] . '<Leader>' . map[1]
       AssertEqual '<Plug>WordMotion_' . map, maparg(lhs, mode)
       Assert maparg('<Plug>WordMotion_' . map, mode) =~# 'wordmotion#object('
@@ -16,8 +16,8 @@ Execute (Check mappings with prefix):
     endfor
   endfor
   Assert !hasmapto('wordmotion#object(', 'nvxsoilc')
-  for map in [ 'w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE' ]
-    for mode in [ 'n', 'x', 'o' ]
+  for map in ['w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE']
+    for mode in ['n', 'x', 'o']
       AssertEqual '<Plug>WordMotion_' . map, maparg('<Leader>' . map, mode)
       Assert maparg('<Plug>WordMotion_' . map, mode) =~# 'wordmotion#motion('
       execute mode . 'unmap' '<Leader>' . map
@@ -26,7 +26,7 @@ Execute (Check mappings with prefix):
     endfor
   endfor
   Assert !hasmapto('wordmotion#motion(', 'nvxsoilc')
-  for map in [ '<C-R><C-W>', '<C-R><C-A>' ]
+  for map in ['<C-R><C-W>', '<C-R><C-A>']
     AssertEqual '<Plug>WordMotion_' . map, maparg(map, 'c')
     Assert maparg('<Plug>WordMotion_'  . map, 'c') =~# 'wordmotion#current('
     execute 'cunmap' map
@@ -56,8 +56,8 @@ Execute (Check custom mappings):
   let g:wordmotion_uppercase_spaces = ['_']
   call wordmotion#reload()
 
-  for map in [ 'iw', 'aw', 'iW', 'aW' ]
-    for mode in [ 'x', 'o' ]
+  for map in ['iw', 'aw', 'iW', 'aW']
+    for mode in ['x', 'o']
       let lhs = g:wordmotion_mappings[map]
       AssertEqual '<Plug>WordMotion_' . map, maparg(lhs, mode)
       Assert maparg('<Plug>WordMotion_' . map, mode) =~# 'wordmotion#object('
@@ -67,8 +67,8 @@ Execute (Check custom mappings):
     endfor
   endfor
   Assert !hasmapto('wordmotion#object(', 'nvxsoilc')
-  for map in [ 'w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE' ]
-    for mode in [ 'n', 'x', 'o' ]
+  for map in ['w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE']
+    for mode in ['n', 'x', 'o']
       let lhs = g:wordmotion_mappings[map]
       AssertEqual '<Plug>WordMotion_' . map, maparg(lhs, mode)
       Assert maparg('<Plug>WordMotion_' . map, mode) =~# 'wordmotion#motion('
@@ -78,7 +78,7 @@ Execute (Check custom mappings):
     endfor
   endfor
   Assert !hasmapto('wordmotion#motion(', 'nvxsoilc')
-  for map in [ '<C-R><C-W>', '<C-R><C-A>' ]
+  for map in ['<C-R><C-W>', '<C-R><C-A>']
     let lhs = g:wordmotion_mappings[map]
     AssertEqual '<Plug>WordMotion_' . map, maparg(lhs, 'c')
     Assert maparg('<Plug>WordMotion_'  . map, 'c') =~# 'wordmotion#current('
@@ -116,8 +116,8 @@ Execute (Check mixed custom mappings with prefix):
   \ '<C-R><C-W>' : '<C-R><C-W>',
   \ '<C-R><C-A>' : '<C-R><C-A>',
   \ }
-  for map in [ 'iw', 'aw', 'iW', 'aW' ]
-    for mode in [ 'x', 'o' ]
+  for map in ['iw', 'aw', 'iW', 'aW']
+    for mode in ['x', 'o']
       let lhs = mappings[map]
       AssertEqual '<Plug>WordMotion_' . map, maparg(lhs, mode)
       Assert maparg('<Plug>WordMotion_' . map, mode) =~# 'wordmotion#object('
@@ -127,8 +127,8 @@ Execute (Check mixed custom mappings with prefix):
     endfor
   endfor
   Assert !hasmapto('wordmotion#object(', 'nvxsoilc')
-  for map in [ 'w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE' ]
-    for mode in [ 'n', 'x', 'o' ]
+  for map in ['w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE']
+    for mode in ['n', 'x', 'o']
       let lhs = mappings[map]
       AssertEqual '<Plug>WordMotion_' . map, maparg(lhs, mode)
       Assert maparg('<Plug>WordMotion_' . map, mode) =~# 'wordmotion#motion('
@@ -138,7 +138,7 @@ Execute (Check mixed custom mappings with prefix):
     endfor
   endfor
   Assert !hasmapto('wordmotion#motion(', 'nvxsoilc')
-  for map in [ '<C-R><C-W>', '<C-R><C-A>' ]
+  for map in ['<C-R><C-W>', '<C-R><C-A>']
     let lhs = mappings[map]
     AssertEqual '<Plug>WordMotion_' . map, maparg(lhs, 'c')
     Assert maparg('<Plug>WordMotion_'  . map, 'c') =~# 'wordmotion#current('
@@ -168,19 +168,19 @@ Execute (Check no mappings):
   \ }
   let g:wordmotion_uppercase_spaces = ['_']
   call wordmotion#reload()
-  for map in [ 'iw', 'aw', 'iW', 'aW' ]
-    for mode in [ 'x', 'o' ]
+  for map in ['iw', 'aw', 'iW', 'aW']
+    for mode in ['x', 'o']
       Assert empty(maparg(map, mode))
       Assert maparg('<Plug>WordMotion_' . map, mode) =~# 'wordmotion#object('
     endfor
   endfor
-  for map in [ 'w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE' ]
-    for mode in [ 'n', 'x', 'o' ]
+  for map in ['w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE']
+    for mode in ['n', 'x', 'o']
       Assert empty(maparg(map, mode))
       Assert maparg('<Plug>WordMotion_' . map, mode) =~# 'wordmotion#motion('
     endfor
   endfor
-  for map in [ '<C-R><C-W>', '<C-R><C-A>' ]
+  for map in ['<C-R><C-W>', '<C-R><C-A>']
     Assert empty(maparg(map, 'c'))
     Assert maparg('<Plug>WordMotion_'  . map, 'c') =~# 'wordmotion#current('
   endfor
@@ -206,19 +206,19 @@ Execute (Check no mappings even with prefix):
   \ }
   let g:wordmotion_uppercase_spaces = ['_']
   call wordmotion#reload()
-  for map in [ 'iw', 'aw', 'iW', 'aW' ]
-    for mode in [ 'x', 'o' ]
+  for map in ['iw', 'aw', 'iW', 'aW']
+    for mode in ['x', 'o']
       Assert empty(maparg(map, mode))
       Assert maparg('<Plug>WordMotion_' . map, mode) =~# 'wordmotion#object('
     endfor
   endfor
-  for map in [ 'w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE' ]
-    for mode in [ 'n', 'x', 'o' ]
+  for map in ['w', 'e', 'b', 'ge', 'W', 'E', 'B', 'gE']
+    for mode in ['n', 'x', 'o']
       Assert empty(maparg(map, mode))
       Assert maparg('<Plug>WordMotion_' . map, mode) =~# 'wordmotion#motion('
     endfor
   endfor
-  for map in [ '<C-R><C-W>', '<C-R><C-A>' ]
+  for map in ['<C-R><C-W>', '<C-R><C-A>']
     Assert empty(maparg(map, 'c'))
     Assert maparg('<Plug>WordMotion_'  . map, 'c') =~# 'wordmotion#current('
   endfor

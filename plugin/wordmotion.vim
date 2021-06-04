@@ -25,11 +25,11 @@ if exists('s:existing')
 endif
 let s:existing = []
 function s:_.add_existing(mode, lhs, rhs)
-	call add(s:existing, { 'mode' : a:mode, 'lhs' : a:lhs, 'rhs' : a:rhs })
+	call add(s:existing, {'mode' : a:mode, 'lhs' : a:lhs, 'rhs' : a:rhs})
 endfunction
 
 let s:_.prefix = get(g:, 'wordmotion_prefix', '')
-let s:_.mappings = get(g:, 'wordmotion_mappings', { })
+let s:_.mappings = get(g:, 'wordmotion_mappings', {})
 let s:_.uspaces = get(g:, 'wordmotion_uppercase_spaces', [])
 if exists('g:wordmotion_nomap')
 	let s:_.nomap = g:wordmotion_nomap
@@ -38,20 +38,20 @@ else
 endif
 
 let s:_.plug = '<Plug>WordMotion_'
-let s:_.flags = { 'w' : '', 'e' : 'e', 'b' : 'b', 'ge' : 'be' }
+let s:_.flags = {'w' : '', 'e' : 'e', 'b' : 'b', 'ge' : 'be'}
 
-let s:_.motions = [ 'w', 'e', 'b', 'ge' ]
+let s:_.motions = ['w', 'e', 'b', 'ge']
 if !empty(s:_.uspaces)
-	let s:_.motions += [ 'W', 'E', 'B', 'gE' ]
+	let s:_.motions += ['W', 'E', 'B', 'gE']
 endif
 
 for s:_.motion in s:_.motions
-	for s:_.mode in [ 'n', 'x', 'o' ]
+	for s:_.mode in ['n', 'x', 'o']
 		let s:_.map = s:_.plug . s:_.motion
 		let s:_.m = printf("'%s'", s:_.mode)
 		let s:_.f = printf("'%s'", s:_.flags[tolower(s:_.motion)])
 		let s:_.u = s:_.motion =~# '\u'
-		let s:_.args = join([ 'v:count1', s:_.m, s:_.f, s:_.u, '[]' ], ', ')
+		let s:_.args = join(['v:count1', s:_.m, s:_.f, s:_.u, '[]'], ', ')
 		let s:_.rhs = printf(':<C-U>call wordmotion#motion(%s)<CR>', s:_.args)
 		execute s:_.mode . 'noremap' '<silent>' s:_.map s:_.rhs
 		call s:_.add_existing(s:_.mode, s:_.map, s:_.rhs)
@@ -66,20 +66,20 @@ for s:_.motion in s:_.motions
 	endfor
 endfor
 
-let s:_.inner = { 'aw' : 0, 'iw' : 1 }
+let s:_.inner = {'aw' : 0, 'iw' : 1}
 
-let s:_.motions = [ 'aw', 'iw' ]
+let s:_.motions = ['aw', 'iw']
 if !empty(s:_.uspaces)
-	let s:_.motions += [ 'aW', 'iW' ]
+	let s:_.motions += ['aW', 'iW']
 endif
 
 for s:_.motion in s:_.motions
-	for s:_.mode in [ 'x', 'o' ]
+	for s:_.mode in ['x', 'o']
 		let s:_.map = s:_.plug . s:_.motion
 		let s:_.m = printf("'%s'", s:_.mode)
 		let s:_.i = s:_.inner[tolower(s:_.motion)]
 		let s:_.u = s:_.motion =~# '\u'
-		let s:_.args = join([ 'v:count1', s:_.m, s:_.i, s:_.u ], ', ')
+		let s:_.args = join(['v:count1', s:_.m, s:_.i, s:_.u], ', ')
 		let s:_.rhs = printf(':<C-U>call wordmotion#object(%s)<CR>', s:_.args)
 		execute s:_.mode . 'noremap' '<silent>' s:_.map s:_.rhs
 		call s:_.add_existing(s:_.mode, s:_.map, s:_.rhs)
@@ -95,9 +95,9 @@ for s:_.motion in s:_.motions
 	endfor
 endfor
 
-let s:_.motions = [ '<C-R><C-W>' ]
+let s:_.motions = ['<C-R><C-W>']
 if !empty(s:_.uspaces)
-	let s:_.motions += [ '<C-R><C-A>' ]
+	let s:_.motions += ['<C-R><C-A>']
 endif
 
 for s:_.motion in s:_.motions
