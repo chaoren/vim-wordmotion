@@ -160,11 +160,28 @@ let g:wordmotion_mappings['w'] = '<M-w>'
 call wordmotion#reload()
 ```
 
+## Notable Changes
+
+Previous versions of this plugin did not reproduce Vim's special case handling
+of `dw` and `cw`, and suggested the following mappings to restore Vim's special
+case behavior:
+
+```vim
+nmap dw de
+nmap cw ce
+```
+
+You do **NOT** need these mappings anymore. This plugin has been updated to
+reproduce Vim's behavior for `dw` and `cw`. Please remove these mappings if you
+still have them. [They do not behave correctly on single characters at the end
+of the line.][3]
+
 ## Conflicting Plugins
 
-[YankRing.vim][3] has conflicting `omap`s on the word motions. You can use
+[YankRing.vim][4] has conflicting `omap`s on the word motions. You can use
 either plugin's settings to disable the conflicting mappings.
 
 [1]: https://travis-ci.com/chaoren/vim-wordmotion.svg?branch=master
 [2]: https://travis-ci.com/chaoren/vim-wordmotion
-[3]: https://www.vim.org/scripts/script.php?script_id=1234
+[3]: https://github.com/chaoren/vim-wordmotion/issues/36#issuecomment-691787201
+[4]: https://www.vim.org/scripts/script.php?script_id=1234
