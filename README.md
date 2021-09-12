@@ -181,7 +181,7 @@ of the line.][3]
 [YankRing.vim][4] has conflicting `omap`s on the word motions. You can use
 either plugin's settings to disable the conflicting mappings.
 
-[1]: https://travis-ci.com/chaoren/vim-wordmotion.svg?branch=master
-[2]: https://travis-ci.com/chaoren/vim-wordmotion
+[1]: https://app.travis-ci.com/chaoren/vim-wordmotion.svg?branch=master
+[2]: https://app.travis-ci.com/chaoren/vim-wordmotion
 [3]: https://github.com/chaoren/vim-wordmotion/issues/36#issuecomment-691787201
 [4]: https://www.vim.org/scripts/script.php?script_id=1234
