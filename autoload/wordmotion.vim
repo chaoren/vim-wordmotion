@@ -115,10 +115,12 @@ function wordmotion#motion(count, mode, flags, uppercase, extra)
 	let l:pos = getpos('.')
 
 	let l:count = a:count
+	if l:cw
+		" cw on the last character of a word will match the cursor position
+		call search('\m'.l:pattern, l:flags.'cW')
+		let l:count -= 1
+	endif
 	while l:count > 0
-		if l:count == 1 && l:cw
-			let l:flags .= 'c'
-		endif
 		call search('\m'.l:pattern, l:flags.'W')
 		let l:count -= 1
 	endwhile
