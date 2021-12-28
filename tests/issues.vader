@@ -58,3 +58,20 @@ Do (Move over spaces):
 
 Then (Assert that cursor is at [b]ar):
   AssertEqual 'b', getline('.')[col('.') - 1]
+
+Given (#define: https://github.com/chaoren/vim-wordmotion/issues/60):
+  #define SCANCODE_TAB_KEY 15
+  123456789012345678901234567
+           1         2
+
+Do (Move 1 word):
+  w
+
+Then (Assert that cursor is at #[d]efine):
+  AssertEqual 2, col('.')
+
+Do (Move 3 word):
+  3w
+
+Then (Assert that cursor is at _[T]AB_):
+  AssertEqual 18, col('.')
