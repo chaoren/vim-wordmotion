@@ -94,27 +94,6 @@ Use `g:wordmotion_uppercase_spaces` to designate extra space characters for
 uppercase motions. These are separate from `g:wordmotion_spaces`. There are
 no extra space characters for uppercase motions by default.
 
-## Notable Changes
-
-Previous versions of this plugin did not reproduce Vim's special case handling
-of `dw` and `cw`, and suggested the following mappings to restore Vim's special
-case behavior:
-
-```vim
-nmap dw de
-nmap cw ce
-```
-
-You do **NOT** need these mappings anymore. This plugin has been updated to
-reproduce Vim's behavior for `dw` and `cw`. Please remove these mappings if you
-still have them. [They do not behave correctly on single characters at the end
-of the line.][3]
-
-## Conflicting Plugins
-
-[YankRing.vim][4] has conflicting `omap`s on the word motions. You can use
-either plugin's settings to disable the conflicting mappings.
-
 [1]: https://app.travis-ci.com/chaoren/vim-wordmotion.svg?branch=master
 [2]: https://app.travis-ci.com/chaoren/vim-wordmotion
 [3]: https://github.com/chaoren/vim-wordmotion/issues/36#issuecomment-691787201
