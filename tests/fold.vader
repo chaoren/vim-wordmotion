@@ -1,0 +1,44 @@
+Given (a fold):
+  before fold
+  start fold
+    inside fold
+  end fold
+  after fold
+
+Before (save fold options and create fold):
+  Save &foldenable, &foldlevel, &foldmethod, &foldopen
+  set foldenable
+  set foldlevel=0
+  set foldmethod=manual
+  set foldopen+=hor
+  2,4fold
+
+After (delete fold and restore fold options):
+  3normal zd
+  Restore &foldenable, &foldlevel, &foldmethod, &foldopen
+
+Execute (move forward into fold):
+  normal 2w
+  AssertEqual [2, 1], getcurpos()[1:2]
+  AssertEqual -1, foldclosed(2)
+  AssertEqual -1, foldclosedend(2)
+
+Execute (move backward into fold):
+  normal Gb
+  AssertEqual [4, 5], getcurpos()[1:2]
+  AssertEqual -1, foldclosed(4)
+  AssertEqual -1, foldclosedend(4)
+
+Execute (move into fold in visual mode):
+  normal v2w
+  AssertEqual 'v', mode(1)
+  AssertEqual [2, 1], getcurpos()[1:2]
+  AssertEqual -1, foldclosed(2)
+  AssertEqual -1, foldclosedend(2)
+
+Execute (move into fold without hor in foldopen):
+  set foldopen-=hor
+  normal 2w
+  AssertEqual [2, 1], getcurpos()[1:2]
+  AssertEqual 2, foldclosed(2)
+  AssertEqual 4, foldclosedend(2)

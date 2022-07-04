@@ -83,7 +83,7 @@ endfunction
 
 call wordmotion#init()
 
-function wordmotion#motion(count, mode, flags, uppercase, extra)
+function wordmotion#motion(count, mode, flags, uppercase, extra, ...)
 	let l:cpo = &cpoptions
 	set cpoptions+=c
 
@@ -158,6 +158,13 @@ function wordmotion#motion(count, mode, flags, uppercase, extra)
 		endif
 	endif
 
+	let l:actual_mode = get(a:, 1, a:mode)
+	if l:actual_mode == 'n' || l:actual_mode == 'x'
+		if &g:foldopen =~# '\%(^\|,\)hor\%(,\|$\)'
+			normal! zv
+		endif
+	endif
+
 	let &cpoptions = l:cpo
 endfunction
 
@@ -201,14 +208,14 @@ function wordmotion#object(count, mode, inner, uppercase)
 	endif
 
 	if !l:existing_selection
-		call wordmotion#motion(1, 'n', 'bc', a:uppercase, l:extra)
+		call wordmotion#motion(1, 'n', 'bc', a:uppercase, l:extra, a:mode)
 		let l:start = getpos('.')
 		normal! v
-		call wordmotion#motion(1, 'n', 'ec', a:uppercase, l:extra)
+		call wordmotion#motion(1, 'n', 'ec', a:uppercase, l:extra, a:mode)
 		let l:count -= 1
 	endif
 
-	call wordmotion#motion(l:count, 'n', l:flags, a:uppercase, l:extra)
+	call wordmotion#motion(l:count, 'n', l:flags, a:uppercase, l:extra, a:mode)
 
 	if !a:inner
 		if col('.') == col('$') - 1
@@ -237,9 +244,9 @@ endfunction
 
 function wordmotion#current(uppercase)
 	let l:cursor = getpos('.')
-	call wordmotion#motion(1, 'n', 'ec', a:uppercase, [])
+	call wordmotion#motion(1, 'n', 'ec', a:uppercase, [], 'c')
 	let l:end = getpos('.')
-	call wordmotion#motion(1, 'n', 'bc', a:uppercase, [])
+	call wordmotion#motion(1, 'n', 'bc', a:uppercase, [], 'c')
 	let l:start = getpos('.')
 	call cursor(l:cursor)
 	let l:lnum = l:cursor[1]
