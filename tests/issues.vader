@@ -75,3 +75,14 @@ Do (Move 3 word):
 
 Then (Assert that cursor is at _[T]AB_):
   AssertEqual 18, col('.')
+
+Given ("#B2B2B2": https://github.com/chaoren/vim-wordmotion/issues/73):
+  foo "#B2B2B2" bar
+  12345678901234567
+           1
+
+Do (FIXME: Move 4 words):
+  4w
+
+Then (Assert that cursor is at [b]ar):
+  AssertEqual 15, col('.')
