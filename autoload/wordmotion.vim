@@ -67,8 +67,7 @@ function wordmotion#init()
 
 	let l:words = get(g:, 'wordmotion_extra', [])
 	call add(l:words, l:u.l:l.'\+')              " CamelCase
-	call add(l:words, l:u.'\+\ze'.l:u.l:l)       " ACRONYMSBeforeCamelCase
-	call add(l:words, l:u.'\+')                  " UPPERCASE
+	call add(l:words, l:u.'\+'.l:l.'\@!')        " UPPERCASE
 	call add(l:words, l:l.'\+')                  " lowercase
 	call add(l:words, '#'.l:x.'\+\>')            " #0F0F0F
 	call add(l:words, '\<0[xX]'.l:x.'\+\>')      " 0x00 0Xff
