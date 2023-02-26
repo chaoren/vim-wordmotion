@@ -75,7 +75,7 @@ function wordmotion#init()
 	call add(l:words, '\<0[oO][0-7]\+\>')        " 0o00 0O77
 	call add(l:words, '\<0[bB][01]\+\>')         " 0b00 0B11
 	call add(l:words, l:d.'\+')                  " 1234 5678
-	call add(l:words, l:_.C(l:p, l:a, s:s).'\+') " other printable characters
+	call add(l:words, l:_.C(l:p, l:a, s:s, '#'.l:x).'\+') " other printable characters
 	call add(l:words, '\%^')                     " start of file
 	call add(l:words, '\%$')                     " end of file
 	let s:word = call(l:_.or, [l:words])
