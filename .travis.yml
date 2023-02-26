@@ -1,5 +1,0 @@
-language: vim
-
-install: git clone https://github.com/junegunn/vader.vim
-
-script: vim -eNsu <(echo set rtp=vader.vim,.) '+Vader! tests/*.vader'

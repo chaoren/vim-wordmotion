@@ -1,4 +1,4 @@
-# More useful word motions for Vim [![Build Status][1]][2]
+# More useful word motions for Vim
 
 This is one word under Vim's definition:
 
@@ -93,8 +93,3 @@ characters:
 Use `g:wordmotion_uppercase_spaces` to designate extra space characters for
 uppercase motions. These are separate from `g:wordmotion_spaces`. There are
 no extra space characters for uppercase motions by default.
-
-[1]: https://app.travis-ci.com/chaoren/vim-wordmotion.svg?branch=master
-[2]: https://app.travis-ci.com/chaoren/vim-wordmotion
-[3]: https://github.com/chaoren/vim-wordmotion/issues/36#issuecomment-691787201
-[4]: https://www.vim.org/scripts/script.php?script_id=1234
